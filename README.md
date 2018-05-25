@@ -14,6 +14,7 @@ Por ejemplo cuando usted ingresa www.miaplicacion.com/usuarios se cargará autom
 el metodo index, puede en esa pantalla listar todos los usuarios. En caso de querer cambiar
 algún dato, puede crear un método detalle, el cual le mostrara detalles de algún usuario
 concreto, ingresando a www.miaplicacion.com/usuarios/detalle/$id.
+
 4) Para utilizar las vistas llame al método de la clase padre Controller view pasando
 como primer parámetro la ruta de la vista. En caso de querer pasar parámetros, pase un array
 asociativo como segundo parámetro.

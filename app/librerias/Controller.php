@@ -5,8 +5,8 @@ class Controller {
     
     public function model($model) {
         
-        require_once '../app/model' . $modelo . '.php';
-        return new $modelo();
+        require_once '../app/models/' . $model . '.php';
+        return new $model();
     }
     public function view($view,$datos=[]) {
 

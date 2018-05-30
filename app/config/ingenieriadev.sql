@@ -21,7 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `ingenieriadev`
 --
-
+CREATE DATABASE ingenieriadev;
+use ingenieriadev
 -- --------------------------------------------------------
 
 --

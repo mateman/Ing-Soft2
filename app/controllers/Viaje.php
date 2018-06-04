@@ -40,30 +40,6 @@ public function agregarViaje (){
 
 }
 
-public function viajeAgregar (){
-      $usuarioModelo = $this->model('Usuario');
-        $user_id = $this->session->get('id');
-        $cantAutos = $usuarioModelo -> getCantidadAutos($user_id);
-        
-        if ($cantAutos == 0){
-            $datos = [
-           'mensaje' => 'Usted no posee autos, no puede crear viaje'
-        ];
-
-            $this->view('userinterface/misviajes', $datos); 
-        }
-       else{
-          $autos = $usuarioModelo->getAutos($user_id);
-       $datos = [
-         'cantAutos' => $cantAutos,
-         'autos' => $autos,
-       
-         ];
-
-
-       $this->view('viaje/crearviajes', $datos); 
-}
-
 }
 public function viajeCrear(){
       $usuarioModelo = $this->model('Usuario');

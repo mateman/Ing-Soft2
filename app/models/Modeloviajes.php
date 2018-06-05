@@ -232,4 +232,9 @@ $this->db->query("SELECT * FROM viaje WHERE id='$idViaje'");
          return $this->db->registro();
 
     }
+ 
+    public function autoEnUso($id_auto, $fechayhorallegada, $fechayhorasalida) {
+         $this->db->query("SELECT * FROM viaje v WHERE auto_id='$id_auto' AND (('$fechayhorasalida'  BETWEEN horasalida and horallegada) OR ('$fechayhorallegada'  BETWEEN horasalida and horallegada))");
+         return $this->db->registrorowCount();
+     }
  }

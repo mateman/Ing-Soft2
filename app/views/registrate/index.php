@@ -16,40 +16,40 @@
             
                             <div class="form-row">
                               <div class="form-group col-md-6">
-                                <input class="form-control" placeholder="Nombre" type="text" name="nombre"
+                                <input class="form-control" placeholder="Nombre" type="text" name="nombre" value="<?php if(isset($datos['nombre'])) echo ($datos['nombre']); ?>"
                                        required>
                               </div>
                               <div class="form-group col-md-6">
-                                <input class="form-control" placeholder="Apellido" type="text" name="apellido"
+                                <input class="form-control" placeholder="Apellido" type="text" name="apellido" value="<?php if(isset($datos['apellido'])) echo ($datos['apellido']); ?>"
                                        required>
                               </div>
                             </div>
                             <div class="form-group">
-                              <input class="form-control" placeholder="Telefono" name="telefono" type="text" autofocus
+                              <input class="form-control" placeholder="Telefono" name="telefono" value="<?php if(isset($datos['telefono'])) echo ($datos['telefono']); ?>" type="text" autofocus
                                      required>
                             </div>
                             <div class="form-group">
-                              <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus
+                              <input class="form-control" placeholder="E-mail" name="email" value="<?php if(isset($datos['email'])) echo ($datos['email']); ?>" type="email" autofocus
                                      required>
                             </div>
                             <div class="form-group">
-                                    <input class="form-control" placeholder="Nombre Usuario" name="nombreusuario" autofocus
+                                    <input class="form-control" placeholder="Nombre Usuario" name="nombreusuario" value="<?php if(isset($datos['nombreusuario'])) echo ($datos['nombreusuario']); ?>" autofocus
                                            required>
                                   </div>
                             <div class="form-row">
  
                               <div class="form-group col-md-6">
-                              <input class="form-control" placeholder="Fecha de nacimiento" type="date"
+                              <input class="form-control" placeholder="Fecha de nacimiento" value="<?php if(isset($datos['fechanac'])) echo ($datos['fechanac']); ?>" type="date"
                                      name="fechanac" required>
                               </div>
                             </div>
                             <div class="form-row">
                               <div class="form-group col-md-6">
-                                <input class="form-control" placeholder="Ciudad" name="ciudad" type="text" required>
+                                <input class="form-control" placeholder="Ciudad" name="ciudad" type="text" value="<?php if(isset($datos['ciudad'])) echo ($datos['ciudad']); ?>" required>
                               </div>
                               <div class="form-group col-md-6">
                               <input class="form-control" placeholder="Provincia" type="text"
-                                     name="provincia" required>
+                                     name="provincia" value="<?php if(isset($datos['nombre'])) echo ($datos['provincia']); ?>" required>
                               </div>
                             </div>
             

@@ -264,7 +264,7 @@ $this->view('userinterface/modificarAuto', $datos);
            $eliminar = $usuarioModelo->autoEliminar($id);
            $mensaje = 'El auto ha sido eliminado exitosamente'
         }
-        else {$mensaje = 'El auto no se eliminado por estar vinculado a un viaje'}
+        else {$mensaje = 'El auto no se ha eliminado por estar vinculado a un viaje'}
 
         $usuarioModelo = $this->model('Usuario');
         $user_id = $this->session->get('id');

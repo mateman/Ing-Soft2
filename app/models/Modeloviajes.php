@@ -125,16 +125,14 @@
         return $this->db->execute();
 
     }
-
-      public function autoEliminar($id) {
-        $this->db->query("
-
-        DELETE FROM `vehiculo` WHERE id='$id'
-        
-        
-        
-        ");
-        //return "SELECT * FROM usuario WHERE email = '$username'";
+     
+    public function autoLibre($id){
+          $this->db->query("SELECT * FROM viaje v WHERE auto_id='$id'");
+          return $this->db->registrorowCount()
+    }
+    
+    public function autoEliminar($id) {
+        $this->db->query(" DELETE FROM `vehiculo` WHERE id='$id'");
         return $this->db->execute();
 
     }

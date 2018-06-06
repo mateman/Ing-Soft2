@@ -258,23 +258,26 @@ $this->view('userinterface/modificarAuto', $datos);
 
     public function eliminarauto ($id){
        
-    $usuarioModelo = $this->model('Usuario');
-    $eliminar = $usuarioModelo->autoEliminar($id);
+        $usuarioModelo = $this->model('Usuario');
 
+        if ($this->$usuarioModelo->autolibre($id) == 0) {
+           $eliminar = $usuarioModelo->autoEliminar($id);
+           $mensaje = 'El auto ha sido eliminado exitosamente'
+        }
+        else {$mensaje = 'El auto no se eliminado por estar vinculado a un viaje'}
 
-     $usuarioModelo = $this->model('Usuario');
+        $usuarioModelo = $this->model('Usuario');
         $user_id = $this->session->get('id');
         $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
         $autos = $usuarioModelo->getAutos($user_id);
 
-         $datos = [
-         'cantAutos' => $cantAutos,
-         'autos' => $autos,
-         'mensaje' => 'El auto ha sido eliminado exitosamente'
-         ];
+        $datos = [
+            'cantAutos' => $cantAutos,
+            'autos' => $autos,
+            'mensaje' => $mensaje
+        ];
 
-       $this->view('userinterface/misautos', $datos); 
-
+        $this->view('userinterface/misautos', $datos);
 
 }
 

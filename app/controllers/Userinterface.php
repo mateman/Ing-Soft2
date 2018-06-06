@@ -194,17 +194,20 @@ class Userinterface extends Controller {
 
         $usuarioModelo = $this->model('Usuario');
         $auto = $usuarioModelo->getAuto($id);
-         $datos = [
-         'id' => $auto->id,
-         'patente' => $auto->patente,
-         'marca' => $auto->marca,
-         'modelo' => $auto->modelo,
-         'asientosdisp' => $auto->asientosdisp,
+        if ($this->$usuarioModelo->autolibre($id) == 0) {
+               $mensaje ='modificar';
+        }
+        else { $mensaje = 'Nose se puede modificar por estar asociado a un viaje';}
+        $datos = [
+            'id' => $auto->id,
+            'patente' => $auto->patente,
+            'marca' => $auto->marca,
+            'modelo' => $auto->modelo,
+            'asientosd0isp' => $auto->asientosdisp,
+            'mensaje' => $mensaje
+                ];
 
-
-                  ];
-
-       $this->view('userinterface/modificarAuto', $datos);  
+        $this->view('userinterface/modificarAuto', $datos);
     }
 
     public function actualizarauto ($id){

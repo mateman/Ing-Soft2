@@ -197,7 +197,7 @@ class Userinterface extends Controller {
         if ($this->$usuarioModelo->autolibre($id) == 0) {
                $mensaje ='modificar';
         }
-        else { $mensaje = 'Nose se puede modificar por estar asociado a un viaje';}
+        else { $mensaje = 'No se puede modificar por estar asociado a un viaje';}
         $datos = [
             'id' => $auto->id,
             'patente' => $auto->patente,

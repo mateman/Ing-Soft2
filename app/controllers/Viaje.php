@@ -49,7 +49,7 @@ public function viajeCrear(){
       $viajeModelo = $this->model('Modeloviajes');
         
         if(!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['f chayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['tipodeviaje'])) and !(empty($_POST['autodelviaje']))){
-          $fecha_actual = strtotime(date("d-m-Y H:i:00",time()));
+          $fecha_actual = strtotime(date("d-m-Y H:i",time()));
           if(($fecha_actual < $_POST['fechayhorallegada'])AND ($fecha_actual < $_POST['fechayhorasalida'])AND($_POST['fechayhorasalida'] < $_POST['fechayhorallegada'])){
          
              $origen = $_POST['origen'];

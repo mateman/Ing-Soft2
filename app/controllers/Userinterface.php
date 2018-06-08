@@ -157,8 +157,8 @@ class Userinterface extends Controller {
             $this->view('userinterface/modificarAuto', $datos);
         }
         else {
-            $mensaje = 'No se puede modificar el auto por encontrarse asociado a uno o mas viajes';
-            $this->view('pages/error', $mensaje);
+            $datos =[ 'mensaje' =>'No se puede modificar el auto por encontrarse asociado a uno o mas viajes'];
+            $this->view('pages/error', $datos);
         }
 
     }
@@ -220,8 +220,8 @@ class Userinterface extends Controller {
                 $this->view('userinterface/misautos', $datos);
         }
         else {
-            $mensaje = 'No se puede eliminar el auto por encontrarse asociado a uno o mas viajes';
-            $this->view('pages/error', $mensaje);}
+            $datos = ['mensaje' => 'No se puede eliminar el auto por encontrarse asociado a uno o mas viajes'];
+            $this->view('pages/error', $datos);}
     }
     
     public function agregarauto (){

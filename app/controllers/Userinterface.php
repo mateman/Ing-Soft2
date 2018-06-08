@@ -252,7 +252,9 @@ class Userinterface extends Controller {
     public function updateImage() {
         // datos de la imagen
         $user_id = $this->session->get('id');
-        $image_name =  $user_id . $_FILES['imagen']['name'] ;
+        $image_name = $user_id;
+        //Para evitar tener muchos archivos de un usuario lo guardamos siempre con su nombre de id al archivo 
+        //$image_name =  $user_id . $_FILES['imagen']['name'] ;
         $image_type = $_FILES['imagen']['type'];
         $image_size = $_FILES['imagen']['size'];
         $image_dir = RUTA_APP.'/../public/img/users/';

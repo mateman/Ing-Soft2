@@ -145,17 +145,22 @@ class Userinterface extends Controller {
 
         $usuarioModelo = $this->model('Usuario');
         $auto = $usuarioModelo->getAuto($id);
-         $datos = [
-         'id' => $auto->id,
-         'patente' => $auto->patente,
-         'marca' => $auto->marca,
-         'modelo' => $auto->modelo,
-         'asientosdisp' => $auto->asientosdisp,
+        if ($this->$usuarioModelo->autolibre($id) == 0) {
+            $datos = [
+                'id' => $auto->id,
+                'patente' => $auto->patente,
+                'marca' => $auto->marca,
+                'modelo' => $auto->modelo,
+                'asientosdisp' => $auto->asientosdisp,
 
+            ];
+            $this->view('userinterface/modificarAuto', $datos);
+        }
+        else {
+            $mensaje = 'No se puede modificar el auto por encontrarse asociado a uno o mas viajes';
+            $this->view('pages/error', $mensaje);
+        }
 
-                  ];
-
-       $this->view('userinterface/modificarAuto', $datos);  
     }
 
     public function actualizarauto ($id) {
@@ -201,17 +206,22 @@ class Userinterface extends Controller {
     
     public function eliminarauto ($id){
         $usuarioModelo = $this->model('Usuario');
-        $eliminar = $usuarioModelo->autoEliminar($id);
-        $usuarioModelo = $this->model('Usuario');
-        $user_id = $this->session->get('id');
-        $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
-        $autos = $usuarioModelo->getAutos($user_id);
-        $datos = [
-        'cantAutos' => $cantAutos,
-        'autos' => $autos,
-        'mensaje' => 'El auto ha sido eliminado exitosamente'
-        ];
-        $this->view('userinterface/misautos', $datos);
+        if ($this->$usuarioModelo->autolibre($id) == 0) {
+                $eliminar = $usuarioModelo->autoEliminar($id);
+                $usuarioModelo = $this->model('Usuario');
+                $user_id = $this->session->get('id');
+                $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
+                $autos = $usuarioModelo->getAutos($user_id);
+                $datos = [
+                     'cantAutos' => $cantAutos,
+                     'autos' => $autos,
+                     'mensaje' => 'El auto ha sido eliminado exitosamente'
+                ];
+                $this->view('userinterface/misautos', $datos);
+        }
+        else {
+            $mensaje = 'No se puede eliminar el auto por encontrarse asociado a uno o mas viajes';
+            $this->view('pages/error', $mensaje);}
     }
     
     public function agregarauto (){

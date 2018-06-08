@@ -145,7 +145,7 @@ class Userinterface extends Controller {
 
         $usuarioModelo = $this->model('Usuario');
         $auto = $usuarioModelo->getAuto($id);
-        $modeloViaje = $this>model('Modeloviajes');
+        $modeloViaje = $this->model('Modeloviajes');
         if ($modeloViaje->autolibre($id) == 0) {
             $datos = [
                 'id' => $auto->id,

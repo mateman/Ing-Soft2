@@ -145,7 +145,8 @@ class Userinterface extends Controller {
 
         $usuarioModelo = $this->model('Usuario');
         $auto = $usuarioModelo->getAuto($id);
-        if ($this->$usuarioModelo->autolibre($id) == 0) {
+        $modeloViaje = $this>model('Modeloviajes');
+        if ($modeloViaje->autolibre($id) == 0) {
             $datos = [
                 'id' => $auto->id,
                 'patente' => $auto->patente,
@@ -206,7 +207,8 @@ class Userinterface extends Controller {
     
     public function eliminarauto ($id){
         $usuarioModelo = $this->model('Usuario');
-        if ($this->$usuarioModelo->autolibre($id) == 0) {
+        $modeloViaje = $this->model('Modeloviajes');
+        if ($modeloViaje->autolibre($id) == 0) {
                 $eliminar = $usuarioModelo->autoEliminar($id);
                 $usuarioModelo = $this->model('Usuario');
                 $user_id = $this->session->get('id');

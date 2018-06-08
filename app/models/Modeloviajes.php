@@ -128,7 +128,7 @@
      
     public function autoLibre($id){
           $this->db->query("SELECT * FROM viaje v WHERE auto_id='$id'");
-          return $this->db->registrorowCount()
+          return $this->db->registrorowCount();
     }
     
     public function autoEliminar($id) {

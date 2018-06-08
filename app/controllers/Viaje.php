@@ -50,27 +50,26 @@ public function viajeCrear(){
         
         if(!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['f chayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['tipodeviaje'])) and !(empty($_POST['autodelviaje']))){
           $fecha_actual = strtotime(date("d-m-Y H:i",time()));
-          if(($fecha_actual < $_POST['fechayhorallegada'])AND ($fecha_actual < $_POST['fechayhorasalida'])AND($_POST['fechayhorasalida'] < $_POST['fechayhorallegada'])){
-         
-             $origen = $_POST['origen'];
-             $destino = $_POST['destino'];
-             $fechayhorallegada = $_POST['fechayhorallegada'];
-             $fechayhorasalida = $_POST['fechayhorasalida'];
-             $costo = $_POST['costo'];
-             $tipodeviaje = $_POST['tipodeviaje'];
-             $autodelviaje = $_POST['autodelviaje'];
-             $descripcion = $_POST['descripcion'];
-             if (isset($_POST['repetir'])){
-               $repetir = $_POST['repetir'];
-             }
-             else{
-              $repetir = 1;
-             }
+            $origen = $_POST['origen'];
+            $destino = $_POST['destino'];
+            $fechayhorallegada = $_POST['fechayhorallegada'];
+            $fechayhorasalida = $_POST['fechayhorasalida'];
+            $costo = $_POST['costo'];
+            $tipodeviaje = $_POST['tipodeviaje'];
+            $autodelviaje = $_POST['autodelviaje'];
+            $descripcion = $_POST['descripcion'];
+            if (isset($_POST['repetir'])){
+                $repetir = $_POST['repetir'];
+            }
+            else{
+                $repetir = 1;
+            }
 
-            $viajeModelo = $this->model('Modeloviajes');
-            $autoEnUso = $viajeModelo -> autoEnUso($autodelviaje, $fechayhorasalida, $fechayhorallegada);
-            if ($autoEnUso > 0){
-                    $datos = [
+            if(($fecha_actual < $_POST['fechayhorallegada'])AND ($fecha_actual < $_POST['fechayhorasalida'])AND($_POST['fechayhorasalida'] < $_POST['fechayhorallegada'])){
+                $viajeModelo = $this->model('Modeloviajes');
+                $autoEnUso = $viajeModelo -> autoEnUso($autodelviaje, $fechayhorasalida, $fechayhorallegada);
+                if ($autoEnUso > 0){
+                       $datos = [
                           'mensaje' => 'El auto seleccionado esta en uso para el horario del viaje.',
                           'origen' => $origen,
                           'destino' => $destino,
@@ -82,28 +81,38 @@ public function viajeCrear(){
                           'descripcion' => $descripcion,
                           'autos' => $autos,
                           'cantAutos' => $cantAutos
-                    ];
+                       ];
 
-                    $this->view('viaje/crearviajes', $datos);
-                    exit();
+                       $this->view('viaje/crearviajes', $datos);
+                       exit();
+                }
+
+                $crearviaje = $viajeModelo->viajeAgregar($descripcion, $origen, $destino, $fechayhorallegada, $fechayhorasalida, $costo, $tipodeviaje, $autodelviaje, $user_id, $repetir);
+
+                $datos = ['mensaje' => 'Viaje creado correctamente!'];
+
+                $this->view('userinterface/misviajes', $datos);
             }
+            else{
+                 $autos = $usuarioModelo->getAutos($user_id);
+                 $datos = [
+                      'mensaje' => 'Debe poner fechas futuras!',
+                      'origen' => $origen,
+                      'destino' => $destino,
+                      'fechayhorallegada' => $fechayhorallegada,
+                      'fechayhorasalida' => $fechayhorasalida,
+                      'costo' => $costo,
+                      'tipodeviaje' => $tipodeviaje,
+                      'autodelviaje' => $autodelviaje,
+                      'descripcion' => $descripcion,
+                      'autos' => $autos,
+                      'cantAutos' => $cantAutos
+                 ];
 
-            $crearviaje = $viajeModelo->viajeAgregar($descripcion, $origen, $destino, $fechayhorallegada, $fechayhorasalida, $costo, $tipodeviaje, $autodelviaje, $user_id, $repetir);
+                 $this->view('viaje/crearviajes', $datos);
+                 exit();
 
-            $datos = ['mensaje' => 'Viaje creado correctamente!'];
-
-            $this->view('userinterface/misviajes', $datos);
-        }
-        else{
-            $autos = $usuarioModelo->getAutos($user_id);
-            $datos = [
-                'mensaje' => 'Debe poner fechas futuras!',
-                'cantAutos' => $cantAutos,
-                'autos' => $autos,
-            ];
-
-            $this->view('viaje/crearviajes', $datos);
-        }
+            }
         }
        else{
            $autos = $usuarioModelo->getAutos($user_id);

@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdce9402-aebc-4cde-9074-743e1cb45426" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/controllers/Userinterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Userinterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/pages/error.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/pages/error.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/Viaje.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Viaje.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,7 +22,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Userinterface.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Userinterface.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/Userinterface.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="108">
@@ -53,21 +52,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Viaje.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Viaje.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/Viaje.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="92" column="32" selection-start-line="92" selection-end-line="93" />
+            <state relative-caret-position="1248">
+              <caret line="125" column="9" lean-forward="true" selection-start-line="125" selection-start-column="9" selection-end-line="125" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Database.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/librerias/Database.php">
+      <file leaf-file-name="registrar.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/pages/registrar.html">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="crearviajes.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/viaje/crearviajes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="840">
-              <caret line="56" column="40" lean-forward="true" selection-start-line="56" selection-start-column="40" selection-end-line="56" selection-end-column="40" />
-            </state>
+            <state relative-caret-position="-90" />
           </provider>
         </entry>
       </file>
@@ -95,9 +97,9 @@
       <list>
         <option value="$PROJECT_DIR$/app/librerias/Database.php" />
         <option value="$PROJECT_DIR$/app/models/Modeloviajes.php" />
-        <option value="$PROJECT_DIR$/app/controllers/Viaje.php" />
         <option value="$PROJECT_DIR$/app/views/pages/error.php" />
         <option value="$PROJECT_DIR$/app/controllers/Userinterface.php" />
+        <option value="$PROJECT_DIR$/app/controllers/Viaje.php" />
       </list>
     </option>
   </component>
@@ -232,12 +234,12 @@
       <workItem from="1528302532623" duration="9050000" />
       <workItem from="1528332850083" duration="1204000" />
       <workItem from="1528389217516" duration="6911000" />
-      <workItem from="1528419091022" duration="3315000" />
+      <workItem from="1528419091022" duration="4174000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13568000" />
+    <option name="totallyTimeSpent" value="14427000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1366" height="743" extended-state="6" />
@@ -292,13 +294,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/models/Modeloviajes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2340">
-          <caret line="156" column="272" lean-forward="true" selection-start-line="156" selection-start-column="272" selection-end-line="156" selection-end-column="272" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -547,17 +542,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/Viaje.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="92" column="32" selection-start-line="92" selection-end-line="93" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/Userinterface.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="160" column="45" selection-start-line="160" selection-start-column="45" selection-end-line="160" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/pages/registrar.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/registrate/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-585" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/viaje/crearviajes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-90" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/Viaje.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1248">
+          <caret line="125" column="9" lean-forward="true" selection-start-line="125" selection-start-column="9" selection-end-line="125" selection-end-column="9" />
         </state>
       </provider>
     </entry>

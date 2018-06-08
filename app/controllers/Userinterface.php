@@ -255,7 +255,7 @@ class Userinterface extends Controller {
         $image_name =  $user_id . $_FILES['imagen']['name'] ;
         $image_type = $_FILES['imagen']['type'];
         $image_size = $_FILES['imagen']['size'];
-        $image_dir = $_SERVER["DOCUMENT_ROOT"] . "/mvcfinal/public/img/users/";
+        $image_dir = RUTA_APP.'/../public/img/users/';
         move_uploaded_file($_FILES['imagen']['tmp_name'], $image_dir.$image_name);
         $usuarioModelo = $this->model('Usuario');
         $usuario = $usuarioModelo->subirFoto($user_id, $image_name);

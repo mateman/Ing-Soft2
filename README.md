@@ -24,9 +24,9 @@ asociativo como segundo parámetro.
 SEGUNDA ENTREGA.
 
 Guido:
-    - Password mas segura.
-    - Loguearse con nombre de usuario
-    - Poder modificar email.
+    - Password mas segura. // Listo
+    - Loguearse con nombre de usuario // Listo
+    - Poder modificar email. // Listo
     
 Claudio
 
@@ -39,6 +39,7 @@ Pablo
     - Controla la modificacion del auto si este esta implicado en un viaje.
 
 DEMO 2 AGREGAR COMLUMNA ESTADO A (0,1,2) a PASAJERO
+
 1- Ver listado de los viajes
 2- postularse a un viaje
 3- confirmar postulante

@@ -68,7 +68,7 @@ class Userinterface extends Controller {
             $usuario = $usuarioModelo->userUpdate( $_POST['email'], $_POST['provincia'],
                                                    $_POST['apellido'], $_POST['telefono'],
                                                    $_POST['nombre'], $_POST['ciudad'],
-                                                   $this->session->get('id'), $_POST['nombreusuario']);
+                                                   $this->session->get('id'));
             $usuario = $this->datosUsuario();
             $datos = $this->datoVista($usuario);
             $this->view('userinterface/perfil', $datos);

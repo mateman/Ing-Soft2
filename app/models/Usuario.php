@@ -10,8 +10,8 @@
          $this->db->query("SELECT * FROM usuario");
          return $this->db->registros();
      }
-     public function login($email,$password) {
-        $this->db->query("SELECT * FROM usuario WHERE email = '$email' and contrasena = '$password'");
+     public function login($nombreusuario, $password) {
+        $this->db->query("SELECT * FROM usuario WHERE nombreusuario = '$nombreusuario' and contrasena = '$password'");
         return $this->db->registro();
      }
      public function getById($id) {
@@ -85,16 +85,11 @@
         $telefono,
         $nombre,
         $ciudad,
-        $id,
-        $nombreusuario) {
+        $id) {
         $this->db->query("
-
-        UPDATE `usuario` SET nombre='$nombre', email='$email', provincia='$provincia', apellido='$apellido', telefono='$telefono', ciudad='$ciudad', nombreusuario='$nombreusuario' 
-        WHERE id='$id'
-        
-        
-        
-        ");
+        UPDATE `usuario` SET nombre='$nombre', email='$email', provincia='$provincia', 
+        apellido='$apellido', telefono='$telefono', ciudad='$ciudad' 
+        WHERE id='$id'");
         //return "SELECT * FROM usuario WHERE email = '$username'";
         return $this->db->execute();
 

@@ -30,10 +30,7 @@
                                     value="<?php echo $datos['apellido']?>"   required />
                               </div>
                             </div>
-                            <div class="form-group">
-                              <input class="form-control" placeholder="Telefono" name="telefono" type="text" autofocus
-                              value="<?php echo $datos['telefono']?>" required />
-                            </div>
+                            
                             <div class="form-group">
                               <input class="form-control" id="email" placeholder="E-mail" name="email" type="email" autofocus
                               value="<?php echo $datos['email']?>" required />
@@ -42,10 +39,12 @@
                                   
                             
                             <div class="form-row">
-                              <div class="form-group col-md-6">
-                              <input id="nombreusuario" class="form-control" placeholder="Nombre Usuario" name="nombreusuario" autofocus
-                                    value="<?php echo $datos['nombreusuario']?>"   required />
-                              </div>
+                              
+                            <div class="form-group col-md-6">
+                              <input class="form-control" placeholder="Telefono" name="telefono" type="text" autofocus
+                              value="<?php echo $datos['telefono']?>" required />
+                            </div>
+
                               <div class="form-group col-md-6">
                               <input class="form-control" placeholder="Fecha de nacimiento" type="date"
                               value="<?php echo $datos['fechanac']; ?>" name="fechanac" required>

@@ -135,8 +135,13 @@ class Userinterface extends Controller {
     public function misviajes () {
         $usuarioModelo = $this->model('Usuario');
         $user_id = $this->session->get('id');
-
-         $datos = [];
+        $viajemodelo = $this->model('Modeloviajes');
+        $cantViajes = $viajemodelo->getCantidadViajes($user_id);
+        $viajes = $viajemodelo->getViajes($user_id);
+         $datos = [
+             'cantViajes' => $cantViajes,
+             'viajes' => $viajes
+         ];
 
         $this->view('userinterface/misviajes', $datos);
     }  

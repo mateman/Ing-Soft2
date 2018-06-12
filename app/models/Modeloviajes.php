@@ -290,6 +290,16 @@
          return $this->db->registrorowCount();
      }
 
+     public function getCantidadViajes($id) {
+         $this->db->query("SELECT * FROM viaje WHERE usuario_id='$id'");
+         return $this->db->registrorowCount();
+     }
+
+     public function getViajes($id) {
+         $this->db->query("SELECT * FROM viaje WHERE usuario_id='$id'");
+         return $this->db->registros();
+     }
+
     public function getViaje($idViaje){
 $this->db->query("SELECT * FROM viaje WHERE id='$idViaje'");
          return $this->db->registro();

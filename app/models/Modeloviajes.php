@@ -127,7 +127,7 @@
     }
      
     public function autoLibre($id){
-          $this->db->query("SELECT * FROM viaje v WHERE auto_id='$id'");
+          $this->db->query("SELECT * FROM viaje WHERE auto_id='$id'");
           return $this->db->registrorowCount();
     }
     
@@ -283,6 +283,11 @@
         WHERE id='$id'
         ");
          return $this->db->execute();
+     }
+
+     public function viajeLibre($id){
+         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id'");
+         return $this->db->registrorowCount();
      }
 
     public function getViaje($idViaje){

@@ -12,7 +12,7 @@
  <div class="container">
       <div class="row">
       <div class="col"></div>
-      <div class="col"> <form action="<?php echo RUTA_URL; ?>/viaje/viajeCrear" method="post" >
+      <div class="col"> <form action="<?php echo RUTA_URL; ?>/viaje/viajeModificar/"<?php echo $datos['id']?> method="post" >
     <div class="form-group">
       <label for="origen">Ingrese ciudad de origen:</label>
       <input type="text"id="origen" class="form-control"  name="origen" value="<?php if(isset($datos['origen'])) echo ($datos['origen']); ?>">
@@ -49,14 +49,7 @@
       <label for="descripcion">descripcion:</label>
       <input class="form-control" type="text" name="descripcion"  id="descripcion" value="<?php if(isset($datos['descripcion'])) echo ($datos['descripcion']); ?>">
     </div>
-    <div class="form-group">
-    <label for="tipodeviaje">Tipo de viaje:</label>
-      <select id= 'tipodeviaje' name="tipodeviaje" onchange="cambiarRepetir()" value="<?php if(isset($datos['tipodeviaje'])) echo ($datos['tipodeviaje']); ?>">
-            <option value="1">Ocasional</option>
-            <option value="2">Semanal</option>
-            <option value="3">Diario</option>
-        </select>
-    </div>
+
 
     <div class="form-group">
     <label for="autodelviaje">Tipo de auto:</label>
@@ -67,24 +60,13 @@
         
            <?php } ?>
        </select>
-       <input type="number" name="repetir" placeholder="repetir" id="repetir" style="visibility:hidden"><br>
+
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form></div>
       <div class="col"></div>
      
-    
 
-
-
-  <script>
-        function cambiarRepetir() {
-            var x = document.getElementById("tipodeviaje").value;
-            if (x ==3) {document.getElementById('repetir').style.visibility= 'visible'; document.getElementById('repetir').placeholder = "cantidad de dias" ;}
-            if (x ==2) {document.getElementById('repetir').style.visibility= 'visible'; document.getElementById('repetir').placeholder = "cantidad de semanas" ;}
-            if (x ==1) {document.getElementById('repetir').style.visibility= 'hidden'; }
-        }
-    </script>
 
 <?php require RUTA_APP.'/views/includes/footer.php'; ?>
 

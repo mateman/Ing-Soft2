@@ -131,7 +131,7 @@ class Viaje extends Controller
         }
     }
 
-    public function viajeModificar()
+    public function viajeModificar($id)
     {
         $usuarioModelo = $this->model('Usuario');
         $user_id = $this->session->get('id');
@@ -172,16 +172,17 @@ class Viaje extends Controller
                         'autodelviaje' => $autodelviaje,
                         'descripcion' => $descripcion,
                         'autos' => $autos,
-                        'cantAutos' => $cantAutos
+                        'cantAutos' => $cantAutos,
+                        'id' => $id
                     ];
 
-                    $this->view('viaje/crearviajes', $datos);
+                    $this->view('viaje/modificarviaje', $datos);
                     exit();
                 }
 
-                $crearviaje = $viajeModelo->viajeAgregar($descripcion, $origen, $destino, $fechayhorallegada, $fechayhorasalida, $costo, $tipodeviaje, $autodelviaje, $user_id, $repetir);
+                $modificarviaje = $viajeModelo->viajeModificar($descripcion, $origen, $destino, $fechayhorallegada, $fechayhorasalida, $costo, $tipodeviaje, $autodelviaje, $user_id, $id);
 
-                $datos = ['mensaje' => 'Viaje creado correctamente!'];
+                $datos = ['mensaje' => 'Viaje modificado correctamente!'];
 
                 $this->view('userinterface/misviajes', $datos);
             }
@@ -198,10 +199,11 @@ class Viaje extends Controller
                     'autodelviaje' => $autodelviaje,
                     'descripcion' => $descripcion,
                     'autos' => $autos,
-                    'cantAutos' => $cantAutos
+                    'cantAutos' => $cantAutos,
+                    'id' => $id
                 ];
 
-                $this->view('viaje/crearviajes', $datos);
+                $this->view('viaje/modificarviaje', $datos);
                 exit();
 
             }
@@ -214,7 +216,7 @@ class Viaje extends Controller
                 'autos' => $autos,
             ];
 
-            $this->view('viaje/crearviajes', $datos);
+            $this->view('viaje/modificarviaje', $datos);
         }
 
     }

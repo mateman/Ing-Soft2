@@ -276,6 +276,15 @@
 
       */
 
+     public function viajeModificar($descripcion, $origen, $destino, $fechayhorallegada, $fechayhorasalida, $costo, $autodelviaje, $user_id, $id)
+     {
+         $this->db->query("
+        UPDATE `viaje` SET `descripcion`='$descripcion', `costo`='$costo', `origen`='$origen', `destino`='$destino', `horasalida`='$fechayhorasalida', `horallegada`='$fechayhorallegada', `auto_id`='$autodelviaje', `conductor_id`='$user_id'
+        WHERE id='$id'
+        ");
+         return $this->db->execute();
+     }
+
     public function getViaje($idViaje){
 $this->db->query("SELECT * FROM viaje WHERE id='$idViaje'");
          return $this->db->registro();

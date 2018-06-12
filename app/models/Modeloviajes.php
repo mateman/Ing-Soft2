@@ -165,12 +165,10 @@
                      # code...
 
                      $phpdate = strtotime($fechayhorasalida);
-                     $mysqldate = date('Y-m-d H:i:s', $phpdate);
                      $phpdate2 = strtotime("+1 week", $phpdate);
                      $fechayhorasalida = date('Y-m-d H:i:s', $phpdate2);
 
                      $phpdate = strtotime($fechayhorallegada);
-                     $mysqldate = date('Y-m-d H:i:s', $phpdate);
                      $phpdate2 = strtotime("+1 week", $phpdate);
                      $fechayhorallegada = date('Y-m-d H:i:s', $phpdate2);
 
@@ -184,12 +182,10 @@
              case 3:
                  for ($i = $repetir; $i > 1; $i--) {
                      $phpdate = strtotime($fechayhorasalida);
-                     $mysqldate = date('Y-m-d H:i:s', $phpdate);
                      $phpdate2 = strtotime("+1 day", $phpdate);
                      $fechayhorasalida = date('Y-m-d H:i:s', $phpdate2);
 
                      $phpdate = strtotime($fechayhorallegada);
-                     $mysqldate = date('Y-m-d H:i:s', $phpdate);
                      $phpdate2 = strtotime("+1 day", $phpdate);
                      $fechayhorallegada = date('Y-m-d H:i:s', $phpdate2);
 

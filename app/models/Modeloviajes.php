@@ -154,10 +154,9 @@
     public function viajeAgregar($descripcion, $origen, $destino, $fechayhorallegada, $fechayhorasalida, $costo, $tipodeviaje, $autodelviaje, $conductor_id, $repetir)
      {
 
-         $sql = "INSERT INTO `viaje` (`descripcion`, `costo`, `origen`, `destino`, `tipo_viaje`, `horasalida`, `horallegada`, `auto_id`) VALUES ('$descripcion', '$costo', '$origen', '$destino', '$tipodeviaje', '$fechayhorasalida', '$fechayhorallegada', '$autodelviaje');";
+         $sql = "INSERT INTO `viaje` (`descripcion`, `costo`, `origen`, `destino`, `tipo_viaje`, `horasalida`, `horallegada`, `auto_id`, `conductor_id`) VALUES ('$descripcion', '$costo', '$origen', '$destino', '$tipodeviaje', '$fechayhorasalida', '$fechayhorallegada', '$autodelviaje', '$conductor_id');";
          $last_id = $this->db->exec_id($sql);
-         $sql2 = "INSERT INTO `conductor` (`usuario_id`, `viaje_id`) VALUES ('$conductor_id', '$last_id');";
-         $this->db->exec_id($sql2);
+         
 
          switch ($tipodeviaje) {
 
@@ -175,11 +174,10 @@
                      $phpdate2 = strtotime("+1 week", $phpdate);
                      $fechayhorallegada = date('Y-m-d H:i:s', $phpdate2);
 
-                     $sql = "INSERT INTO `viaje` (`descripcion`, `costo`, `origen`, `destino`, `tipo_viaje`, `horasalida`, `horallegada`, `auto_id`) VALUES ('$descripcion', '$costo', '$origen', '$destino', '$tipodeviaje', '$fechayhorasalida', '$fechayhorallegada', '$autodelviaje');";
+                    $sql = "INSERT INTO `viaje` (`descripcion`, `costo`, `origen`, `destino`, `tipo_viaje`, `horasalida`, `horallegada`, `auto_id`, `conductor_id`) VALUES ('$descripcion', '$costo', '$origen', '$destino', '$tipodeviaje', '$fechayhorasalida', '$fechayhorallegada', '$autodelviaje', '$conductor_id');";
                      // use exec() because no results are returned
                      $last_id = $this->db->exec_id($sql);
-                     $sql2 = "INSERT INTO `conductor` (`usuario_id`, `viaje_id`) VALUES ('$conductor_id', '$last_id');";
-                     $this->db->exec_id($sql2);
+                   
                  }
                  break;
 
@@ -195,11 +193,9 @@
                      $phpdate2 = strtotime("+1 day", $phpdate);
                      $fechayhorallegada = date('Y-m-d H:i:s', $phpdate2);
 
-                     $sql = "INSERT INTO `viaje` (`descripcion`, `costo`, `origen`, `destino`, `tipo_viaje`, `horasalida`, `horallegada`, `auto_id`) VALUES ('$descripcion', '$costo', '$origen', '$destino', '$tipodeviaje', '$fechayhorasalida', '$fechayhorallegada', '$autodelviaje');";
+                      $sql = "INSERT INTO `viaje` (`descripcion`, `costo`, `origen`, `destino`, `tipo_viaje`, `horasalida`, `horallegada`, `auto_id`, `conductor_id`) VALUES ('$descripcion', '$costo', '$origen', '$destino', '$tipodeviaje', '$fechayhorasalida', '$fechayhorallegada', '$autodelviaje', '$conductor_id');";
                      // use exec() because no results are returned
                      $last_id = $this->db->exec_id($sql);
-                     $sql2 = "INSERT INTO `conductor` (`usuario_id`, `viaje_id`) VALUES ('$conductor_id', '$last_id');";
-                     $this->db->exec_id($sql2);
                  }
                  break;
 

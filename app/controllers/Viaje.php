@@ -49,7 +49,7 @@ class Viaje extends Controller
         $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
         $viajeModelo = $this->model('Modeloviajes');
 
-        if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['f chayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['tipodeviaje'])) and !(empty($_POST['autodelviaje']))) {
+        if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['fechayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['tipodeviaje'])) and !(empty($_POST['autodelviaje']))) {
             $fecha_actual = strtotime(date("d-m-Y H:i", time()));
             $origen = $_POST['origen'];
             $destino = $_POST['destino'];
@@ -149,7 +149,7 @@ class Viaje extends Controller
             }
 
             if(($fecha_actual < $_POST['fechayhorallegada'])AND ($fecha_actual < $_POST['fechayhorasalida'])AND($_POST['fechayhorasalida'] < $_POST['fechayhorallegada'])){
-                $autoEnUso = $viajeModelo -> autoEnUso($autodelviaje, $fechayhorasalida, $fechayhorallegada, );
+                $autoEnUso = $viajeModelo -> autoEnUso($autodelviaje, $fechayhorasalida, $fechayhorallegada);
                 if ($autoEnUso > 0){
                     $datos = [
                         'mensaje' => 'El auto seleccionado esta en uso para el horario del viaje.',

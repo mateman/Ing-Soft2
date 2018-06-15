@@ -172,7 +172,7 @@ class Viaje extends Controller
 
         if ($viajeModelo->viajeLibre($id) == 0) {
             if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['fechayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['autodelviaje']))) {
-                $fecha_actual = strtotime(date("Y-m-d H:i", time()));;
+                $fecha_actual = strtotime(date("Y-m-d H:i:s", time()));
                 $fechayhorallegada = date("Y-m-d H:i:s", strtotime($_POST['fechayhorallegada']));
                 $fechayhorasalida = date("Y-m-d H:i:s", strtotime($_POST['fechayhorasalida']));
                 $autodelviaje = $_POST['autodelviaje'];

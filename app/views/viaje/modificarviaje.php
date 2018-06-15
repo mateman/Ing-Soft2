@@ -28,14 +28,14 @@
 
     <div class="form-group">
       <label for="fechayhorasalida">Fecha y hora de salida:</label>
-      <input class="form-control"type="datetime-local" name="fechayhorasalida" placeholder="   dd/mm/aaaa  hh:mm" id="fechayhorasalida" min="<?php echo date('d-m-Y\ H:i'); ?>" max="30-06-2019 16:30"  pattern="[0-9]{2}(-|/)[0-9]{2}(-|/)[0-9]{4} ([0-9]{1}|[0-9]{2}):[0-9]{2}" value="<?php if(isset($datos['fechayhorasalida'])) echo ($datos['fechayhorasalida']); ?>" required /> 
+      <input class="form-control"type="datetime-local" name="fechayhorasalida" placeholder="   dd-mm-aaaa  hh:mm" id="fechayhorasalida" min="<?php echo date('d-m-Y\ H:i'); ?>"  pattern="[0-9]{2}-[0-9]{2}-[0-9]{4} ([0-9]{1}|[0-9]{2}):[0-9]{2}" value="<?php if(isset($datos['fechayhorasalida'])) echo ($datos['fechayhorasalida']); ?>" required />
     </div>
 
 
 
     <div class="form-group">
       <label for="fechayhorallegada">Fecha y hora de llegada:</label>
-      <input class="form-control" type="datetime-local" name="fechayhorallegada" placeholder="   dd/mm/aaaa  hh:mm" id="fechayhorallegada" min="<?php echo date('d-m-Y\ H:i'); ?>" max="30-06-2019 16:30"  pattern="[0-9]{2}(-|/)[0-9]{2}(-|/)[0-9]{4} ([0-9]{1}|[0-9]{2}):[0-9]{2}" value="<?php if(isset($datos['fechayhorallegada'])) echo ($datos['fechayhorallegada']); ?>" required>
+      <input class="form-control" type="datetime-local" name="fechayhorallegada" placeholder="   dd-mm-aaaa  hh:mm" id="fechayhorallegada" min="<?php echo date('d-m-Y\ H:i'); ?>" pattern="[0-9]{2}-[0-9]{2}-[0-9]{4} ([0-9]{1}|[0-9]{2}):[0-9]{2}" value="<?php if(isset($datos['fechayhorallegada'])) echo ($datos['fechayhorallegada']); ?>" required>
     </div>
 
 

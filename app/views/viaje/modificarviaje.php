@@ -62,7 +62,7 @@
        </select>
 
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
   </form></div>
       <div class="col"></div>
      

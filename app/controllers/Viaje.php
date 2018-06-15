@@ -95,9 +95,13 @@ class Viaje extends Controller
                 }
 
                 $crearviaje = $viajeModelo->viajeAgregar($descripcion, $origen, $destino, $fechayhorallegada, $fechayhorasalida, $costo, $tipodeviaje, $autodelviaje, $user_id, $repetir);
-
-                $datos = ['mensaje' => 'Viaje creado correctamente!'];
-
+                $viajemodelo = $this->model('Modeloviajes');
+                $cantViajes = $viajemodelo->getCantidadViajes($user_id);
+                $viajes = $viajemodelo->getViajes($user_id);
+                $datos = ['mensaje' => 'Viaje creado correctamente!',
+                    'cantViajes' => $cantViajes,
+                    'viajes' => $viajes
+                ];
                 $this->view('userinterface/misviajes', $datos);
             } else {
                 $autos = $usuarioModelo->getAutos($user_id);
@@ -147,8 +151,8 @@ class Viaje extends Controller
             'mensaje' => '',
             'origen' => $viaje->origen,
             'destino' => $viaje->destino,
-            'fechayhorallegada' => date("d/m/Y H:i", strtotime($viaje->horallegada)),
-            'fechayhorasalida' => date("d/m/Y H:i", strtotime($viaje->horasalida)),
+            'fechayhorallegada' => date("d-m-Y H:i", strtotime($viaje->horallegada)),
+            'fechayhorasalida' => date("d-m-Y H:i", strtotime($viaje->horasalida)),
             'costo' => $viaje->costo,
             'autodelviaje' => $viaje->auto_id,
             'descripcion' => $viaje->descripcion,

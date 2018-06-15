@@ -18,11 +18,21 @@ class Userinterface extends Controller {
         return $usuarioModelo->getById($user_id);
     }
 
+    /**
+     *
+     */
     public function index() {
         $usuario = $this->datosUsuario();
+        $viajemodelo = $this->model('Modeloviajes');
+        $cantViajes = $viajemodelo->getAllCantidadViajes();
+        $viajes = $viajemodelo->getAllViajes();
         $datos = [
-            'nombreusuario' => $usuario->nombreusuario
+
+            'nombreusuario' => $usuario->nombreusuario,
+            'cantViajes' => $cantViajes,
+            'viajes' => $viajes
         ];
+
         $this->view('userinterface/index', $datos );
     }
 

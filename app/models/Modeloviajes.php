@@ -285,23 +285,49 @@
          return $this->db->execute();
      }
 
+     public function viajeEliminar($id) {
+         $this->db->query(" DELETE FROM `viaje` WHERE id='$id'");
+         return $this->db->execute();
+
+     }
+
      public function viajeLibre($id){
          $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id'");
          return $this->db->registrorowCount();
      }
 
      public function getCantidadViajes($id) {
-         $this->db->query("SELECT * FROM viaje WHERE usuario_id='$id'");
+         $this->db->query("SELECT * FROM viaje WHERE conductor_id='$id'");
          return $this->db->registrorowCount();
      }
 
      public function getViajes($id) {
-         $this->db->query("SELECT * FROM viaje WHERE usuario_id='$id'");
+         $this->db->query("SELECT * FROM viaje WHERE conductor_id='$id'");
          return $this->db->registros();
      }
 
+     public function getCantidadPasajeroAceptados($id) {
+         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id' AND estado=3");
+         return $this->db->registrorowCount();
+     }
+
+     public function getPasajero($id) {
+         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id'");
+         return $this->db->registros();
+     }
+
+     public function getAllViajes(){
+         $this->db->query("SELECT * FROM viaje where true ");
+         return $this->db->registro();
+
+     }
+
+     public function getAllCantidadViajes() {
+         $this->db->query("SELECT id FROM viaje where true ");
+         return $this->db->registrorowCount();
+     }
     public function getViaje($idViaje){
-$this->db->query("SELECT * FROM viaje WHERE id='$idViaje'");
+         $this->db->query("SELECT * FROM viaje WHERE id='$idViaje'");
          return $this->db->registro();
 
     }

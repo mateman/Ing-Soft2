@@ -131,7 +131,35 @@ class Viaje extends Controller
         }
     }
 
-    public function viajeModificar($id)
+
+        public function modificarViaje($id)
+    {
+        $usuarioModelo = $this->model('Usuario');
+        $user_id = $this->session->get('id');
+        $autos = $usuarioModelo->getAutos($user_id);
+        $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
+        $viajeModelo = $this->model('Modeloviajes');
+        $viaje = $viajeModelo->getViaje($id);
+        $datos = [
+            'mensaje' => '',
+            'origen' => $viaje['origen'],
+            'destino' => $viaje['destino'],
+            'fechayhorallegada' => $viaje['horallegada'],
+            'fechayhorasalida' => $viaje['horasalida'],
+            'costo' => $viaje['costo'],
+            'autodelviaje' => $viaje['auto_id'],
+            'descripcion' => $viaje['descripcion'],
+            'autos' => $autos,
+            'cantAutos' => $cantAutos,
+            'id' => $id
+        ];
+
+        $this->view('viaje/modificarviaje', $datos);
+
+    }
+
+
+        public function viajeModificar($id)
     {
         $usuarioModelo = $this->model('Usuario');
         $user_id = $this->session->get('id');
@@ -139,7 +167,7 @@ class Viaje extends Controller
         $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
         $viajeModelo = $this->model('Modeloviajes');
 
-        if ($viajeModelo->viajeLibre($id) == 0) {
+        if ($viajeModelo->viajeLibre($id) > 0) {
             if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['fechayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['autodelviaje']))) {
                 $fecha_actual = strtotime(date("d-m-Y H:i", time()));
                 $origen = $_POST['origen'];
@@ -212,6 +240,21 @@ class Viaje extends Controller
             $datos =[ 'mensaje' =>'No se puede modificar el viaje por encontrarse alguna una solicitud de un usuario'];
             $this->view('pages/error', $datos);
         }
+    }
+
+
+    public function viajeEliminar($id)
+    {
+        $user_id = $this->session->get('id');
+        $viajeModelo = $this->model('Modeloviajes');
+
+        if (0 != $viajeModelo->viajeLibre($id)){
+          if ($viajeModelo->getCantidadPasajero(id) == 0){
+              
+          }
+
+        }
+        $viajeModelo->eliminarViaje($id);
     }
 
 

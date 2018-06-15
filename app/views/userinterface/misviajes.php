@@ -49,10 +49,10 @@
             <td><?php echo($datos['viajes'][$i]->descripcion); ?></td>
             <td><?php echo($datos['viajes'][$i]->costo); ?></td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/modificarviaje/<?php echo($datos['viajes'][$i]->id); ?>"><button>Modificar</button></a>
+                <a href="<?php echo RUTA_URL; ?>/viaje/modificarViaje/<?php echo($datos['viajes'][$i]->id); ?>"><button>Modificar</button></a>
             </td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/eliminarviaje/<?php echo($datos['viajes'][$i]->id); ?>"><button>Eliminar</button></a>
+                <a href="<?php echo RUTA_URL; ?>/viaje/viajeEliminar/<?php echo($datos['viajes'][$i]->id); ?>"><button>Eliminar</button></a>
 
             </td>
 

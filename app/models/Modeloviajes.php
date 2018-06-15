@@ -316,17 +316,18 @@
          return $this->db->registros();
      }
 
-     public function getAllViajes(){
-         $this->db->query("SELECT * FROM viaje where true ");
-         return $this->db->registro();
-
+     public function getAllViajes() {
+         $this->db->query("SELECT * FROM viaje ");
+         return $this->db->registros();
      }
 
-     public function getAllCantidadViajes() {
-         $this->db->query("SELECT id FROM viaje where true ");
+     public function getAllCantidadViajes()
+     {
+         $this->db->query("SELECT * FROM viaje ");
          return $this->db->registrorowCount();
      }
-    public function getViaje($idViaje){
+
+         public function getViaje($idViaje){
          $this->db->query("SELECT * FROM viaje WHERE id='$idViaje'");
          return $this->db->registro();
 

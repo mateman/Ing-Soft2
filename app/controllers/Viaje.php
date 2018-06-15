@@ -132,7 +132,10 @@ class Viaje extends Controller
     }
 
 
-        public function modificarViaje($id)
+    /**
+     * @param $id
+     */
+    public function modificarViaje($id)
     {
         $usuarioModelo = $this->model('Usuario');
         $user_id = $this->session->get('id');
@@ -140,15 +143,22 @@ class Viaje extends Controller
         $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
         $viajeModelo = $this->model('Modeloviajes');
         $viaje = $viajeModelo->getViaje($id);
+        $origen = $viaje['origen'];
+        $destino = $viaje['destino'];
+        $horallegada = $viaje['horallegada'];
+        $horasalida = $viaje['horasalida'];
+        $costo = $viaje['costo'];
+        $auto_id = $viaje['auto_id'];
+        $descripcion = $viaje['descripcion'];
         $datos = [
             'mensaje' => '',
-            'origen' => $viaje['origen'],
-            'destino' => $viaje['destino'],
-            'fechayhorallegada' => $viaje['horallegada'],
-            'fechayhorasalida' => $viaje['horasalida'],
-            'costo' => $viaje['costo'],
-            'autodelviaje' => $viaje['auto_id'],
-            'descripcion' => $viaje['descripcion'],
+            'origen' => $origen,
+            'destino' => $destino,
+            'fechayhorallegada' => $horallegada,
+            'fechayhorasalida' => $horasalida,
+            'costo' => $costo,
+            'autodelviaje' => $auto_id,
+            'descripcion' => $descripcion,
             'autos' => $autos,
             'cantAutos' => $cantAutos,
             'id' => $id

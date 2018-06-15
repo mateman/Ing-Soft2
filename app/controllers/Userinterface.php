@@ -21,14 +21,18 @@ class Userinterface extends Controller {
     /**
      *
      */
+
     public function index() {
         $usuario = $this->datosUsuario();
+        $this->allViajes('Hola '.$usuario->nombreusuario.', Bienvenido!');
+    }
+
+    public function allViajes($mensaje) {
         $viajemodelo = $this->model('Modeloviajes');
         $cantViajes = $viajemodelo->getAllCantidadViajes();
         $viajes = $viajemodelo->getAllViajes();
         $datos = [
-
-            'nombreusuario' => $usuario->nombreusuario,
+            'mensaje' => $mensaje,
             'cantViajes' => $cantViajes,
             'viajes' => $viajes
         ];

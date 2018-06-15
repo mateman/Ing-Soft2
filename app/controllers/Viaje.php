@@ -168,6 +168,7 @@ class Viaje extends Controller
 
         public function viajeModificar($id)
     {
+          date_default_timezone_set('America/Argentina/Buenos_Aires'); // hora Bs As
         $usuarioModelo = $this->model('Usuario');
         $user_id = $this->session->get('id');
         $autos = $usuarioModelo->getAutos($user_id);
@@ -176,13 +177,13 @@ class Viaje extends Controller
 
         if ($viajeModelo->viajeLibre($id) == 0) {
             if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['fechayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['autodelviaje']))) {
-                $fecha_actual = strtotime(date("Y-m-d H:i:s", time()));
+                $fecha_actual = date("Y-m-d H:i:s", time());
                 $fechayhorallegada = date("Y-m-d H:i:s", strtotime($_POST['fechayhorallegada']));
                 $fechayhorasalida = date("Y-m-d H:i:s", strtotime($_POST['fechayhorasalida']));
                 $autodelviaje = $_POST['autodelviaje'];
 
                 if (($fecha_actual < $fechayhorallegada) AND ($fecha_actual < $fechayhorasalida) AND ($fechayhorasalida < $fechayhorallegada)) {
-                    $autoEnUso = $viajeModelo->autoEnUso($autodelviaje, $fechayhorasalida, $fechayhorallegada);
+                    $autoEnUso = $viajeModelo->autoEnUso($autodelviaje, $fechayhorasalida, $fechayhorallegada, $id);
                     if ($autoEnUso > 0) {
                         $datos = [
                             'mensaje' => 'El auto seleccionado esta en uso para el horario del viaje.',
@@ -204,7 +205,13 @@ class Viaje extends Controller
 
                     $modificarviaje = $viajeModelo->viajeModificar($_POST['descripcion'], $_POST['origen'], $_POST['destino'], $fechayhorallegada, $fechayhorasalida, $_POST['costo'], $autodelviaje, $user_id, $id);
 
-                    $datos = ['mensaje' => 'Viaje modificado correctamente!'];
+                    $cantViajes = $viajeModelo->getCantidadViajes($user_id);
+        $viajes = $viajeModelo->getViajes($user_id);
+         $datos = [
+             'cantViajes' => $cantViajes,
+             'viajes' => $viajes,
+             'mensaje' => 'Viaje modificado correctamente!'
+         ];
 
                     $this->view('userinterface/misviajes', $datos);
                 } else {

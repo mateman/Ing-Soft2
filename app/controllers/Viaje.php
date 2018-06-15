@@ -170,29 +170,25 @@ class Viaje extends Controller
         $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
         $viajeModelo = $this->model('Modeloviajes');
 
-        if ($viajeModelo->viajeLibre($id) > 0) {
+        if ($viajeModelo->viajeLibre($id) == 0) {
             if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['fechayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['autodelviaje']))) {
-                $fecha_actual = strtotime(date("d-m-Y H:i", time()));
-                $origen = $_POST['origen'];
-                $destino = $_POST['destino'];
-                $fechayhorallegada = $_POST['fechayhorallegada'];
-                $fechayhorasalida = $_POST['fechayhorasalida'];
-                $costo = $_POST['costo'];
+                $fecha_actual = strtotime(date("Y-m-d H:i", time()));;
+                $fechayhorallegada = date("Y-m-d H:i:s", strtotime($_POST['fechayhorallegada']));
+                $fechayhorasalida = date("Y-m-d H:i:s", strtotime($_POST['fechayhorasalida']));
                 $autodelviaje = $_POST['autodelviaje'];
-                $descripcion = $_POST['descripcion'];
 
                 if (($fecha_actual < $fechayhorallegada) AND ($fecha_actual < $fechayhorasalida) AND ($fechayhorasalida < $fechayhorallegada)) {
                     $autoEnUso = $viajeModelo->autoEnUso($autodelviaje, $fechayhorasalida, $fechayhorallegada);
                     if ($autoEnUso > 0) {
                         $datos = [
                             'mensaje' => 'El auto seleccionado esta en uso para el horario del viaje.',
-                            'origen' => $origen,
-                            'destino' => $destino,
-                            'fechayhorallegada' => $fechayhorallegada,
-                            'fechayhorasalida' => $fechayhorasalida,
-                            'costo' => $costo,
+                            'origen' => $_POST['origen'],
+                            'destino' => $_POST['destino'],
+                            'fechayhorallegada' => $_POST['fechayhorallegada'],
+                            'fechayhorasalida' => $_POST['fechayhorasalida'],
+                            'costo' => $_POST['costo'],
                             'autodelviaje' => $autodelviaje,
-                            'descripcion' => $descripcion,
+                            'descripcion' => $_POST['descripcion'],
                             'autos' => $autos,
                             'cantAutos' => $cantAutos,
                             'id' => $id
@@ -202,7 +198,7 @@ class Viaje extends Controller
                         exit();
                     }
 
-                    $modificarviaje = $viajeModelo->viajeModificar($descripcion, $origen, $destino, $fechayhorallegada, $fechayhorasalida, $costo, $autodelviaje, $user_id, $id);
+                    $modificarviaje = $viajeModelo->viajeModificar($_POST['descripcion'], $_POST['origen'], $_POST['destino'], $fechayhorallegada, $fechayhorasalida, $_POST['costo'], $autodelviaje, $user_id, $id);
 
                     $datos = ['mensaje' => 'Viaje modificado correctamente!'];
 
@@ -211,13 +207,13 @@ class Viaje extends Controller
                     $autos = $usuarioModelo->getAutos($user_id);
                     $datos = [
                         'mensaje' => 'Debe poner fechas futuras!',
-                        'origen' => $origen,
-                        'destino' => $destino,
-                        'fechayhorallegada' => $fechayhorallegada,
-                        'fechayhorasalida' => $fechayhorasalida,
-                        'costo' => $costo,
+                        'origen' => $_POST['origen'],
+                        'destino' => $_POST['destino'],
+                        'fechayhorallegada' => $_POST['fechayhorallegada'],
+                        'fechayhorasalida' => $_POST['fechayhorasalida'],
+                        'costo' => $_POST['costo'],
                         'autodelviaje' => $autodelviaje,
-                        'descripcion' => $descripcion,
+                        'descripcion' => $_POST['descripcion'],
                         'autos' => $autos,
                         'cantAutos' => $cantAutos,
                         'id' => $id

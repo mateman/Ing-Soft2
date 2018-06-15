@@ -12,7 +12,7 @@
  <div class="container">
       <div class="row">
       <div class="col"></div>
-      <div class="col"> <form action="<?php echo RUTA_URL; ?>/viaje/viajeModificar/"<?php echo $datos['id']?> method="post" >
+      <div class="col"> <form action="<?php echo RUTA_URL; ?>/viaje/viajeModificar/<?php echo $datos['id']?>" method="post" >
     <div class="form-group">
       <label for="origen">Ingrese ciudad de origen:</label>
       <input type="text"id="origen" class="form-control"  name="origen" value="<?php if(isset($datos['origen'])) echo ($datos['origen']); ?>">

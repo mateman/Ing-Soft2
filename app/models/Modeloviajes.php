@@ -337,4 +337,6 @@
          $this->db->query("SELECT * FROM viaje v WHERE auto_id='$id_auto' AND id<>'$id_viaje' AND (('$fechayhorasalida'  BETWEEN horasalida and horallegada) OR ('$fechayhorallegada'  BETWEEN horasalida and horallegada))");
          return $this->db->registrorowCount();
      }
+
+
  }

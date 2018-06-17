@@ -18,9 +18,13 @@
         <li class="nav-item">
           <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/perfil">Ver perfil <span class="sr-only">(current)</span></a>
         </li>
+         <li class="nav-item">
+          <a class="nav-link" href="<?php echo RUTA_URL; ?>/buscador/buscador">Buscar<span class="sr-only">(current)</span></a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/logout">Salir <span class="sr-only">(current)</span></a>
         </li>
+
        
       </ul>
     </div>

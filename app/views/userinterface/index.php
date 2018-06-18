@@ -42,7 +42,7 @@
                 </td>
 
             </tr>
-            <tr><div id="div-<?php echo($datos['viajes'][$i]->id); ?>"></div></tr>
+            <tr><div id="div-<?php echo($datos['viajes'][$i]->id); ?>" style="visibility:hidden"></div></tr>
         <?php } ?>
 
 
@@ -78,6 +78,7 @@
         lista.onreadystatechange = function () {
             if (lista.readyState == 4) {
                 document.getElementById('div-' + idviaje).innerHTML = lista.responseText;
+                document.getElementById('div-' + idviaje).style.visibility= 'visible';
             }
         }
     }

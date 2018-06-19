@@ -34,7 +34,7 @@
                 <td><?php echo($datos['viajes'][$i]->descripcion); ?></td>
                 <td><?php echo($datos['viajes'][$i]->costo); ?></td>
                 <td>
-                    <a onClick="MostrarLista(<?php echo($datos['viajes'][$i]->id); ?>)"><button>Consultar</button></a>
+                    <a onClick="MostrarDatos(<?php echo($datos['viajes'][$i]->id); ?>)"><button>Consultar</button></a>
                 </td>
                 <td>
                     <a href="<?php echo RUTA_URL; ?>/viaje/viajeEliminar/<?php echo($datos['viajes'][$i]->id); ?>"><button>Anotarse</button></a>
@@ -42,7 +42,7 @@
                 </td>
 
             </tr>
-            <tr><div id="div-<?php echo($datos['viajes'][$i]->id); ?>" style="visibility:hidden"></div></tr>
+            <tr id="div-<?php echo($datos['viajes'][$i]->id); ?>" style="visibility:hidden"></tr>
         <?php } ?>
 
 
@@ -52,7 +52,7 @@
 </div>
 
 <script>
-    var http = nuevoAjax();
+    var lista = nuevoAjax();
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -71,8 +71,8 @@
     };
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    function MostrarLista(idviaje) {
-        lista.open("POST", "./listar.php", true);
+    function MostrarDatos(idviaje) {
+        lista.open("POST", "../listarInfo/", true);
         lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         lista.send("listar= " + idviaje);
         lista.onreadystatechange = function () {

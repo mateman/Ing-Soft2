@@ -286,6 +286,10 @@ class Userinterface extends Controller {
         header("Location:$url ");
 
     }
+    public function listarInfo(){
+        $idviaje = $_POST['listar'];
+        echo("Hola este el viaje ".$idviaje);
+    }
  
  
 }

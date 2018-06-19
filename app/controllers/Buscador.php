@@ -3,16 +3,27 @@
 
 class Buscador extends Controller {
 
-        public function buscador (){
-  
+ 
+  public function buscador (){
+   /* $viajemodelo = $this->model('Modeloviajes');
+    $cantViajes = $viajemodelo->getAllCantidadViajes();
+    $viajes = $viajemodelo->getAllViajes();
+    $datos = [
+        'cantViajes' => $cantViajes,
+        'viajes' => $viajes
+    ];
+    */
 
-       $this->view('buscador/buscador');  
-    }
-     public function busqueda (){
+    $this->view('buscador/buscador' );
+ 
+  }
 
-     $buscadorModelo = $this->model('ModeloBuscador');
-
-  if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['salidadesde'])) and !(empty($_POST['salidahasta'])) and !(empty($_POST['llegadadesde'])) and !(empty($_POST['llegadahasta']))) {
+  /*
+  public function busqueda (){
+    $buscadorModelo = $this->model('ModeloBuscador');
+    if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) 
+    and !(empty($_POST['salidadesde'])) and !(empty($_POST['salidahasta'])) 
+    and !(empty($_POST['llegadadesde'])) and !(empty($_POST['llegadahasta']))) {
 
      $busqueda = $buscadorModelo->userUpdate( $_POST['email'], $_POST['provincia'],
                                                    $_POST['apellido'], $_POST['telefono'],
@@ -21,5 +32,5 @@ class Buscador extends Controller {
 
       echo "hola mundo";  
     }
-    }
-
+    }*/
+  }

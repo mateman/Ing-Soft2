@@ -2,31 +2,53 @@
 
 <?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
 
-<form action="<?php echo RUTA_URL; ?>/buscador/busqueda">
- <div class="container">
+  
+
+<div class="container">
+  <div class="row">
+  <form action="<?php echo RUTA_URL; ?>/buscador/busqueda">
+  <div class="container">
   <div class="form-group">
-    <label for="salidadesde">Salida desde:</label>
-     <input class="form-control"type="datetime-local" name="salidadesde" placeholder="   dd-mm-aaaa  hh:mm" id="salidadesde" min="<?php echo date('d-m-Y\ H:i'); ?>"  pattern="[0-9]{2}-[0-9]{2}-[0-9]{4} ([0-9]{1}|[0-9]{2}):[0-9]{2}" value="<?php if(isset($datos['fechayhorasalida'])) echo ($datos['fechayhorasalida']); ?>" required />
-  </div>
-   <div class="form-group">
-    <label for="salidahasta">Salida hasta:</label>
-    <input class="form-control"type="datetime-local" name="salidahasta" placeholder="   dd-mm-aaaa  hh:mm" id="salidahasta" min="<?php echo date('d-m-Y\ H:i'); ?>"  pattern="[0-9]{2}-[0-9]{2}-[0-9]{4} ([0-9]{1}|[0-9]{2}):[0-9]{2}" value="<?php if(isset($datos['fechayhorasalida'])) echo ($datos['fechayhorasalida']); ?>" required />
-  </div>
-  <div class="form-group">
-    <label for="llegadadesde">Llegada desde:</label>
-     <input class="form-control"type="datetime-local" name="llegadadesde" placeholder="   dd-mm-aaaa  hh:mm" id="llegadadesde" min="<?php echo date('d-m-Y\ H:i'); ?>"  pattern="[0-9]{2}-[0-9]{2}-[0-9]{4} ([0-9]{1}|[0-9]{2}):[0-9]{2}" value="<?php if(isset($datos['fechayhorasalida'])) echo ($datos['fechayhorasalida']); ?>" required />
-  </div>
-   <div class="form-group">Llegada hasta:</label>
-    <input class="form-control"type="datetime-local" name="llegadahasta" placeholder="   dd-mm-aaaa  hh:mm" id="llegadahasta" min="<?php echo date('d-m-Y\ H:i'); ?>"  pattern="[0-9]{2}-[0-9]{2}-[0-9]{4} ([0-9]{1}|[0-9]{2}):[0-9]{2}" value="<?php if(isset($datos['fechayhorasalida'])) echo ($datos['fechayhorasalida']); ?>" required />
-  </div>
-  <div class="form-group">
-    <label for="Origen">Origen</label>
-    <input type="text" class="form-control" id="origen">
-  </div>
-   <div class="form-group">
-    <label for="Origen">Destino</label>
-    <input type="text" class="form-control" id="destino">
-  </div>
-  <button type="submit" class="btn btn-default">Buscar</button>
+  <label for="salidadesde">Busqueda</label>
+  <input id="campo" name="campo">
+<button type="submit" class="btn btn-default">Buscar</button>
+
 </form>
+
+ <div id="resultado"></div>
+  </div>
 </div>
+
+
+
+<?php require RUTA_APP.'/views/includes/footer.php'; ?>
+
+
+
+
+
+<script>
+
+ $(buscar_datos());
+ function buscar_datos(consulta) {
+  $.ajax({
+    data:  {consulta : consulta}, 
+    url:   "<?php echo RUTA_URL; ?>/buscadorajax/ajax", 
+    type:  'POST', 
+    dataType:'html',
+    success:  function (response) {
+                $("#resultado").html(response);
+              }
+    });
+
+}
+$(document).on('keyup', '#campo', function() {
+  var valor = $(this).val();
+  if(valor != "") {
+    buscar_datos(valor);
+  }else {
+    buscar_datos();
+  }
+})
+
+</script>

@@ -8,7 +8,8 @@ class BuscadorAjax extends Controller {
         $salida="";
         $datos =$buscadorModelo->getAllviajes();
         if (isset($_POST['consulta'])) { 
-            $datos =$buscadorModelo->getViajes($_POST['consulta']);
+           $datos =$buscadorModelo->getViajes($_POST['consulta']['empty']);
+          //var_dump($_POST['consulta']);
           
         }
         if($datos) {

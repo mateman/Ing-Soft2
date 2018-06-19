@@ -45,7 +45,8 @@
 $(document).on('keyup', '#campo', function() {
   var valor = $(this).val();
   if(valor != "") {
-    buscar_datos(valor);
+    var v = {empty: valor}
+    buscar_datos(v);
   }else {
     buscar_datos();
   }

@@ -288,8 +288,18 @@ class Userinterface extends Controller {
     }
     public function listarInfo(){
         $idviaje = $_POST['listar'];
-        echo("Hola este el viaje ".$idviaje);
+        echo("<TD>Hola este el viaje".$idviaje."</TD> ");
     }
- 
+    public function anotarse(){
+        $user_id = $this->session->get('id');
+        $viajemodelo = $this->model('Modeloviajes');
+        $idviaje = $_POST['anotarse'];
+        if (!($viajemodelo->estaEnPasajero($idviaje,$user_id)) and ($viajemodelo->getCantidadPasajeroAceptados($idviaje)< ($viajemodelo->getAuto(($viajemodelo->getViaje($idviaje))->auto_id))->asientosdisp))
+        {
+         $viajemodelo->anotarPasajero($idviaje,$user_id);
+         echo("Anotado");
+        }
+        else{echo("Rechazado");}
+    }
  
 }

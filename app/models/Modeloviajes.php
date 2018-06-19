@@ -316,6 +316,22 @@
          return $this->db->registros();
      }
 
+     public function estaEnPasajero($id_viaje,$id_user){
+         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id_viaje' AND usuario_id='$id_user'");
+         return ($this->db->registrorowCount() != 0);
+     }
+
+     public function anotarPasajero($id_viaje,$id_user){
+         $this->db->query("
+
+        INSERT INTO `pasajero` (`usuario_id`, `viaje_id`, `puntaje`) VALUES ('$id_user', '$id_viaje', '0');
+        
+        ");
+         //return "SELECT * FROM usuario WHERE email = '$username'";
+         return $this->db->execute();
+
+     }
+
      public function getAllViajes() {
          $this->db->query("SELECT * FROM viaje ");
          return $this->db->registros();
@@ -332,7 +348,8 @@
          return $this->db->registro();
 
     }
- 
+
+
     public function autoEnUso($id_auto, $fechayhorallegada, $fechayhorasalida, $id_viaje) {
          $this->db->query("SELECT * FROM viaje v WHERE auto_id='$id_auto' AND id<>'$id_viaje' AND (('$fechayhorasalida'  BETWEEN horasalida and horallegada) OR ('$fechayhorallegada'  BETWEEN horasalida and horallegada))");
          return $this->db->registrorowCount();

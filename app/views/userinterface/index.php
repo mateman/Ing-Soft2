@@ -37,12 +37,12 @@
                     <a onClick="MostrarDatos(<?php echo($datos['viajes'][$i]->id); ?>)"><button>Consultar</button></a>
                 </td>
                 <td>
-                    <a href="<?php echo RUTA_URL; ?>/viaje/viajeEliminar/<?php echo($datos['viajes'][$i]->id); ?>"><button>Anotarse</button></a>
+                    <a id="anotar-<?php echo($datos['viajes'][$i]->id); ?>" onClick="Anotarse(<?php echo($datos['viajes'][$i]->id); ?>)"><button>Anotarse</button></a>
 
                 </td>
 
             </tr>
-            <tr id="div-<?php echo($datos['viajes'][$i]->id); ?>" style="visibility:hidden"></tr>
+            <tr id="tr-<?php echo($datos['viajes'][$i]->id); ?>" style="visibility:hidden"></tr>
         <?php } ?>
 
 
@@ -72,17 +72,34 @@
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     function MostrarDatos(idviaje) {
-        lista.open("POST", "../listarInfo/", true);
-        lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        lista.send("listar= " + idviaje);
-        lista.onreadystatechange = function () {
-            if (lista.readyState == 4) {
-                document.getElementById('div-' + idviaje).innerHTML = lista.responseText;
-                document.getElementById('div-' + idviaje).style.visibility= 'visible';
+        if (document.getElementById('tr-' + idviaje).style.visibility === 'hidden') {
+            lista.open("POST", "./listarInfo/", true);
+            lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lista.send("listar= " + idviaje);
+            lista.onreadystatechange = function () {
+                if (lista.readyState == 4) {
+                    document.getElementById('tr-' + idviaje).innerHTML = lista.responseText;
+                    document.getElementById('tr-' + idviaje).style.visibility= 'visible';
+                }
             }
+        } else {
+            document.getElementById('tr-' + idviaje).style.visibility = 'hidden';
         }
+
     }
 
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    function Anotarse(idviaje) {
+            lista.open("POST", "./anotarse/", true);
+            lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lista.send("anotarse= " + idviaje);
+            lista.onreadystatechange = function () {
+                if (lista.readyState == 4) {
+                    if (lista.responseText == "Rechazado"){alert("Se rechazo la postulacion");};
+                    document.getElementById('anotar-' + idviaje).style.visibility= 'hidden';
+                }
+            }
+    }
     //------------------------------------------------------------------------------------------------------------------------------
 </script>
 

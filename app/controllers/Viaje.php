@@ -253,13 +253,16 @@ class Viaje extends Controller
     }
 
 
+    /**
+     * @param $id
+     */
     public function viajeEliminar($id)
     {
         $user_id = $this->session->get('id');
         $viajeModelo = $this->model('Modeloviajes');
 
         if (0 != $viajeModelo->viajeLibre($id)){
-          if ($viajeModelo->getCantidadPasajero(id) == 0){
+          if ($viajeModelo->getCantidadPasajeroAceptados($id) != 0){
               
           }
 

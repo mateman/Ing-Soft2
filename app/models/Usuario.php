@@ -167,4 +167,15 @@
         return $this->db->execute();
 
     }
+
+    public function sumarPuntos($id,$puntos){
+        $this->db->query("UPDATE tabla SET puntos = puntos +$puntos  WHERE id='$id';");
+        return $this->db->execute();
+    }
+
+    public function restarPuntos($id,$puntos){
+        $this->db->query( "UPDATE tabla SET puntos = puntos +$puntos  WHERE id='$id';");
+        return $this->db->execute();
+    }
+
  }

@@ -291,6 +291,12 @@
 
      }
 
+     public function viajeEliminarLogico($id) {
+         $this->db->query(" DELETE FROM `viaje` WHERE id='$id'");
+         return $this->db->execute();
+         UPDATE `viaje` SET `borrado_logico` WHERE id='$id'
+     }
+
      public function viajeLibre($id){
          $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id'");
          return $this->db->registrorowCount();

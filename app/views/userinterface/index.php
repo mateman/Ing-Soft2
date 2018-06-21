@@ -73,7 +73,7 @@
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     function MostrarDatos(idviaje) {
         if (document.getElementById('tr-' + idviaje).style.visibility === 'hidden') {
-            lista.open("POST", "./listarInfo/", true);
+            lista.open("POST", "./listarInfo", true);
             lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             lista.send("listar= " + idviaje);
             lista.onreadystatechange = function () {
@@ -90,7 +90,7 @@
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     function Anotarse(idviaje) {
-            lista.open("POST", "./anotarse/", true);
+            lista.open("POST", "./anotarse", true);
             lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             lista.send("anotarse= " + idviaje);
             lista.onreadystatechange = function () {

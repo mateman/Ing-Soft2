@@ -131,25 +131,6 @@
           return $this->db->registrorowCount();
     }
     
-    public function autoEliminar($id) {
-        $this->db->query(" DELETE FROM `vehiculo` WHERE id='$id'");
-        return $this->db->execute();
-
-    }
-
-    public function autoAgregar($patente, $marca, $asientosdisp, $user_id) {
-        $this->db->query("
-
-        INSERT INTO `vehiculo` (`patente`, `marca`, `asientosdisp`, `usuario_id`) VALUES ('$patente', '$marca', '$asientosdisp', '$user_id');
-        
-        
-        
-        ");
-        //return "SELECT * FROM usuario WHERE email = '$username'";
-        return $this->db->execute();
-
-    }
-
 
     public function viajeAgregar($descripcion, $origen, $destino, $fechayhorallegada, $fechayhorasalida, $costo, $tipodeviaje, $autodelviaje, $conductor_id, $repetir)
      {
@@ -286,16 +267,12 @@
      }
 
      public function viajeEliminar($id) {
-         $this->db->query(" DELETE FROM `viaje` WHERE id='$id'");
+         if (0 == $this->viajeLibre($id)){
+               $this->db->query(" DELETE FROM `viaje` WHERE id='$id'");}
+         else {$this->db->query(" UPDATE `viaje` SET borrado_logico=1 WHERE id='$id'");}
          return $this->db->execute();
-
      }
 
-     public function viajeEliminarLogico($id) {
-         $this->db->query(" DELETE FROM `viaje` WHERE id='$id'");
-         return $this->db->execute();
-         UPDATE `viaje` SET `borrado_logico` WHERE id='$id'
-     }
 
      public function viajeLibre($id){
          $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id'");

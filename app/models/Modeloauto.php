@@ -43,7 +43,7 @@ class Modeloauto
     public function autoEliminar($id)
     {
         $this->db->query("SELECT * FROM viaje WHERE auto_id='$id'");
-        $autoL $this->db->registrorowCount();
+        $autoL = $this->db->registrorowCount();
         if (0 == $autoL){
             $this->db->query(" DELETE FROM `vehiculo` WHERE id='$id'");}
         else {$this->db->query(" UPDATE `vehiculo` SET borrado_logico='1' WHERE id='$id'");}

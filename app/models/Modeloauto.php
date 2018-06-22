@@ -11,19 +11,19 @@ class Modeloauto
 
     public function getCantidadAutos($id)
     {
-        $this->db->query("SELECT * FROM vehiculo WHERE usuario_id='$id'");
+        $this->db->query("SELECT * FROM vehiculo WHERE usuario_id='$id' AND borrado_logico=0");
         return $this->db->registrorowCount();
     }
 
     public function getAutos($id)
     {
-        $this->db->query("SELECT * FROM vehiculo WHERE usuario_id='$id'");
+        $this->db->query("SELECT * FROM vehiculo WHERE usuario_id='$id' AND borrado_logico=0");
         return $this->db->registros();
     }
 
     public function getAuto($id)
     {
-        $this->db->query("SELECT * FROM vehiculo WHERE id='$id'");
+        $this->db->query("SELECT * FROM vehiculo WHERE id='$id' AND borrado_logico=0");
         return $this->db->registro();
     }
 
@@ -32,10 +32,7 @@ class Modeloauto
         $this->db->query("
 
         UPDATE `vehiculo` SET patente='$patente', marca='$marca', asientosdisp='$asientosdisp',modelo='$modelo'
-        WHERE id='$id'
-        
-        
-        
+        WHERE id='$id' AND borrado_logico=0
         ");
         //return "SELECT * FROM usuario WHERE email = '$username'";
         return $this->db->execute();
@@ -61,11 +58,8 @@ class Modeloauto
     {
         $this->db->query("
 
-        INSERT INTO `vehiculo` (`patente`, `marca`, `asientosdisp`, `usuario_id`,`modelo`) VALUES ('$patente', '$marca', '$asientosdisp', '$user_id','$modelo_auto');
+        INSERT INTO `vehiculo` (`patente`, `marca`, `asientosdisp`, `usuario_id`,`modelo`,`borrado_logico`) VALUES ('$patente', '$marca', '$asientosdisp', '$user_id','$modelo_auto',0);
 
-        
-        
-        
         ");
         return $this->db->execute();
 
@@ -73,7 +67,7 @@ class Modeloauto
 
 
     public function autoLibre($id){
-        $this->db->query("SELECT * FROM viaje WHERE auto_id='$id'");
+        $this->db->query("SELECT * FROM viaje WHERE auto_id='$id' AND borrado_logico=0");
         return $this->db->registrorowCount();
     }
 

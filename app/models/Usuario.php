@@ -7,27 +7,27 @@
 
      }
      public function getUsuarios() {
-         $this->db->query("SELECT * FROM usuario");
+         $this->db->query("SELECT * FROM usuario WHERE borrado_logico='0'");
          return $this->db->registros();
      }
 
      public function login($nombreusuario, $password) {
-        $this->db->query("SELECT * FROM usuario WHERE nombreusuario = '$nombreusuario' and contrasena = '$password'");
+        $this->db->query("SELECT * FROM usuario WHERE nombreusuario = '$nombreusuario' and contrasena = '$password' AND borrado_logico='0'");
         return $this->db->registro();
      }
 
      public function getById($id) {
-        $this->db->query("SELECT * FROM usuario WHERE id = '$id'");
+        $this->db->query("SELECT * FROM usuario WHERE id = '$id' AND borrado_logico='0'");
         return $this->db->registro();
     }
     public function mailExist($email) {
-        $this->db->query("SELECT * FROM usuario WHERE email = '$email'");
+        $this->db->query("SELECT * FROM usuario WHERE email = '$email' AND borrado_logico='0'");
         //return "SELECT * FROM usuario WHERE email = '$email'";
         return $this->db->registro();
 
     }
     public function userNameExist($username) {
-        $this->db->query("SELECT * FROM usuario WHERE nombreusuario = '$username'");
+        $this->db->query("SELECT * FROM usuario WHERE nombreusuario = '$username' AND borrado_logico='0'");
         //return "SELECT * FROM usuario WHERE email = '$username'";
         return $this->db->registro();
 
@@ -57,7 +57,8 @@
                                 `email`, 
                                 `id`, 
                                 `tienevehiculo`,
-                                `imagen_url`
+                                `imagen_url`,
+                                `borrado_logico`
                                 ) VALUES 
                                 ('$contrasena', 
                                 '$provincia', 
@@ -70,7 +71,8 @@
                                 '$email',
                                  NULL, 
                                  '0',
-                                'avatar.png');";
+                                'avatar.png',
+                                '0');";
           
         $this->db->query($q);
     
@@ -91,7 +93,7 @@
         $this->db->query("
         UPDATE `usuario` SET nombre='$nombre', email='$email', provincia='$provincia', 
         apellido='$apellido', telefono='$telefono', ciudad='$ciudad' 
-        WHERE id='$id'");
+        WHERE id='$id' AND borrado_logico='0'");
         //return "SELECT * FROM usuario WHERE email = '$username'";
         return $this->db->execute();
 
@@ -102,7 +104,7 @@
         $sql = "
         UPDATE `usuario` SET 
         `imagen_url` = '$name_image' 
-        WHERE `usuario`.`id` = '$id';";
+        WHERE `usuario`.`id` = '$id' AND borrado_logico='0';";
         $this->db->query($sql);
         //echo $sql;
        return $this->db->execute();
@@ -112,19 +114,19 @@
         $this->db->query("
 
         UPDATE `usuario` SET contrasena='$contrasena'
-        WHERE id='$id';");
+        WHERE id='$id' AND borrado_logico='0';");
         
         return $this->db->execute();
 
     }
 
     public function sumarPuntos($id,$puntos){
-        $this->db->query("UPDATE tabla SET puntos = puntos +$puntos  WHERE id='$id';");
+        $this->db->query("UPDATE tabla SET puntos = puntos +$puntos  WHERE id='$id' AND borrado_logico='0';");
         return $this->db->execute();
     }
 
     public function restarPuntos($id,$puntos){
-        $this->db->query( "UPDATE tabla SET puntos = puntos +$puntos  WHERE id='$id';");
+        $this->db->query( "UPDATE tabla SET puntos = puntos +$puntos  WHERE id='$id'AND borrado_logico='0';");
         return $this->db->execute();
     }
 

@@ -265,6 +265,14 @@ class Viaje extends Controller
               $usuarioModelo->penalizar($user_id);
           }
         $viajeModelo->eliminarViaje($id);
+        $cantViajes = $viajeModelo->getCantidadViajes($user_id);
+        $viajes = $viajeModelo->getViajes($user_id);
+        $datos = ['mensaje' => 'Viaje eliminado correctamente!',
+            'cantViajes' => $cantViajes,
+            'viajes' => $viajes
+        ];
+        $this->view('userinterface/misviajes', $datos);
+
     }
 
 

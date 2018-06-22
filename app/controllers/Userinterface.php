@@ -190,9 +190,7 @@ class Userinterface extends Controller {
             $asientosdisp =  $_POST['asientosdisp'];
             $modelo = $_POST['modelo'];
             $actualizar = $autoModelo -> autoUpdate ($id, $patente, $marca, $asientosdisp, $modelo);
-            $usuarioModelo = $this->model('Usuario');
             $auto = $autoModelo->getAuto($id);
-            $usuarioModelo = $this->model('Usuario');
             $user_id = $this->session->get('id');
             $cantAutos = $autoModelo->getCantidadAutos($user_id);
             $autos = $autoModelo->getAutos($user_id);
@@ -226,7 +224,6 @@ class Userinterface extends Controller {
         $autoModelo = $this->model('Modeloauto');
         if ($autoModelo->autolibre($id) == 0) {
                 $eliminar = $autoModelo->autoEliminar($id);
-                $usuarioModelo = $this->model('Usuario');
                 $user_id = $this->session->get('id');
                 $cantAutos = $autoModelo->getCantidadAutos($user_id);
                 $autos = $autoModelo->getAutos($user_id);
@@ -290,8 +287,9 @@ class Userinterface extends Controller {
     public function anotarse(){
         $user_id = $this->session->get('id');
         $viajemodelo = $this->model('Modeloviajes');
+        $automodelo = $this->model('Modeloauto');
         $idviaje = $_POST['anotarse'];
-        if (!($viajemodelo->estaEnPasajero($idviaje,$user_id)) and ($viajemodelo->getCantidadPasajeroAceptados($idviaje)< ($viajemodelo->getAuto(($viajemodelo->getViaje($idviaje))->auto_id))->asientosdisp))
+        if (!($viajemodelo->estaEnPasajero($idviaje,$user_id)) and ($viajemodelo->getCantidadPasajeroAceptados($idviaje)< ($automodelo->getAuto(($viajemodelo->getViaje($idviaje))->auto_id))->asientosdisp))
         {
          $viajemodelo->anotarPasajero($idviaje,$user_id);
          echo("Anotado");

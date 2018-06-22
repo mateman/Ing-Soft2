@@ -10,10 +10,12 @@
          $this->db->query("SELECT * FROM usuario");
          return $this->db->registros();
      }
+
      public function login($nombreusuario, $password) {
         $this->db->query("SELECT * FROM usuario WHERE nombreusuario = '$nombreusuario' and contrasena = '$password'");
         return $this->db->registro();
      }
+
      public function getById($id) {
         $this->db->query("SELECT * FROM usuario WHERE id = '$id'");
         return $this->db->registro();
@@ -94,60 +96,8 @@
         return $this->db->execute();
 
     }
-    public function getCantidadAutos($id) {
-         $this->db->query("SELECT * FROM vehiculo WHERE usuario_id='$id'");
-         return $this->db->registrorowCount();
-     }
 
-       public function getAutos($id) {
-         $this->db->query("SELECT * FROM vehiculo WHERE usuario_id='$id'");
-         return $this->db->registros();
-     }
 
-        public function getAuto($id) {
-         $this->db->query("SELECT * FROM vehiculo WHERE id='$id'");
-         return $this->db->registro();
-     }
-
-         public function autoUpdate($id, $patente, $marca, $asientosdisp,$modelo) {
-        $this->db->query("
-
-        UPDATE `vehiculo` SET patente='$patente', marca='$marca', asientosdisp='$asientosdisp',modelo='$modelo'
-        WHERE id='$id'
-        
-        
-        
-        ");
-        //return "SELECT * FROM usuario WHERE email = '$username'";
-        return $this->db->execute();
-
-    }
-
-      public function autoEliminar($id) {
-        $this->db->query("
-
-        DELETE FROM `vehiculo` WHERE id='$id'
-        
-        
-        
-        ");
-        //return "SELECT * FROM usuario WHERE email = '$username'";
-        return $this->db->execute();
-
-    }
-
-    public function autoAgregar($patente, $marca, $asientosdisp, $user_id, $modelo_auto) {
-        $this->db->query("
-
-        INSERT INTO `vehiculo` (`patente`, `marca`, `asientosdisp`, `usuario_id`,`modelo`) VALUES ('$patente', '$marca', '$asientosdisp', '$user_id','$modelo_auto');
-
-        
-        
-        
-        ");
-      return $this->db->execute();
-
-    }
     public function subirFoto($id, $name_image) {
         $sql = "
         UPDATE `usuario` SET 
@@ -177,5 +127,6 @@
         $this->db->query( "UPDATE tabla SET puntos = puntos +$puntos  WHERE id='$id';");
         return $this->db->execute();
     }
+
 
  }

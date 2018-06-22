@@ -133,10 +133,10 @@ class Userinterface extends Controller {
    
    
         public function misautos (){
-        $usuarioModelo = $this->model('Usuario');
+        $autoModelo = $this->model('Modeloauto');
         $user_id = $this->session->get('id');
-        $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
-        $autos = $usuarioModelo->getAutos($user_id);
+        $cantAutos = $autoModelo->getCantidadAutos($user_id);
+        $autos = $autoModelo->getAutos($user_id);
 
          $datos = [
          'cantAutos' => $cantAutos,
@@ -161,11 +161,10 @@ class Userinterface extends Controller {
     }  
 
     public function modificarAuto ($id) {
-
-        $usuarioModelo = $this->model('Usuario');
-        $auto = $usuarioModelo->getAuto($id);
+        $autoModelo = $this->model('Modeloauto');
+        $auto = $autoModelo->getAuto($id);
         $modeloViaje = $this->model('Modeloviajes');
-        if ($modeloViaje->autolibre($id) == 0) {
+        if ($autoModelo->autolibre($id) == 0) {
             $datos = [
                 'id' => $auto->id,
                 'patente' => $auto->patente,
@@ -184,19 +183,19 @@ class Userinterface extends Controller {
     }
 
     public function actualizarauto ($id) {
-        $usuarioModelo = $this->model('Usuario');
+        $autoModelo = $this->model('Modeloauto');
         if (!(empty($_POST['patente'])) and !(empty($_POST['marca'])) and !(empty($_POST['asientosdisp'])) ){
             $patente =  $_POST['patente'];
             $marca =  $_POST['marca'];
             $asientosdisp =  $_POST['asientosdisp'];
             $modelo = $_POST['modelo'];
-            $actualizar = $usuarioModelo -> autoUpdate ($id, $patente, $marca, $asientosdisp, $modelo);
+            $actualizar = $autoModelo -> autoUpdate ($id, $patente, $marca, $asientosdisp, $modelo);
             $usuarioModelo = $this->model('Usuario');
-            $auto = $usuarioModelo->getAuto($id);
+            $auto = $autoModelo->getAuto($id);
             $usuarioModelo = $this->model('Usuario');
             $user_id = $this->session->get('id');
-            $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
-            $autos = $usuarioModelo->getAutos($user_id);
+            $cantAutos = $autoModelo->getCantidadAutos($user_id);
+            $autos = $autoModelo->getAutos($user_id);
             $datos =[
                 'mensaje' => 'La modificacion ha sido exitosa!',
                 'id' => $auto->id,
@@ -209,8 +208,7 @@ class Userinterface extends Controller {
         $this->view('userinterface/misautos', $datos);  
 
         } else{
-            $usuarioModelo = $this->model('Usuario');
-                    $auto = $usuarioModelo->getAuto($id);
+                    $auto = $autoModelo->getAuto($id);
 
                     $datos =[
                         'mensaje' => 'Todos los campos deben estar completos!',
@@ -225,14 +223,13 @@ class Userinterface extends Controller {
     }
     
     public function eliminarauto ($id){
-        $usuarioModelo = $this->model('Usuario');
-        $modeloViaje = $this->model('Modeloviajes');
-        if ($modeloViaje->autolibre($id) == 0) {
-                $eliminar = $usuarioModelo->autoEliminar($id);
+        $autoModelo = $this->model('Modeloauto');
+        if ($autoModelo->autolibre($id) == 0) {
+                $eliminar = $autoModelo->autoEliminar($id);
                 $usuarioModelo = $this->model('Usuario');
                 $user_id = $this->session->get('id');
-                $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
-                $autos = $usuarioModelo->getAutos($user_id);
+                $cantAutos = $autoModelo->getCantidadAutos($user_id);
+                $autos = $autoModelo->getAutos($user_id);
                 $datos = [
                      'cantAutos' => $cantAutos,
                      'autos' => $autos,
@@ -250,12 +247,12 @@ class Userinterface extends Controller {
     }
 
     public function autoagregar () {
-        $usuarioModelo = $this->model('Usuario');
+        $autoModelo = $this->model('Modeloauto');
         $user_id = $this->session->get('id');
         if (!(empty($_POST['patente'])) and !(empty($_POST['marca'])) and !(empty($_POST['asientosdisp']))) {
-            $usuarioModelo->autoAgregar($_POST['patente'],$_POST['marca'], $_POST['asientosdisp'], $user_id,$_POST['modelo']);
-            $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
-            $autos = $usuarioModelo->getAutos($user_id);
+            $autoModelo->autoAgregar($_POST['patente'],$_POST['marca'], $_POST['asientosdisp'], $user_id,$_POST['modelo']);
+            $cantAutos = $autoModelo->getCantidadAutos($user_id);
+            $autos = $autoModelo->getAutos($user_id);
             $datos = [
                 'cantAutos' => $cantAutos,
                 'autos' => $autos,

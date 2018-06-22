@@ -16,9 +16,9 @@ class Viaje extends Controller
 
     public function agregarViaje()
     {
-        $usuarioModelo = $this->model('Usuario');
+        $autoModelo = $this->model('Modeloauto');
         $user_id = $this->session->get('id');
-        $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
+        $cantAutos = $autoModelo->getCantidadAutos($user_id);
 
         if ($cantAutos == 0) {
             $datos = [
@@ -27,7 +27,7 @@ class Viaje extends Controller
 
             $this->view('userinterface/misviajes', $datos);
         } else {
-            $autos = $usuarioModelo->getAutos($user_id);
+            $autos = $autoModelo->getAutos($user_id);
             $datos = [
                 'cantAutos' => $cantAutos,
                 'autos' => $autos,
@@ -44,10 +44,10 @@ class Viaje extends Controller
     public function viajeCrear()
     {
         date_default_timezone_set('America/Argentina/Buenos_Aires'); // hora Bs As
-        $usuarioModelo = $this->model('Usuario');
+        $autoModelo = $this->model('Modeloauto');
         $user_id = $this->session->get('id');
-        $autos = $usuarioModelo->getAutos($user_id);
-        $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
+        $autos = $autoModelo->getAutos($user_id);
+        $cantAutos = $autoModelo->getCantidadAutos($user_id);
         $viajeModelo = $this->model('Modeloviajes');
 
         if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['fechayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['tipodeviaje'])) and !(empty($_POST['autodelviaje']))) {
@@ -104,7 +104,7 @@ class Viaje extends Controller
                 ];
                 $this->view('userinterface/misviajes', $datos);
             } else {
-                $autos = $usuarioModelo->getAutos($user_id);
+                $autos = $autoModelo->getAutos($user_id);
                 $datos = [
                     'mensaje' => 'Debe poner fechas futuras!',
                     'origen' => $origen,
@@ -124,7 +124,7 @@ class Viaje extends Controller
 
             }
         } else {
-            $autos = $usuarioModelo->getAutos($user_id);
+            $autos = $autoModelo->getAutos($user_id);
             $datos = [
                 'mensaje' => 'Debe completar todos los campos!',
                 'cantAutos' => $cantAutos,
@@ -141,10 +141,10 @@ class Viaje extends Controller
      */
     public function modificarViaje($id)
     {
-        $usuarioModelo = $this->model('Usuario');
+        $autoModelo = $this->model('Modeloauto');
         $user_id = $this->session->get('id');
-        $autos = $usuarioModelo->getAutos($user_id);
-        $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
+        $autos = $autoModelo->getAutos($user_id);
+        $cantAutos = $autoModelo->getCantidadAutos($user_id);
         $viajeModelo = $this->model('Modeloviajes');
         $viaje = $viajeModelo->getViaje($id);
         $datos = [
@@ -169,10 +169,10 @@ class Viaje extends Controller
         public function viajeModificar($id)
     {
           date_default_timezone_set('America/Argentina/Buenos_Aires'); // hora Bs As
-        $usuarioModelo = $this->model('Usuario');
+        $autoModelo = $this->model('Modeloauto');
         $user_id = $this->session->get('id');
-        $autos = $usuarioModelo->getAutos($user_id);
-        $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
+        $autos = $autoModelo->getAutos($user_id);
+        $cantAutos = $autoModelo->getCantidadAutos($user_id);
         $viajeModelo = $this->model('Modeloviajes');
 
         if ($viajeModelo->viajeLibre($id) == 0) {
@@ -215,7 +215,7 @@ class Viaje extends Controller
 
                     $this->view('userinterface/misviajes', $datos);
                 } else {
-                    $autos = $usuarioModelo->getAutos($user_id);
+                    $autos = $autoModelo->getAutos($user_id);
                     $datos = [
                         'mensaje' => 'Debe poner fechas futuras!',
                         'origen' => $_POST['origen'],
@@ -235,7 +235,7 @@ class Viaje extends Controller
 
                 }
             } else {
-                $autos = $usuarioModelo->getAutos($user_id);
+                $autos = $autoModelo->getAutos($user_id);
                 $datos = [
                     'mensaje' => 'Debe completar todos los campos!',
                     'cantAutos' => $cantAutos,

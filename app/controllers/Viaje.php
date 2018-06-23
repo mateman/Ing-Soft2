@@ -275,5 +275,39 @@ class Viaje extends Controller
 
     }
 
+    public function muro($id)
+    {
+        $autoModelo = $this->model('Modeloauto');
+        $user_id = $this->session->get('id');
+        $viajeModelo = $this->model('Modeloviajes');
+        $viaje = $viajeModelo->getViaje($id);
+        $auto = $autoModelo->getAuto($viaje->auto_id);
+        if ($viaje->conductor_id == $user_id){
+            $usuarioModelo = $this->model('Usuario');
+            $pasajeros = $viajeModelo->getPasajero($id);
+            $cantPasajero = $viajeModelo;
+            $datos = ['mensaje' => '',
+                'boton'=>'',
+                'auto' => $auto,
+                'viaje' => $viaje,
+                'pasajeros'=> $pasajeros
+            ];
 
+        }
+        else {
+            $usuario = $this->model('Usuario');
+            $conductor = $usuario->getById($viaje->conductor_id);
+            if ($viajeModelo->estaEnPasajero($id,$user_id)) {
+                $boton='';
+            }
+            else{$boton = "<a id='anotar-". $viaje->id . "' onClick='Anotarse(".$viaje->id .")'><button>Anotarse</button></a>";};
+            $datos = ['mensaje' => '',
+                'boton'=>$boton,
+                'auto' => $auto,
+                'viaje' => $viaje,
+                'conductor'=> $conductor
+        ];
+        };
+        $this->view('viaje/muro', $datos);
+    }
 }

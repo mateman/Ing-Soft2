@@ -1,44 +1,53 @@
 <?php
 
-// 288 lineas de codigo
+// 366 lineas de codigo
+// 244 lineas
 
 class Userinterface extends Controller {
 
-    public function __construct() 
-    {
+    public function __construct() {
         $this->session = new Session();
         $this->session->init();
         if($this->session->getStatus() === 1 || empty($this->session->get('id')))
           exit('Acceso denegado');
-        
     }
 
-    public function index() {
+    private function datosUsuario() {
         $usuarioModelo = $this->model('Usuario');
         $user_id = $this->session->get('id');
-        $usuario = $usuarioModelo->getById($user_id);
-
-        $datos = [
-            'nombreusuario' => $usuario->nombreusuario
-        ];
-        
-        $this->view('userinterface/index', $datos );
-    
+        return $usuarioModelo->getById($user_id);
     }
+
+    /**
+     *
+     */
+
+    public function index() {
+        $usuario = $this->datosUsuario();
+        $this->allViajes('Hola '.$usuario->nombreusuario.', Bienvenido!');
+
+    }
+
+    public function allViajes($mensaje) {
+        $viajemodelo = $this->model('Modeloviajes');
+        $cantViajes = $viajemodelo->getAllCantidadViajes();
+        $viajes = $viajemodelo->getAllViajes();
+        $datos = [
+                         'mensaje' => $mensaje,
+                         'cantViajes' => $cantViajes,
+                         'viajes' => $viajes
+        ];
+        $this->view('userinterface/index', $datos );
+    }
+
     public function logout() {
         $this->session->close();
         $url = RUTA_URL;
-         header('location:'.$url);
-    
-    
+        header('location:'.$url);
     }
-  public function perfil() {
 
-      $usuarioModelo = $this->model('Usuario');
-        $user_id = $this->session->get('id');
-        $usuario = $usuarioModelo->getById($user_id);
-
-        $datos = [
+    private function datoVista($usuario) {
+       return $datos = [
             'nombreusuario' => $usuario->nombreusuario,
             'nombre' => $usuario->nombre,
             'apellido' => $usuario->apellido,
@@ -46,90 +55,41 @@ class Userinterface extends Controller {
             'provincia' => $usuario->provincia,
             'ciudad' => $usuario->ciudad,
             'email' => $usuario->email,
-            'imagenurl' => $usuario->imagen_url
-
+            'imagenurl' => $usuario->imagen_url,
+            'id' => $usuario->id,
+            'fechanac' =>$usuario->fechanac,
         ];
+       
+
+    }
+
+    public function perfil() {
+        $usuario = $this->datosUsuario();
+        $datos = $this->datoVista($usuario);
         $this->view('userinterface/perfil', $datos);
-    
     }
 
     public function modificarperfil() {
-        $usuarioModelo = $this->model('Usuario');
-        $user_id = $this->session->get('id');
-        $usuario = $usuarioModelo->getById($user_id);
-
-        $datos = [
-            'nombreusuario' => $usuario->nombreusuario,
-            'nombre' => $usuario->nombre,
-            'apellido' => $usuario->apellido,
-            'telefono' => $usuario->telefono,
-            'provincia' => $usuario->provincia,
-            'ciudad' => $usuario->ciudad,
-            'email' => $usuario->email,
-        
-            'fechanac' =>$usuario->fechanac,
-            
-            'id' => $usuario->id,
-            
-
-        ];
-       $this->view('userinterface/modificarperfil', $datos); 
+        $usuario = $this->datosUsuario();
+        $datos = $this->datoVista($usuario);
+        $this->view('userinterface/modificarperfil', $datos); 
     }
-
+    
     public function actualizarperfil() {
-        if (!(empty($_POST['email']))  and !(empty($_POST['provincia'])) and !(empty($_POST['apellido'])) and !(empty($_POST['telefono'])) and !(empty($_POST['nombre'])) and !(empty($_POST['ciudad']))) { 
-            $email =  $_POST['email'];
-            $provincia = $_POST['provincia'];
-            $apellido = $_POST['apellido'];
-            $telefono = $_POST['telefono'];
-            $nombre = $_POST['nombre'];
-            $ciudad = $_POST['ciudad'];
-            $email = $_POST['email'];
-            $nombreusuario = $_POST['nombreusuario'];
-
-            $usuarioModelo = $this->model('Usuario');
-            $user_id = $this->session->get('id');
-
-            $usuario = $usuarioModelo->userUpdate(
-                $email,
-                $provincia,
-                $apellido,
-                $telefono,
-                $nombre,
-                $ciudad,
-                $user_id,
-                $nombreusuario
-            );
-
-            $usuarioModelo = $this->model('Usuario');
-            $user_id = $this->session->get('id');
-            $usuario = $usuarioModelo->getById($user_id);
-     
-             $datos = [
-                 'nombreusuario' => $usuario->nombreusuario,
-                 'nombre' => $usuario->nombre,
-                 'apellido' => $usuario->apellido,
-                 'telefono' => $usuario->telefono,
-                 'provincia' => $usuario->provincia,
-                 'ciudad' => $usuario->ciudad,
-                 'email' => $usuario->email,
-                 'imagenurl' => $usuario->imagen_url,
-                 'mensaje' => 'Los datos han sido modificados exitosamente!'
-                 
-     
-            ];
-             $this->view('userinterface/perfil', $datos);
-       
-       
-       
-        } else {
-            $usuarioModelo = $this->model('Usuario');
-            $user_id = $this->session->get('id');
-            $usuario = $usuarioModelo->getById($user_id);
-            $datos = [
-                'mensaje' => 'Deben completarse todos los datos!',
-
-                ];
+       if (!(empty($_POST['email']))  and !(empty($_POST['provincia'])) and !(empty($_POST['apellido'])) and !(empty($_POST['telefono'])) and !(empty($_POST['nombre'])) and !(empty($_POST['ciudad']))) { 
+        
+            $usuarioModelo = $this->model('Usuario');   
+            $usuario = $usuarioModelo->userUpdate( $_POST['email'], $_POST['provincia'],
+                                                   $_POST['apellido'], $_POST['telefono'],
+                                                   $_POST['nombre'], $_POST['ciudad'],
+                                                   $this->session->get('id'));
+            $usuario = $this->datosUsuario();
+            $datos = $this->datoVista($usuario);
+            $this->view('userinterface/perfil', $datos);
+       } else {
+            $usuario = $this->datosUsuario();
+            $datos = $this->datoVista($usuario);
+            $datos['mensaje'] = 'Deben completarse todos los datos';
             $this->view('userinterface/modificarperfil', $datos);
             die();
             }
@@ -168,11 +128,15 @@ class Userinterface extends Controller {
         }
         
 
-    public function misautos (){
-        $usuarioModelo = $this->model('Usuario');
+   
+   
+   
+   
+        public function misautos (){
+        $autoModelo = $this->model('Modeloauto');
         $user_id = $this->session->get('id');
-        $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
-        $autos = $usuarioModelo->getAutos($user_id);
+        $cantAutos = $autoModelo->getCantidadAutos($user_id);
+        $autos = $autoModelo->getAutos($user_id);
 
          $datos = [
          'cantAutos' => $cantAutos,
@@ -182,155 +146,155 @@ class Userinterface extends Controller {
        $this->view('userinterface/misautos', $datos);  
     }
 
-     public function misviajes (){
+    public function misviajes () {
         $usuarioModelo = $this->model('Usuario');
         $user_id = $this->session->get('id');
-
-         $datos = [];
+        $viajemodelo = $this->model('Modeloviajes');
+        $cantViajes = $viajemodelo->getCantidadViajes($user_id);
+        $viajes = $viajemodelo->getViajes($user_id);
+         $datos = [
+             'cantViajes' => $cantViajes,
+             'viajes' => $viajes
+         ];
 
         $this->view('userinterface/misviajes', $datos);
     }  
-      public function modificarAuto ($id){
 
-        $usuarioModelo = $this->model('Usuario');
-        $auto = $usuarioModelo->getAuto($id);
-         $datos = [
-         'id' => $auto->id,
-         'patente' => $auto->patente,
-         'marca' => $auto->marca,
-         'modelo' => $auto->modelo,
-         'asientosdisp' => $auto->asientosdisp,
+    public function modificarAuto ($id) {
+        $autoModelo = $this->model('Modeloauto');
+        $auto = $autoModelo->getAuto($id);
+        $modeloViaje = $this->model('Modeloviajes');
+        if ($autoModelo->autolibre($id) == 0) {
+            $datos = [
+                'id' => $auto->id,
+                'patente' => $auto->patente,
+                'marca' => $auto->marca,
+                'modelo' => $auto->modelo,
+                'asientosdisp' => $auto->asientosdisp,
 
+            ];
+            $this->view('userinterface/modificarAuto', $datos);
+        }
+        else {
+            $datos =[ 'mensaje' =>'No se puede modificar el auto por encontrarse asociado a uno o mas viajes'];
+            $this->view('pages/error', $datos);
+        }
 
-                  ];
-
-       $this->view('userinterface/modificarAuto', $datos);  
     }
 
-    public function actualizarauto ($id){
-       
-    $usuarioModelo = $this->model('Usuario');
-
-    if (!(empty($_POST['patente'])) and !(empty($_POST['marca'])) and !(empty($_POST['asientosdisp'])) ){
+    public function actualizarauto ($id) {
+        $autoModelo = $this->model('Modeloauto');
+        if (!(empty($_POST['patente'])) and !(empty($_POST['marca'])) and !(empty($_POST['asientosdisp'])) ){
             $patente =  $_POST['patente'];
             $marca =  $_POST['marca'];
             $asientosdisp =  $_POST['asientosdisp'];
             $modelo = $_POST['modelo'];
-          
-
-       $actualizar = $usuarioModelo -> autoUpdate ($id, $patente, $marca, $asientosdisp, $modelo);
-        $usuarioModelo = $this->model('Usuario');
-        $auto = $usuarioModelo->getAuto($id);
-        $usuarioModelo = $this->model('Usuario');
-        $user_id = $this->session->get('id');
-        $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
-        $autos = $usuarioModelo->getAutos($user_id);
-
-
-        $datos =[
-            'mensaje' => 'La modificacion ha sido exitosa!',
-            'id' => $auto->id,
-         'patente' => $auto->patente,
-         'marca' => $auto->marca,
-         'asientosdisp' => $auto->asientosdisp,
-         'cantAutos' => $cantAutos,
-         'autos' => $autos
-        ];
+            $actualizar = $autoModelo -> autoUpdate ($id, $patente, $marca, $asientosdisp, $modelo);
+            $auto = $autoModelo->getAuto($id);
+            $user_id = $this->session->get('id');
+            $cantAutos = $autoModelo->getCantidadAutos($user_id);
+            $autos = $autoModelo->getAutos($user_id);
+            $datos =[
+                'mensaje' => 'La modificacion ha sido exitosa!',
+                'id' => $auto->id,
+                'patente' => $auto->patente,
+                'marca' => $auto->marca,
+                'asientosdisp' => $auto->asientosdisp,
+                'cantAutos' => $cantAutos,
+                'autos' => $autos
+                ];
         $this->view('userinterface/misautos', $datos);  
 
+        } else{
+                    $auto = $autoModelo->getAuto($id);
+
+                    $datos =[
+                        'mensaje' => 'Todos los campos deben estar completos!',
+                        'id' => $auto->id,
+                    'patente' => $auto->patente,
+                    'marca' => $auto->marca,
+                    'asientosdisp' => $auto->asientosdisp
+                    ];
+            $this->view('userinterface/modificarAuto', $datos);  
+
+        }
     }
-    else{
- $usuarioModelo = $this->model('Usuario');
-        $auto = $usuarioModelo->getAuto($id);
-
-        $datos =[
-            'mensaje' => 'Todos los campos deben estar completos!',
-            'id' => $auto->id,
-         'patente' => $auto->patente,
-         'marca' => $auto->marca,
-         'asientosdisp' => $auto->asientosdisp
-        ];
-$this->view('userinterface/modificarAuto', $datos);  
-
-    }
-    }
-
-
+    
     public function eliminarauto ($id){
-       
-    $usuarioModelo = $this->model('Usuario');
-    $eliminar = $usuarioModelo->autoEliminar($id);
-
-
-     $usuarioModelo = $this->model('Usuario');
-        $user_id = $this->session->get('id');
-        $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
-        $autos = $usuarioModelo->getAutos($user_id);
-
-         $datos = [
-         'cantAutos' => $cantAutos,
-         'autos' => $autos,
-         'mensaje' => 'El auto ha sido eliminado exitosamente'
-         ];
-
-       $this->view('userinterface/misautos', $datos); 
-
-
-}
-
-public function agregarauto (){
-       
+        $autoModelo = $this->model('Modeloauto');
+        if ($autoModelo->autolibre($id) == 0) {
+                $eliminar = $autoModelo->autoEliminar($id);
+                $user_id = $this->session->get('id');
+                $cantAutos = $autoModelo->getCantidadAutos($user_id);
+                $autos = $autoModelo->getAutos($user_id);
+                $datos = [
+                     'cantAutos' => $cantAutos,
+                     'autos' => $autos,
+                     'mensaje' => 'El auto ha sido eliminado exitosamente'
+                ];
+                $this->view('userinterface/misautos', $datos);
+        }
+        else {
+            $datos = ['mensaje' => 'No se puede eliminar el auto por encontrarse asociado a uno o mas viajes'];
+            $this->view('pages/error', $datos);}
+    }
+    
+    public function agregarauto (){
        $this->view('userinterface/agregarauto'); 
+    }
 
+    public function autoagregar () {
+        $autoModelo = $this->model('Modeloauto');
+        $user_id = $this->session->get('id');
+        if (!(empty($_POST['patente'])) and !(empty($_POST['marca'])) and !(empty($_POST['asientosdisp']))) {
+            $autoModelo->autoAgregar($_POST['patente'],$_POST['marca'], $_POST['asientosdisp'], $user_id,$_POST['modelo']);
+            $cantAutos = $autoModelo->getCantidadAutos($user_id);
+            $autos = $autoModelo->getAutos($user_id);
+            $datos = [
+                'cantAutos' => $cantAutos,
+                'autos' => $autos,
+                'mensaje' => 'El auto ha sido agregado exitosamente'
+                ];
+            $this->view('userinterface/misautos', $datos); 
+        } else {
+            $datos = [
+                        'mensaje' => 'Todos los campos deben estar completos'
+                ];
 
-}
+            $this->view('userinterface/agregarauto', $datos); 
+        }
+    }
+    public function updateImage() {
+        // datos de la imagen
+        $user_id = $this->session->get('id');
+        $image_name = $user_id;
+        //Para evitar tener muchos archivos de un usuario lo guardamos siempre con su nombre de id al archivo 
+        //$image_name =  $user_id . $_FILES['imagen']['name'] ;
+        $image_type = $_FILES['imagen']['type'];
+        $image_size = $_FILES['imagen']['size'];
+        $image_dir = RUTA_APP.'/../public/img/users/';
+        move_uploaded_file($_FILES['imagen']['tmp_name'], $image_dir.$image_name);
+        $usuarioModelo = $this->model('Usuario');
+        $usuario = $usuarioModelo->subirFoto($user_id, $image_name);
+        $url = RUTA_URL.'/userinterface/perfil';
+        header("Location:$url ");
 
-public function autoagregar (){
-         $usuarioModelo = $this->model('Usuario');
-          $user_id = $this->session->get('id');
-         if (!(empty($_POST['patente'])) and !(empty($_POST['marca'])) and !(empty($_POST['asientosdisp'])) ){
-            $patente =  $_POST['patente'];
-            $marca =  $_POST['marca'];
-            $asientosdisp =  $_POST['asientosdisp'];
-            $modelo_auto = $_POST['modelo'];
-
-
-    $agregar = $usuarioModelo->autoAgregar($patente, $marca, $asientosdisp, $user_id,$modelo_auto);
-
-  $cantAutos = $usuarioModelo->getCantidadAutos($user_id);
-        $autos = $usuarioModelo->getAutos($user_id);
-       $datos = [
-         'cantAutos' => $cantAutos,
-         'autos' => $autos,
-         'mensaje' => 'El auto ha sido agregado exitosamente'
-         ];
-
-       $this->view('userinterface/misautos', $datos); 
-
-
-}
-else{
-      $datos = [
-                 'mensaje' => 'Todos los campos deben estar completos'
-         ];
-
-     $this->view('userinterface/agregarauto', $datos); 
-}
-}
-public function updateImage() {
-    // datos de la imagen
-    $user_id = $this->session->get('id');
-    $image_name =  $user_id . $_FILES['imagen']['name'] ;
-    $image_type = $_FILES['imagen']['type'];
-    $image_size = $_FILES['imagen']['size'];
-    $image_dir = $_SERVER["DOCUMENT_ROOT"] . "/mvcfinal/public/img/users/";
-   
-    move_uploaded_file($_FILES['imagen']['tmp_name'], $image_dir.$image_name);
-    $usuarioModelo = $this->model('Usuario');
-   $usuario = $usuarioModelo->subirFoto($user_id, $image_name);
-    $url = RUTA_URL.'/userinterface/perfil';
-   header("Location:$url ");
-
-}
+    }
+    public function listarInfo(){
+        $idviaje = $_POST['listar'];
+        echo("<TD>Hola este el viaje".$idviaje."</TD> ");
+    }
+    public function anotarse(){
+        $user_id = $this->session->get('id');
+        $viajemodelo = $this->model('Modeloviajes');
+        $automodelo = $this->model('Modeloauto');
+        $idviaje = $_POST['anotarse'];
+        if (!($viajemodelo->estaEnPasajero($idviaje,$user_id)) and ($viajemodelo->getCantidadPasajeroAceptados($idviaje)< ($automodelo->getAuto(($viajemodelo->getViaje($idviaje))->auto_id))->asientosdisp))
+        {
+         $viajemodelo->anotarPasajero($idviaje,$user_id);
+         echo("Anotado");
+        }
+        else{echo("Rechazado");}
+    }
  
 }

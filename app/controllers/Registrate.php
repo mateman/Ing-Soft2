@@ -45,7 +45,15 @@ class Registrate extends Controller {
         $usuario = $usuarioModelo->mailExist($email);
         if($usuario) {
             $datos = [
-                'err' => 'mail registrado'
+                'err' => 'mail registrado',
+                'nombre' => $nombre,
+                'apellido' => $apellido,
+                'fechanac' => $fechanac,
+                'telefono' => $telefono,
+                'nombreusuario' => $nombreusuario,
+                'ciudad' => $ciudad,
+                'email' => $email,
+                'provincia' => $provincia
             ];
             $this->view('registrate/index', $datos);
             die();
@@ -54,7 +62,15 @@ class Registrate extends Controller {
        
         if($usuario) {
             $datos = [
-                'err' => 'usuario  registrado'
+                'err' => 'usuario  registrado',
+                 'nombre' => $nombre,
+                'apellido' => $apellido,
+                'fechanac' => $fechanac,
+                'telefono' => $telefono,
+                'nombreusuario' => $nombreusuario,
+                'ciudad' => $ciudad,
+                'email' => $email,
+                'provincia' => $provincia
             ];
             $this->view('registrate/index', $datos);
             die();
@@ -62,7 +78,15 @@ class Registrate extends Controller {
        
         if($contrasena != $contrasena2) {
             $datos = [
-                'err' => 'contrasenas no son iguales'
+                'err' => 'contrasenas no son iguales',
+                 'nombre' => $nombre,
+                'apellido' => $apellido,
+                'fechanac' => $fechanac,
+                'telefono' => $telefono,
+                'nombreusuario' => $nombreusuario,
+                'ciudad' => $ciudad,
+                'email' => $email,
+                'provincia' => $provincia
             ];
             $this->view('registrate/index', $datos);
             die();

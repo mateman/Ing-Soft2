@@ -29,8 +29,14 @@
     <a href="<?php echo RUTA_URL; ?>/userinterface/actualizarcontrasena" type="button" class="btn btn-success">Modificar contraseña</a>
     
     <hr>
-    <p><img class="img-perfil"src="<?php echo RUTA_URL . '/public/img/users/'. $datos['imagenurl'] ?>">
-    
+    <?php
+    $im = file_get_contents(RUTA_APP.'/../public/img/users/'. $datos['imagenurl']);
+    $imdata = base64_encode($im);
+    echo "<p><img class=\"img-perfil\" src='data:image/jpg;base64,".$imdata."' />";
+    /*     <p><img class="img-perfil"src="<?php echo RUTA_URL . '/public/img/users/'. $datos['imagenurl'] ?>">
+    */
+    ?>
+
     <form enctype="multipart/form-data" action="<?php echo RUTA_URL; ?>/userinterface/updateimage" method="POST">
 <input name="imagen" type="file" size=20/>
 <input type="submit" value="Subir archivo" />

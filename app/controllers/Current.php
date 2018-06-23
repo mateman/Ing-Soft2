@@ -17,10 +17,10 @@ class Current extends Controller {
     public function login() {
 
        if (isset($_POST) and !(empty($_POST))) {
-            if (!(is_null($_POST['email'])) and !(is_null($_POST['password']))) {
-                $email =  $_POST['email'];
+            if (!(is_null($_POST['nombreusuario'])) and !(is_null($_POST['password']))) {
+                $nombreusuario =  $_POST['nombreusuario'];
                 $contrasena =  $_POST['password'];
-                $usuario =$this->usuarioModelo->login($email,$contrasena);
+                $usuario =$this->usuarioModelo->login($nombreusuario,$contrasena);
                
                 if ($usuario) {
                     $this->session->init();
@@ -29,7 +29,7 @@ class Current extends Controller {
                     $url = RUTA_URL.'/userinterface';
                     echo $url;
                     header('location:'.$url);
-                    
+
                 } else {
                     $datos=['datos_err' => "los datos son incorrectos"];
         

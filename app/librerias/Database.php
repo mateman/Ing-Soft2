@@ -48,8 +48,14 @@ class Database {
         $this->stmt->bindValue($parametro, $valor, $tipo);
      }
      public function execute() {
-        
          return $this->stmt->execute();
+     }
+     public function exec_id($sql){
+        $this->dbh->exec($sql);
+        return $this->dbh->lastInsertId();
+     }
+     public function getLastInsertId() {
+        return $this->dbh->lastInsertId();
      }
      public function registros() {
         $this->execute();

@@ -17,6 +17,7 @@ class Userinterface extends Controller {
         $user_id = $this->session->get('id');
         return $usuarioModelo->getById($user_id);
     }
+<<<<<<< HEAD
 
     /**
      *
@@ -29,14 +30,30 @@ class Userinterface extends Controller {
     }
 
     public function allViajes($mensaje) {
+=======
+
+    /**
+     *
+     */
+
+    public function index() {
+>>>>>>> 63b3660dda8ed5f182d35f1988fd307848cebfa6
         $viajemodelo = $this->model('Modeloviajes');
         $cantViajes = $viajemodelo->getAllCantidadViajes();
         $viajes = $viajemodelo->getAllViajes();
         $datos = [
+<<<<<<< HEAD
                          'mensaje' => $mensaje,
                          'cantViajes' => $cantViajes,
                          'viajes' => $viajes
         ];
+=======
+            'mensaje' => '',
+            'cantViajes' => $cantViajes,
+            'viajes' => $viajes
+        ];
+
+>>>>>>> 63b3660dda8ed5f182d35f1988fd307848cebfa6
         $this->view('userinterface/index', $datos );
     }
 
@@ -204,6 +221,7 @@ class Userinterface extends Controller {
                 'autos' => $autos
                 ];
         $this->view('userinterface/misautos', $datos);  
+<<<<<<< HEAD
 
         } else{
                     $auto = $autoModelo->getAuto($id);
@@ -239,6 +257,43 @@ class Userinterface extends Controller {
             $this->view('pages/error', $datos);}
     }
     
+=======
+
+        } else{
+                    $auto = $autoModelo->getAuto($id);
+
+                    $datos =[
+                        'mensaje' => 'Todos los campos deben estar completos!',
+                        'id' => $auto->id,
+                    'patente' => $auto->patente,
+                    'marca' => $auto->marca,
+                    'asientosdisp' => $auto->asientosdisp
+                    ];
+            $this->view('userinterface/modificarAuto', $datos);  
+
+        }
+    }
+    
+    public function eliminarauto ($id){
+        $autoModelo = $this->model('Modeloauto');
+        if ($autoModelo->autolibre($id) == 0) {
+                $eliminar = $autoModelo->autoEliminar($id);
+                $user_id = $this->session->get('id');
+                $cantAutos = $autoModelo->getCantidadAutos($user_id);
+                $autos = $autoModelo->getAutos($user_id);
+                $datos = [
+                     'cantAutos' => $cantAutos,
+                     'autos' => $autos,
+                     'mensaje' => 'El auto ha sido eliminado exitosamente'
+                ];
+                $this->view('userinterface/misautos', $datos);
+        }
+        else {
+            $datos = ['mensaje' => 'No se puede eliminar el auto por encontrarse asociado a uno o mas viajes'];
+            $this->view('pages/error', $datos);}
+    }
+    
+>>>>>>> 63b3660dda8ed5f182d35f1988fd307848cebfa6
     public function agregarauto (){
        $this->view('userinterface/agregarauto'); 
     }

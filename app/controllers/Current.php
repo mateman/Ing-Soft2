@@ -26,10 +26,25 @@ class Current extends Controller {
                     $this->session->init();
                     $this->session->add('id', $usuario->id);
                     
-                    $url = RUTA_URL.'/userinterface';
+/*                    $url = RUTA_URL.'/userinterface';
                     echo $url;
                     header('location:'.$url);
+<<<<<<< HEAD
 
+=======
+*/
+
+                    $viajemodelo = $this->model('Modeloviajes');
+                    $cantViajes = $viajemodelo->getAllCantidadViajes();
+                    $viajes = $viajemodelo->getAllViajes();
+                    $datos = [
+                        'mensaje' => 'Hola '.$nombreusuario.', Bienvenido!',
+                        'cantViajes' => $cantViajes,
+                        'viajes' => $viajes
+                    ];
+
+                    $this->view('userinterface/index', $datos );
+>>>>>>> 63b3660dda8ed5f182d35f1988fd307848cebfa6
                 } else {
                     $datos=['datos_err' => "los datos son incorrectos"];
         

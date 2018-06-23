@@ -1,5 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<<<<<<< HEAD
     <a class="navbar-brand" href="<?php echo RUTA_URL; ?>/userinterface/allViajes/%20">
+=======
+    <a class="navbar-brand" href="<?php echo RUTA_URL; ?>/userinterface/">
+>>>>>>> 63b3660dda8ed5f182d35f1988fd307848cebfa6
         <img src="<?php echo RUTA_URL;?>/public/img/Logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
         Un aventon
       </a>

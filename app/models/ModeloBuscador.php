@@ -16,6 +16,11 @@
         return $this->db->registros();
   
     }
+    public function ConsultaSqlArmada($sql) {
+        $this->db->query($sql);
+        return $this->db->registros();
+
+    }
 
     /*
     public function getViajes($salidadesde, $salidahasta, $llegadadesde, $llegadahasta, $origen, $destino) {

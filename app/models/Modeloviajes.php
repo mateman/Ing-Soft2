@@ -104,13 +104,15 @@
      }
 
      public function anotarPasajero($id_viaje,$id_user){
-         $this->db->query("
+        
+             $this->db->query("
 
         INSERT INTO `pasajero` (`usuario_id`, `viaje_id`,`estado`, `calificacion_pasajero`,`calificacion_conductor`, `comentario_conductor`, `borrado_logico`) VALUES ('$id_user', '$id_viaje','0', '0', '0','','0');
         
         ");
-         //return "SELECT * FROM usuario WHERE email = '$username'";
-         return $this->db->execute();
+             //return "SELECT * FROM usuario WHERE email = '$username'";
+             return $this->db->execute();
+         
 
      }
 
@@ -136,6 +138,18 @@
          $this->db->query("SELECT * FROM viaje v WHERE auto_id='$id_auto' AND id<>'$id_viaje' AND (('$fechayhorasalida'  BETWEEN horasalida and horallegada) OR ('$fechayhorallegada'  BETWEEN horasalida and horallegada)) AND borrado_logico='0'");
          return $this->db->registrorowCount();
      }
+
+     public function ViajesComoPasajero($id) {
+         $sql = "     select * from viaje
+         INNER JOIN pasajero WHERE pasajero.viaje_id= viaje.id
+         AND pasajero.usuario_id = '$id'";
+         
+        $this->db->query($sql);
+        return $this->db->registros();
+       //return $sql;
+    }
+
+
 
 
  }

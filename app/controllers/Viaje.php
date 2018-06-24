@@ -282,30 +282,39 @@ class Viaje extends Controller
         $viajeModelo = $this->model('Modeloviajes');
         $viaje = $viajeModelo->getViaje($id);
         $auto = $autoModelo->getAuto($viaje->auto_id);
+        $usuario = $this->model('Usuario');
+        $conductor = $usuario->getById($viaje->conductor_id);
+       
         if ($viaje->conductor_id == $user_id){
             $usuarioModelo = $this->model('Usuario');
             $pasajeros = $viajeModelo->getPasajero($id);
             $cantPasajero = $viajeModelo;
-            $datos = ['mensaje' => '',
-                'boton'=>'',
-                'auto' => $auto,
-                'viaje' => $viaje,
-                'pasajeros'=> $pasajeros
+            $datos = [  'mensaje' => 'Sos el Conductor de este viaje',
+                        'conductor' => $conductor,
+                        'rol'=> 'conductor',
+                        'anotarse'=>'0', // Ver esto
+                        'auto' => $auto, // Datos relacionados al auto 
+                        'viaje' => $viaje, // Datos del viaje
+                        'pasajeros'=> $pasajeros, // Ver esto
+                        'path'=>'userinterface/allViajes/%20' // ver Esto
             ];
 
         }
         else {
+            // ESTO ESPARA TODAS LAS PERSONAS
             $usuario = $this->model('Usuario');
             $conductor = $usuario->getById($viaje->conductor_id);
             if ($viajeModelo->estaEnPasajero($id,$user_id)) {
-                $boton='';
+                $anotarse='0';
             }
-            else{$boton = "<a id='anotar-". $viaje->id . "' onClick='Anotarse(".$viaje->id .")'><button>Anotarse</button></a>";};
+            else{$anotarse = '1';};
             $datos = ['mensaje' => '',
-                'boton'=>$boton,
+                'anotarse'=>$anotarse,
+                'rol'=> 'publico',
                 'auto' => $auto,
                 'viaje' => $viaje,
-                'conductor'=> $conductor
+                'conductor'=> $conductor,
+                'path'=>'userinterface/allViajes/%20'
         ];
         };
         $this->view('viaje/muro', $datos);

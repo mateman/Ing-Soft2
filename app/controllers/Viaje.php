@@ -287,10 +287,11 @@ class Viaje extends Controller
             $pasajeros = $viajeModelo->getPasajero($id);
             $cantPasajero = $viajeModelo;
             $datos = ['mensaje' => '',
-                'boton'=>'',
+                'anotarse'=>'0',
                 'auto' => $auto,
                 'viaje' => $viaje,
-                'pasajeros'=> $pasajeros
+                'pasajeros'=> $pasajeros,
+                'path'=>'userinterface/allViajes/%20'
             ];
 
         }
@@ -298,14 +299,15 @@ class Viaje extends Controller
             $usuario = $this->model('Usuario');
             $conductor = $usuario->getById($viaje->conductor_id);
             if ($viajeModelo->estaEnPasajero($id,$user_id)) {
-                $boton='';
+                $anotarse='0';
             }
-            else{$boton = "<a id='anotar-". $viaje->id . "' onClick='Anotarse(".$viaje->id .")'><button>Anotarse</button></a>";};
+            else{$anotarse = '1';};
             $datos = ['mensaje' => '',
-                'boton'=>$boton,
+                'anotarse'=>$anotarse,
                 'auto' => $auto,
                 'viaje' => $viaje,
-                'conductor'=> $conductor
+                'conductor'=> $conductor,
+                'path'=>'userinterface/allViajes/%20'
         ];
         };
         $this->view('viaje/muro', $datos);

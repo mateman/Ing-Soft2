@@ -23,15 +23,20 @@ class Userinterface extends Controller {
      */
 
     public function index() {
+        $usuario = $this->datosUsuario();
+        $this->allViajes('Hola '.$usuario->nombreusuario.', Bienvenido!');
+
+    }
+
+    public function allViajes($mensaje) {
         $viajemodelo = $this->model('Modeloviajes');
         $cantViajes = $viajemodelo->getAllCantidadViajes();
         $viajes = $viajemodelo->getAllViajes();
         $datos = [
-            'mensaje' => '',
-            'cantViajes' => $cantViajes,
-            'viajes' => $viajes
+                         'mensaje' => $mensaje,
+                         'cantViajes' => $cantViajes,
+                         'viajes' => $viajes
         ];
-
         $this->view('userinterface/index', $datos );
     }
 
@@ -284,7 +289,9 @@ class Userinterface extends Controller {
         $viajemodelo = $this->model('Modeloviajes');
         $automodelo = $this->model('Modeloauto');
         $idviaje = $_POST['anotarse'];
-        if (!($viajemodelo->estaEnPasajero($idviaje,$user_id)) and ($viajemodelo->getCantidadPasajeroAceptados($idviaje)< ($automodelo->getAuto(($viajemodelo->getViaje($idviaje))->auto_id))->asientosdisp))
+        if (!($viajemodelo->estaEnPasajero($idviaje,$user_id)) 
+        and 
+        ($viajemodelo->getCantidadPasajeroAceptados($idviaje)< ($automodelo->getAuto(($viajemodelo->getViaje($idviaje)->auto_id))->asientosdisp)))
         {
          $viajemodelo->anotarPasajero($idviaje,$user_id);
          echo("Anotado");

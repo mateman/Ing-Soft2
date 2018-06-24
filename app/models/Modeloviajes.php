@@ -104,13 +104,16 @@
      }
 
      public function anotarPasajero($id_viaje,$id_user){
-         $this->db->query("
+       
+ 
+             $this->db->query("
 
         INSERT INTO `pasajero` (`usuario_id`, `viaje_id`,`estado`, `calificacion_pasajero`,`calificacion_conductor`, `comentario_conductor`, `borrado_logico`) VALUES ('$id_user', '$id_viaje','0', '0', '0','','0');
         
         ");
-         //return "SELECT * FROM usuario WHERE email = '$username'";
-         return $this->db->execute();
+             //return "SELECT * FROM usuario WHERE email = '$username'";
+             return $this->db->execute();
+         
 
      }
 

@@ -1,14 +1,18 @@
 <?php require RUTA_APP.'/views/includes/header.php'; ?>
 
 <?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
-<?php echo($datos['boton']) ?><br>
+<?php if ($datos['anotarse'] =='1'){echo "<a id='anotar-". ($datos['viaje']->id) . "' onClick='Anotarse(".($datos['viaje']->id).")'><button>Anotarse</button></a>";} ?><br>
 <?php echo($datos['viaje']->origen) ?><br>
 <?php echo($datos['viaje']->horasalida) ?><br>
 <?php echo($datos['viaje']->destino); ?><br>
 <?php echo($datos['viaje']->horallegada); ?><br>
 <?php echo($datos['viaje']->descripcion); ?><br>
 <?php echo($datos['viaje']->costo); ?><br>
-
+<?php echo($datos['auto']->marca); ?><br>
+<?php echo($datos['auto']->modelo); ?><br>
+<?php echo($datos['auto']->asientosdisp); ?><br>
+<?php if(isset($datos['conductor'])){echo($datos['conductor']->nombreusuario);} ?><br>
+<?php echo ('<a href="'. RUTA_URL.'/'.$datos['path'].'">Volver </a>'); ?>
 <script>
     var lista = nuevoAjax();
 
@@ -31,7 +35,7 @@
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     function Anotarse(idviaje) {
-        lista.open("POST", "./anotarse", true);
+        lista.open("POST", "<?php echo RUTA_URL; ?>/userinterface/anotarse/"+idviaje, true);
         lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         lista.send("anotarse= " + idviaje);
         lista.onreadystatechange = function () {

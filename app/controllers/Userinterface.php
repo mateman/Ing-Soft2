@@ -168,7 +168,7 @@ class Userinterface extends Controller {
          $datos = [
              'viajes' => $viajes
          ];
-         var_dump($datos);
+         //var_dump($datos);
          //echo $viajes;
          //var_dump($datos);
 

@@ -48,6 +48,58 @@
     </table>
 </div>
 
+<script>
+    var lista = nuevoAjax();
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    function nuevoAjax(){
+        var xmlhttp=false;
+        try{
+            xmlhttp=new ActiveXObject("Msxml2.XMLHTTP");
+        }catch(e){
+            try{
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }catch(E){
+                if (!xmlhttp && typeof XMLHttpRequest!='undefined') xmlhttp=new XMLHttpRequest();
+            };
+        };
+        return xmlhttp;
+    };
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    function MostrarDatos(idviaje) {
+        if (document.getElementById('tr-' + idviaje).style.visibility === 'hidden') {
+            lista.open("POST", "./listarInfo", true);
+            lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lista.send("listar= " + idviaje);
+            lista.onreadystatechange = function () {
+                if (lista.readyState == 4) {
+                    document.getElementById('tr-' + idviaje).innerHTML = lista.responseText;
+                    document.getElementById('tr-' + idviaje).style.visibility= 'visible';
+                }
+            }
+        } else {
+            document.getElementById('tr-' + idviaje).style.visibility = 'hidden';
+        }
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    function Anotarse(idviaje) {
+            lista.open("POST", "./anotarse", true);
+            lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lista.send("anotarse= " + idviaje);
+            lista.onreadystatechange = function () {
+                if (lista.readyState == 4) {
+                    if (lista.responseText == "Rechazado"){alert("Se rechazo la postulacion");};
+                    document.getElementById('anotar-' + idviaje).style.visibility= 'hidden';
+                }
+            }
+    }
+    //------------------------------------------------------------------------------------------------------------------------------
+</script>
+
 <?php require RUTA_APP.'/views/includes/footer.php'; ?>
 
 

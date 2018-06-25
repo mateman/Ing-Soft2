@@ -89,9 +89,39 @@
       {
           echo "<a id='anotar-". ($datos['viaje']->id) . "' onClick='Anotarse(".($datos['viaje']->id).")' style='visibility: hidden'><button>Anotarse</button></a>";
           echo "<a id='borrar-". ($datos['viaje']->id) . "' onClick='Borrarse(".($datos['viaje']->id).")'><button>Darse de Baja</button></a>";}
-      else {}
+      elseif ($datos['estado'] =='3'){?>
+      <div class="container">
+  <h2>Listado de Pasajeros</h2>
+        <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Estado</th>
+        <th>Calificacion</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($datos['pasajeros'] as $pasajero){ ?>
+    <tr>
+        <td><?php echo ($pasajero->nombre); ?></td>
+        <td><?php echo ($pasajero->apellido); ?></td>
+        <td><?php if($pasajero->estado == 0){ echo"Postulado";}elseif ($pasajero->estado == 1) {
+            echo "Aceptado";
+        }; ?></td>
+        <td><?php echo ($pasajero->calificacion_pasajero); ?></td> 
+           </tr>
+           </tbody>
+       
+          
+             </table>
+             </div>
+        <?php } }?>
+        
+      
 
-?><br>
+<br>
 
 <?php echo ('<a href="'. RUTA_URL.'/'.$datos['path'].'">Volver </a>'); ?>
 

@@ -94,7 +94,7 @@
      }
 
      public function getPasajero($id) {
-         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id' AND borrado_logico='0'");
+         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0'");
          return $this->db->registros();
      }
 

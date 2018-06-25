@@ -284,8 +284,11 @@ class Viaje extends Controller
         $auto = $autoModelo->getAuto($viaje->auto_id);
         $usuario = $this->model('Usuario');
         $conductor = $usuario->getById($viaje->conductor_id);
-       
-        if ($viaje->conductor_id == $user_id){
+        $fecha_actual = date("Y-m-d H:i:s", time());
+        $fechayhorallegada = date("Y-m-d H:i:s", strtotime($viaje->horasalida));
+        $fechayhorasalida = date("Y-m-d H:i:s", strtotime($viaje->horallegada));
+        if ($fecha_actual<$fechayhorasalida){
+            if ($viaje->conductor_id == $user_id){
             $pasajeros = $viajeModelo->getPasajero($id);
             $datos = [  'mensaje' => 'Sos el Conductor de este viaje',
                         'conductor' => $conductor,
@@ -297,24 +300,25 @@ class Viaje extends Controller
                         'path'=>'userinterface/allViajes/%20' // ver Esto
             ];
 
-        }
-        else {
-            // ESTO ESPARA TODAS LAS PERSONAS
-            $usuario = $this->model('Usuario');
-            $conductor = $usuario->getById($viaje->conductor_id);
-            if ($viajeModelo->estaEnPasajero($id,$user_id)) {
-                $estado='1';
             }
-            else{$estado = '0';};
-            $datos = ['mensaje' => '',
+            else {
+            // ESTO ESPARA TODAS LAS PERSONAS
+                $usuario = $this->model('Usuario');
+                $conductor = $usuario->getById($viaje->conductor_id);
+                if ($viajeModelo->estaEnPasajero($id,$user_id)) {$estado='1';}
+                else{$estado = '0';};
+                $datos = ['mensaje' => '',
                 'estado'=>$estado,
                 'rol'=> 'publico',
                 'auto' => $auto,
                 'viaje' => $viaje,
                 'conductor'=> $conductor,
                 'path'=>'userinterface/allViajes/%20'
-        ];
-        };
-        $this->view('viaje/muro', $datos);
+                ];
+            };
+            $this->view('viaje/muro', $datos);
+        }
+        elseif ($fecha_actual>$fechayhorallegada){}
+        else{};
     }
 }

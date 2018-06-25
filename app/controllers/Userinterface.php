@@ -30,8 +30,8 @@ class Userinterface extends Controller {
 
     public function allViajes($mensaje) {
         $viajemodelo = $this->model('Modeloviajes');
-        $cantViajes = $viajemodelo->getAllCantidadViajes();
-        $viajes = $viajemodelo->getAllViajes();
+        $cantViajes = $viajemodelo->getAllCantidadViajesFechaActual();
+        $viajes = $viajemodelo->getAllViajesFechaActual();
         $datos = [
                          'mensaje' => $mensaje,
                          'cantViajes' => $cantViajes,

@@ -158,6 +158,17 @@
          return $this->db->registrorowCount();
      }
 
+        public function getAllCantidadViajesFechaActual()
+     {
+         $this->db->query("SELECT * FROM viaje WHERE borrado_logico='0' AND horasalida > NOW() ORDER BY horasalida");
+         return $this->db->registrorowCount();
+     }
+
+      public function getAllViajesFechaActual() {
+   $this->db->query("SELECT * FROM viaje WHERE borrado_logico='0' AND horasalida > NOW() ORDER BY horasalida");
+         return $this->db->registros();
+     }
+
          public function getViaje($idViaje){
          $this->db->query("SELECT * FROM viaje WHERE id='$idViaje' AND borrado_logico='0'");
          return $this->db->registro();

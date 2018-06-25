@@ -112,12 +112,12 @@
         }; ?></td>
         <td><?php echo ($pasajero->calificacion_pasajero); ?></td> 
            </tr>
-           </tbody>
+              
+        <?php } ?> </tbody>
        
           
              </table>
-             </div>
-        <?php } }?>
+             </div><?php }?>
         
       
 

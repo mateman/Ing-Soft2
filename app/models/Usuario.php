@@ -126,7 +126,7 @@
     }
 
     public function restarPuntos($id,$puntos){
-        $this->db->query( "UPDATE tabla SET puntos = puntos +$puntos  WHERE id='$id'AND borrado_logico='0';");
+        $this->db->query( "UPDATE tabla SET puntos = puntos -$puntos  WHERE id='$id'AND borrado_logico='0';");
         return $this->db->execute();
     }
 

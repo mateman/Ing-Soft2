@@ -103,17 +103,48 @@
          return ($this->db->registrorowCount() != 0);
      }
 
-     public function anotarPasajero($id_viaje,$id_user){
-        
-             $this->db->query("
+     public function anotarPasajero($id_viaje,$id_user)
+     {
+         $viaje = $this->getViaje($id_viaje);
+         if (!(($this->estaEnPasajero($id_viaje, $id_user)) OR ($viaje->conductor_id == $id_user)) AND ($viaje->borrado_logico == '0')) {
 
-        INSERT INTO `pasajero` (`usuario_id`, `viaje_id`,`estado`, `calificacion_pasajero`,`calificacion_conductor`, `comentario_conductor`, `borrado_logico`) VALUES ('$id_user', '$id_viaje','0', '0', '0','','0');
-        
-        ");
-             //return "SELECT * FROM usuario WHERE email = '$username'";
+            $this->db->query("INSERT INTO `pasajero` (`usuario_id`, `viaje_id`,`estado`, `calificacion_pasajero`,`calificacion_conductor`, `comentario_conductor`, `borrado_logico`) VALUES ('$id_user', '$id_viaje','0', '0', '0','','0');");
+            return $this->db->execute();
+         }
+     }
+
+     public function aceptarPasajero($id_viaje,$id_user)
+     {
+         $viaje = $this->getViaje($id_viaje);
+         if ($this->estaEnPasajero($id_viaje, $id_user) AND ($viaje->conductor_id != $id_user) AND ($viaje->borrado_logico =='0') )
+         {
+
+             $this->db->query("UPDATE `pasajero` SET estado='1' WHERE usuario_id='$id_user' AND viaje_id='$id_viaje'");
              return $this->db->execute();
-         
+         }
+     }
 
+     public function rechazarPasajero($id_viaje,$id_user)
+     {
+         $viaje = $this->getViaje($id_viaje);
+         if ($this->estaEnPasajero($id_viaje, $id_user) AND ($viaje->conductor_id != $id_user) AND ($viaje->borrado_logico =='0') )
+         {
+
+             $this->db->query("UPDATE `pasajero` SET estado='2' WHERE usuario_id='$id_user' AND viaje_id='$id_viaje'");
+             return $this->db->execute();
+         }
+     }
+
+     public function eliminarPasajero($id_viaje,$id_user)
+     {
+         $pasajero = $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id_viaje' AND usuario_id='$id_user' AND borrado_logico='0'");
+
+         if ( $this->estaEnPasajero($id_viaje,$id_user) AND (0 == $pasajero->estado))
+             {
+             $this->db->query(" DELETE FROM `pasajero` WHERE viaje_id='$id_viaje' AND usuario_id='$id_user'");
+             }
+             else {$this->db->query(" UPDATE `viaje` SET borrado_logico='1' WHERE viaje_id='$id_viaje' AND usuario_id='$id_user'");};
+         return $this->db->execute();
      }
 
      public function getAllViajes() {

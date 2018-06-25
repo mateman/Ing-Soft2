@@ -262,7 +262,7 @@ class Viaje extends Controller
         $user_id = $this->session->get('id');
         $viajeModelo = $this->model('Modeloviajes');
         if ($viajeModelo->getCantidadPasajeroAceptados($id) != 0){
-              $usuarioModelo->penalizar($user_id);
+              $usuarioModelo->restarPuntos($user_id);
           }
         $viajeModelo->eliminarViaje($id);
         $cantViajes = $viajeModelo->getCantidadViajes($user_id);
@@ -286,13 +286,11 @@ class Viaje extends Controller
         $conductor = $usuario->getById($viaje->conductor_id);
        
         if ($viaje->conductor_id == $user_id){
-            $usuarioModelo = $this->model('Usuario');
             $pasajeros = $viajeModelo->getPasajero($id);
-            $cantPasajero = $viajeModelo;
             $datos = [  'mensaje' => 'Sos el Conductor de este viaje',
                         'conductor' => $conductor,
                         'rol'=> 'conductor',
-                        'anotarse'=>'0', // Ver esto
+                        'estado'=>'3', // 3 para conductor, 2 para rechazado, 1 para anotado, 0 para anotarse
                         'auto' => $auto, // Datos relacionados al auto 
                         'viaje' => $viaje, // Datos del viaje
                         'pasajeros'=> $pasajeros, // Ver esto
@@ -305,11 +303,11 @@ class Viaje extends Controller
             $usuario = $this->model('Usuario');
             $conductor = $usuario->getById($viaje->conductor_id);
             if ($viajeModelo->estaEnPasajero($id,$user_id)) {
-                $anotarse='0';
+                $estado='1';
             }
-            else{$anotarse = '1';};
+            else{$estado = '0';};
             $datos = ['mensaje' => '',
-                'anotarse'=>$anotarse,
+                'estado'=>$estado,
                 'rol'=> 'publico',
                 'auto' => $auto,
                 'viaje' => $viaje,

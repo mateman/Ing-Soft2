@@ -57,8 +57,7 @@
 
             </td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/muro/ <?php echo($datos['viajes'][$i]->id); ?>"><button>Muro</button></a>
-            
+                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" ></a>
             </td>
 
         </tr>

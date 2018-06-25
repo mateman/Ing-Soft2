@@ -315,5 +315,36 @@ class Userinterface extends Controller {
         }
         else{echo("Rechazado");}
     }
+
+    public function eliminarPasajero(){
+        $user_id = $this->session->get('id');
+        $viajemodelo = $this->model('Modeloviajes');
+        $idviaje = $_POST['eliminarse'];
+        if ($viajemodelo->estaEnPasajero($idviaje,$user_id))
+        {
+            $viajemodelo->eliminarPasajero($idviaje,$user_id);
+            echo("Borrado");
+        }
+        else{echo("Rechazado");}
+    }
+
+
+    public function aceptar(){
+        $user_id = $this->session->get('id');
+        $viajemodelo = $this->model('Modeloviajes');
+        $automodelo = $this->model('Modeloauto');
+        $idviaje = $_POST['anotarse'];
+        if (!($viajemodelo->estaEnPasajero($idviaje,$user_id))
+            and
+            ($viajemodelo->getCantidadPasajeroAceptados($idviaje) <
+                ($automodelo->getAuto(($viajemodelo->getViaje($idviaje)->auto_id))->asientosdisp)))
+
+        {
+            $viajemodelo->anotarPasajero($idviaje,$user_id);
+            echo("Anotado");
+        }
+        else{echo("Rechazado");}
+
+    }
  
 }

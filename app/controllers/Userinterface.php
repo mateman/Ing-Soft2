@@ -18,10 +18,6 @@ class Userinterface extends Controller {
         return $usuarioModelo->getById($user_id);
     }
 
-    /**
-     *
-     */
-
     public function index() {
         $usuario = $this->datosUsuario();
         $this->allViajes('Hola '.$usuario->nombreusuario.', Bienvenido!');
@@ -126,12 +122,7 @@ class Userinterface extends Controller {
                  }
             }
         }
-        
-
-   
-   
-   
-   
+  
         public function misautos (){
         $autoModelo = $this->model('Modeloauto');
         $user_id = $this->session->get('id');
@@ -295,10 +286,7 @@ class Userinterface extends Controller {
         header("Location:$url ");
 
     }
-    public function listarInfo(){
-        $idviaje = $_POST['listar'];
-        echo("<TD>Hola este el viaje".$idviaje."</TD> ");
-    }
+    
     public function anotarse(){
         $user_id = $this->session->get('id');
         $viajemodelo = $this->model('Modeloviajes');

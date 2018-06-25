@@ -287,38 +287,45 @@ class Viaje extends Controller
         $fecha_actual = date("Y-m-d H:i:s", time());
         $fechayhorallegada = date("Y-m-d H:i:s", strtotime($viaje->horasalida));
         $fechayhorasalida = date("Y-m-d H:i:s", strtotime($viaje->horallegada));
-        if ($fecha_actual<$fechayhorasalida){
-            if ($viaje->conductor_id == $user_id){
-            $pasajeros = $viajeModelo->getPasajero($id);
-            $datos = [  'mensaje' => 'Sos el Conductor de este viaje',
+        if ($fecha_actual < $fechayhorasalida) {
+            if ($viaje->conductor_id == $user_id) {
+                $pasajeros = $viajeModelo->getPasajero($id);
+                if ($viaje->conductor_id == $user_id) {
+                    $postulantes = $viajeModelo->getPostulante($id);
+                    $pasajerosAprobados = $viajeModelo->getPasajeroAprobado($id);
+                    $datos = ['mensaje' => 'Sos el Conductor de este viaje',
                         'conductor' => $conductor,
-                        'rol'=> 'conductor',
-                        'estado'=>'3', // 3 para conductor, 2 para rechazado, 1 para anotado, 0 para anotarse
+                        'rol' => 'conductor',
+                        'estado' => '3', // 3 para conductor, 2 para rechazado, 1 para anotado, 0 para anotarse
                         'auto' => $auto, // Datos relacionados al auto 
                         'viaje' => $viaje, // Datos del viaje
-                        'pasajeros'=> $pasajeros, // Ver esto
-                        'path'=>'userinterface/allViajes/%20' // ver Esto
-            ];
+                        'postulantes' => $postulantes, // Ver esto
+                        'pasajerosAprobados' => $pasajerosAprobados,
+                        'path' => 'userinterface/allViajes/%20' // ver Esto
+                    ];
 
-            }
-            else {
-            // ESTO ESPARA TODAS LAS PERSONAS
-                $usuario = $this->model('Usuario');
-                $conductor = $usuario->getById($viaje->conductor_id);
-                if ($viajeModelo->estaEnPasajero($id,$user_id)) {$estado='1';}
-                else{$estado = '0';};
-                $datos = ['mensaje' => '',
-                'estado'=>$estado,
-                'rol'=> 'publico',
-                'auto' => $auto,
-                'viaje' => $viaje,
-                'conductor'=> $conductor,
-                'path'=>'userinterface/allViajes/%20'
-                ];
+                } else {
+                    // ESTO ESPARA TODAS LAS PERSONAS
+                    $usuario = $this->model('Usuario');
+                    $conductor = $usuario->getById($viaje->conductor_id);
+                    if ($viajeModelo->estaEnPasajero($id, $user_id)) {
+                        $estado = '1';
+                    } else {
+                        $estado = '0';
+                    };
+                    $datos = ['mensaje' => '',
+                        'estado' => $estado,
+                        'rol' => 'publico',
+                        'auto' => $auto,
+                        'viaje' => $viaje,
+                        'conductor' => $conductor,
+                        'path' => 'userinterface/allViajes/%20'
+                    ];
+                };
+                $this->view('viaje/muro', $datos);
+            } elseif ($fecha_actual > $fechayhorallegada) {
+            } else {
             };
-            $this->view('viaje/muro', $datos);
         }
-        elseif ($fecha_actual>$fechayhorallegada){}
-        else{};
     }
 }

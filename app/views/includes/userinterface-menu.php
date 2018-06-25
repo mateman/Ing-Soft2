@@ -22,7 +22,7 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
         <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/misviajes">Viajes | Conductor <span class="sr-only">(current)</span></a>
         <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/misviajespasajero">Viajes | Pasajero<span class="sr-only">(current)</span></a>
-          <a class="dropdown-item" href="#">Something else here</a>
+   
         </div>
       </li>
         <!--

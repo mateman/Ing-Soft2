@@ -1,0 +1,102 @@
+
+#bodyperfil {
+	background-color: white;
+	background-image: url("../img/Logo.jpg");
+	  background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: left;
+    background-size: 50%; 
+    margin: 0px;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: white;
+    overflow: hidden;
+    width: 100%;
+    z-index: 1;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #F17376;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: #F17376;
+    color: black;
+}
+.perfil{
+	margin: auto;
+	
+	height: 40%;
+	width: 40%;
+	padding-top: 70px;
+	}
+#fotoperfil{
+	height:150px;
+	width: 150px;
+	margin-right: 20px;
+	float: left;
+	padding-left: 100px;
+}
+.datosperfil ul{
+	list-style-type: none;
+
+
+}
+.datosperfil li{
+	font-size: 20px;
+
+}
+.container {
+    font-family: 'Roboto', sans-serif;
+
+}
+
+.main-menu {
+   
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 4em; 
+    padding: 1em 2em;
+    font-family: 'Roboto', sans-serif;
+   
+}
+.main-menu-logo {
+  
+    width: 25%;
+
+}
+.main-menu-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+
+}
+.main-menu-container {
+    display: flex;
+   
+    width: 50%;
+    justify-content: space-between;
+    align-items: center;
+ 
+}
+.main-menu-item {
+   
+    list-style: none;
+    text-align: right;
+}

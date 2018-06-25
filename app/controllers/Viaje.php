@@ -286,14 +286,16 @@ class Viaje extends Controller
         $conductor = $usuario->getById($viaje->conductor_id);
        
         if ($viaje->conductor_id == $user_id){
-            $pasajeros = $viajeModelo->getPasajero($id);
+            $postulantes = $viajeModelo->getPostulante($id);
+            $pasajerosAprobados = $viajeModelo->getPasajeroAprobado($id);
             $datos = [  'mensaje' => 'Sos el Conductor de este viaje',
                         'conductor' => $conductor,
                         'rol'=> 'conductor',
                         'estado'=>'3', // 3 para conductor, 2 para rechazado, 1 para anotado, 0 para anotarse
                         'auto' => $auto, // Datos relacionados al auto 
                         'viaje' => $viaje, // Datos del viaje
-                        'pasajeros'=> $pasajeros, // Ver esto
+                        'postulantes'=> $postulantes, // Ver esto
+                        'pasajerosAprobados'=> $pasajerosAprobados,
                         'path'=>'userinterface/allViajes/%20' // ver Esto
             ];
 

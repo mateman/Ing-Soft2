@@ -59,17 +59,17 @@
             <h5>Telefono: <?php echo $datos['conductor']->telefono; ?></h5>
             <h5>Email: <?php echo $datos['conductor']->email; ?> </h5>
             <br>
-        <?php /* foreach ($datos['pasajeros'] as $pasajero){
+         <?php foreach ($datos['pasajeros'] as $pasajero){
              $usuarioModelo = $this->model('Usuario');
              $usuario = $usuarioModelo->getById($pasajero->usuario_id);
              echo ('<h5>Nombre: '.$usuario->nombre.'</h5>');
              echo ('<h5>Apellido: '.$usuario->apellido.'</h5>');
              echo ('<h5>Telefono: '.$usuario->telefono.'</h5>');
              echo ('<h5>Email: '.$usuario->email.'</h5>');
-        }; FOR EACH DE PABLO */ ?> 
+        }; ?>
 
 
-        <?php endif;  ?>
+        <?php endif; ?>
 
         
         
@@ -89,69 +89,9 @@
       {
           echo "<a id='anotar-". ($datos['viaje']->id) . "' onClick='Anotarse(".($datos['viaje']->id).")' style='visibility: hidden'><button>Anotarse</button></a>";
           echo "<a id='borrar-". ($datos['viaje']->id) . "' onClick='Borrarse(".($datos['viaje']->id).")'><button>Darse de Baja</button></a>";}
-      elseif ($datos['estado'] =='3'){?>
-      <div class="container">
-  <h2>Listado de Postulantes</h2>
-        <table class="table table-dark table-striped">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Telefono</th>
-        <th>E-Mail</th>
-        <th>Calificacion</th>
-        
-      </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($datos['postulantes'] as $postulante){ ?>
-    <tr>
-        <td><?php echo ($postulante->nombre); ?></td>
-        <td><?php echo ($postulante->apellido); ?></td>
-        <td><?php echo ($postulante->telefono); ?></td>
-        <td><?php echo ($postulante->email); ?></td>
-        <td><?php echo ($postulante->calificacion_pasajero); ?></td> 
-           </tr>
-              
-        <?php } ?> </tbody>
-       
-          
-             </table>
-             </div>
- <div class="container">
-  <h2>Listado de Pasajeros Aceptados</h2>
-        <table class="table table-dark table-striped">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Telefono</th>
-        <th>E-Mail</th>
-        <th>Calificacion</th>
-        
-      </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($datos['pasajerosAprobados'] as $aceptados){ ?>
-    <tr>
-        <td><?php echo ($aceptados->nombre); ?></td>
-        <td><?php echo ($aceptados->apellido); ?></td>
-        <td><?php echo ($aceptados->telefono); ?></td>
-        <td><?php echo ($aceptados->email); ?></td>
-        <td><?php echo ($aceptados->calificacion_pasajero); ?></td> 
-           </tr>
-              
-        <?php } ?> </tbody>
-       
-          
-             </table>
-             </div>
+      else {}
 
-             <?php }?>
-        
-      
-
-<br>
+?><br>
 
 <?php echo ('<a href="'. RUTA_URL.'/'.$datos['path'].'">Volver </a>'); ?>
 

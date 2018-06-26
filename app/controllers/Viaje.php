@@ -279,11 +279,31 @@ class Viaje extends Controller
 
     public function muro($id,$volver)
     {
+        /*
+         * Definicion de estado:
+         * 0: Puedes postularte
+         * 1: Postulante pendiente de aceptacion
+         * 2: postulante aceptado
+         * 3: conductor antes del viaje
+         * 4: En medio del viaje , no hay ninguna opcion
+         * -- Aca se retiran todos los botones y quedan solo el puntar
+         * 5: postulados no aceptados y pendientes despues del viaje
+         * 6: postulante aceptado despues del viaje
+         * 7: conductor despues del viaje
+         */
         //Modelos con los cuales se va a trabajar
         $autoModelo = $this->model('Modeloauto');
         $viajeModelo = $this->model('Modeloviajes');
         $usuarioModelo = $this->model('Usuario');
-        
+
+        // Fechas para poner o no botones de aceptar-rechazar y puntar viaje
+        $fecha_actual = date("Y-m-d H:i:s", time());
+        $viaje = $viajeModelo->getViaje($id);
+        $fechayhorallegada = date("Y-m-d H:i:s", strtotime($viaje->horallegada));
+        $fechayhorasalida = date("Y-m-d H:i:s", strtotime($viaje->horasalida));
+        if($fecha_actual<$fechayhorallegada){$time = 0;}
+        elseif (($fecha_actual>$fechayhorallegada)AND($fecha_actual<$fechayhorasalida)){$time=1;}
+        else{$time=2;}
         // id del usuario que estalogueado
         $user_id = $this->session->get('id');
         // id del viaje
@@ -313,7 +333,10 @@ class Viaje extends Controller
        
         if ($viaje->conductor_id == $user_id){
            $datos['rol'] = 'conductor';
-           $datos['estado'] = '3';
+           if ($time==0)
+           {$datos['estado'] = '3';}
+           elseif ($time==2){$datos['estado'] = '7';}
+           else {$datos['estado'] = '4';};
            $datos['mensaje'] = 'Sos el creador de este viaje';
 
         }
@@ -322,12 +345,23 @@ class Viaje extends Controller
             $estado = $pasajero->estado;
             if($estado == 1) {
                 $datos['rol'] = 'pasajero';
-                $datos['estado'] = '2';
-                $datos['mensaje'] = 'Ya te han aceptado para este viaje';
+                if ($time==0)
+                {
+                    $datos['estado'] = '2';
+                    $datos['mensaje'] = 'Ya te han aceptado para este viaje';
+                }
+                elseif ($time==2){$datos['estado'] = '6';}
+                else{$datos['estado'] = '4';};
+
             } else {
                 $datos['rol'] = 'postulado';
-                $datos['estado'] = '1';
-                $datos['mensaje'] = 'Esperando Confirmacion del creador';
+                if ($time==0)
+                {
+                    $datos['estado'] = '1';
+                    $datos['mensaje'] = 'Esperando Confirmacion del creador';
+                }
+                elseif ($time==2){$datos['estado'] = '5';}
+                else{$datos['estado'] = '4';};
             }
            
 
@@ -336,8 +370,11 @@ class Viaje extends Controller
         }
         else {
             $datos['rol'] = 'publico';
-            $datos['estado'] = '0';
-            $datos['mensaje'] = 'Puedes postularte a este viaje!!!';
+            if ($time==0) {
+                $datos['estado'] = '0';
+                $datos['mensaje'] = 'Puedes postularte a este viaje!!!';
+            }
+            else{$datos['estado'] = '4';};
         }
 
 

@@ -18,6 +18,11 @@ class Userinterface extends Controller {
         return $usuarioModelo->getById($user_id);
     }
 
+    private function datosUsuarioById($user_id) {
+        $usuarioModelo = $this->model('Usuario');
+        return $usuarioModelo->getById($user_id);
+    }
+
     public function index() {
         $usuario = $this->datosUsuario();
         $this->allViajes('Hola '.$usuario->nombreusuario.', Bienvenido!');
@@ -333,6 +338,22 @@ class Userinterface extends Controller {
         }
         else{echo("Rechazado");}
 
+    }
+
+    public function infoPostulante($idPostulante, $idViaje)
+    {
+        $usuario = $this->datosUsuarioById($idPostulante);
+        $datos = $this->datoVista($usuario);
+        $datos['path'] = $idViaje;
+        $this->view('userinterface/perfilPostulante', $datos);
+    }
+
+    public function infoPostulado($idPostulado, $idViaje)
+    {
+        $usuario = $this->datosUsuarioById($idPostulado);
+        $datos = $this->datoVista($usuario);
+        $datos['path'] = $idViaje;
+        $this->view('userinterface/perfilPostulado', $datos);
     }
  
 }

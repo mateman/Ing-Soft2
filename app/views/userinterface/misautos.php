@@ -28,10 +28,10 @@
         <td><?php echo($datos['autos'][$i]->modelo); ?></td>
         <td><?php echo($datos['autos'][$i]->asientosdisp); ?></td>
         <td> 
-            <a href="<?php echo RUTA_URL; ?>/userinterface/modificarAuto/<?php echo($datos['autos'][$i]->id); ?>"><button>Modificar</button></a>
+            <a href="<?php echo RUTA_URL; ?>/userinterface/modificarAuto/<?php echo($datos['autos'][$i]->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-maintenance.png" alt="" ></a>
         </td>
         <td>
-        <a href="<?php echo RUTA_URL; ?>/userinterface/eliminarAuto/<?php echo($datos['autos'][$i]->id); ?>"><button>Eliminar</button></a>
+        <a href="<?php echo RUTA_URL; ?>/userinterface/eliminarAuto/<?php echo($datos['autos'][$i]->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-trash.png" alt="" ></a>
     
         </td>
 

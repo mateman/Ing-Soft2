@@ -108,6 +108,7 @@
         <th>Telefono</th>
         <th>E-Mail</th>
         <th>Calificacion</th>
+        <th>Informacion</th>
          <th></th>
          <th></th>
         
@@ -128,7 +129,11 @@
         <td>
             <a href="<?php echo RUTA_URL; ?>/viaje/aceptarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><button>Aceptar</button></a>
         </td>
-           </tr>
+        <td>
+            <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" ></a>
+        </td>
+
+    </tr>
               
         <?php } ?> </tbody>
        
@@ -145,7 +150,7 @@
         <th>Telefono</th>
         <th>E-Mail</th>
         <th>Calificacion</th>
-        
+        <th>Informacion</th>
       </tr>
     </thead>
     <tbody>
@@ -155,8 +160,11 @@
         <td><?php echo ($aceptados->apellido); ?></td>
         <td><?php echo ($aceptados->telefono); ?></td>
         <td><?php echo ($aceptados->email); ?></td>
-        <td><?php echo ($aceptados->calificacion_pasajero); ?></td> 
-           </tr>
+        <td><?php echo ($aceptados->calificacion_pasajero); ?></td>
+        <td>
+            <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" ></a>
+        </td>
+    </tr>
               
         <?php } ?> </tbody>
        

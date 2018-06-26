@@ -262,11 +262,7 @@ class Viaje extends Controller
         $user_id = $this->session->get('id');
         $viajeModelo = $this->model('Modeloviajes');
         if ($viajeModelo->getCantidadPasajeroAceptados($id) != 0){
-<<<<<<< HEAD
               $usuarioModelo->restarPuntos($user_id,'1');
-=======
-              $usuarioModelo->restarPuntos($user_id);
->>>>>>> caa027953e385c037d975a9508e797bc14b98ecc
           }
         $viajeModelo->eliminarViaje($id);
         $cantViajes = $viajeModelo->getCantidadViajes($user_id);
@@ -292,7 +288,6 @@ class Viaje extends Controller
         $viaje = $viajeModelo->getViaje($id);
         // auto aplicado al viaje
         $auto = $autoModelo->getAuto($viaje->auto_id);
-<<<<<<< HEAD
         // conductor del viaje
         $conductor = $usuarioModelo->getById($viaje->conductor_id);
         // pasajeros postulada y no aceptada
@@ -318,54 +313,8 @@ class Viaje extends Controller
            $datos['rol'] = 'conductor';
            $datos['estado'] = '3';
            $datos['mensaje'] = 'Sos el creador de este viaje';
-=======
-        $usuario = $this->model('Usuario');
-        $conductor = $usuario->getById($viaje->conductor_id);
-        $fecha_actual = date("Y-m-d H:i:s", time());
-        $fechayhorallegada = date("Y-m-d H:i:s", strtotime($viaje->horasalida));
-        $fechayhorasalida = date("Y-m-d H:i:s", strtotime($viaje->horallegada));
-        if ($fecha_actual < $fechayhorasalida) {
-            if ($viaje->conductor_id == $user_id) {
-                $pasajeros = $viajeModelo->getPasajero($id);
-                if ($viaje->conductor_id == $user_id) {
-                    $postulantes = $viajeModelo->getPostulante($id);
-                    $pasajerosAprobados = $viajeModelo->getPasajeroAprobado($id);
-                    $datos = ['mensaje' => 'Sos el Conductor de este viaje',
-                        'conductor' => $conductor,
-                        'rol' => 'conductor',
-                        'estado' => '3', // 3 para conductor, 2 para rechazado, 1 para anotado, 0 para anotarse
-                        'auto' => $auto, // Datos relacionados al auto 
-                        'viaje' => $viaje, // Datos del viaje
-                        'postulantes' => $postulantes, // Ver esto
-                        'pasajerosAprobados' => $pasajerosAprobados,
-                        'path' => 'userinterface/allViajes/%20' // ver Esto
-                    ];
->>>>>>> caa027953e385c037d975a9508e797bc14b98ecc
 
-                } else {
-                    // ESTO ESPARA TODAS LAS PERSONAS
-                    $usuario = $this->model('Usuario');
-                    $conductor = $usuario->getById($viaje->conductor_id);
-                    if ($viajeModelo->estaEnPasajero($id, $user_id)) {
-                        $estado = '1';
-                    } else {
-                        $estado = '0';
-                    };
-                    $datos = ['mensaje' => '',
-                        'estado' => $estado,
-                        'rol' => 'publico',
-                        'auto' => $auto,
-                        'viaje' => $viaje,
-                        'conductor' => $conductor,
-                        'path' => 'userinterface/allViajes/%20'
-                    ];
-                };
-                $this->view('viaje/muro', $datos);
-            } elseif ($fecha_actual > $fechayhorallegada) {
-            } else {
-            };
         }
-<<<<<<< HEAD
         elseif ($viajeModelo->estaEnPasajero($id,$user_id)) {
             $pasajero = $viajeModelo->traerPasajero($id, $user_id);
             $estado = $pasajero->estado;
@@ -407,7 +356,3 @@ exit;
 
     }
 
-=======
-    }
-}
->>>>>>> caa027953e385c037d975a9508e797bc14b98ecc

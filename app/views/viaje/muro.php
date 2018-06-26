@@ -49,7 +49,12 @@
         <div class="col">
         <h3>Datos del conductor:</h3>
         
-        <img src="<?php echo RUTA_APP . '/public/img/users/' . $datos['conductor']->imagen_url; ?>" >
+
+        <?php
+            $im = file_get_contents(RUTA_APP.'/../public/img/users/'. $datos['conductor']->imagen_url);
+            $imdata = base64_encode($im);
+            echo "<p><img class=\"img-perfil\" src='data:image/jpg;base64,".$imdata."' />";
+        ?>
         <h5>Nombre de usuario: <?php echo $datos['conductor']->nombreusuario; ?>
         <?php if($datos['rol'] == 'conductor' or $datos['rol'] == 'pasajero'): ?>
             <h5>Nombre: <?php echo $datos['conductor']->nombre; ?> </h5>

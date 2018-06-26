@@ -1,5 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="<?php echo RUTA_URL; ?>/userinterface/">
+
+
+    <a class="navbar-brand" href="<?php echo RUTA_URL; ?>/userinterface">
+
         <img src="<?php echo RUTA_URL;?>/public/img/Logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
         Un aventon
       </a>
@@ -17,9 +20,9 @@
           Viajes
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/misviajes">Mis viajes<span class="sr-only">(current)</span></a>
-        <a class="nav-link" href="<?php echo RUTA_URL; ?>/buscador/buscador">Buscar<span class="sr-only">(current)</span></a>
-          <a class="dropdown-item" href="#">Something else here</a>
+        <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/misviajes">Viajes | Conductor <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/misviajespasajero">Viajes | Pasajero<span class="sr-only">(current)</span></a>
+   
         </div>
       </li>
         <!--

@@ -37,6 +37,7 @@
         <th>Costo</th>
         <th>Modificar</th>
         <th>Eliminar</th>
+        <th>Muro</th>
     </tr>
     </thead>
     <tbody>
@@ -54,6 +55,9 @@
             <td>
                 <a href="<?php echo RUTA_URL; ?>/viaje/viajeEliminar/<?php echo($datos['viajes'][$i]->id); ?>"><button>Eliminar</button></a>
 
+            </td>
+            <td>
+                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" ></a>
             </td>
 
         </tr>

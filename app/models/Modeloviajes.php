@@ -93,25 +93,71 @@
          return $this->db->registrorowCount();
      }
 
-     public function getPasajero($id) {
-         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id' AND borrado_logico='0'");
+     public function getPasajero($id) { // idviaje
+
+            //id milagros 3
+            //id viaje creado por 302
+         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0'");
          return $this->db->registros();
      }
+     public function getPasajeroAprobado($id) {
+         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 1");
+         return $this->db->registros();
+     }
+     public function getPostulante($id) {
+         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 0");
+         return $this->db->registros();
+     }
+
+
 
      public function estaEnPasajero($id_viaje,$id_user){
          $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id_viaje' AND usuario_id='$id_user' AND borrado_logico='0'");
          return ($this->db->registrorowCount() != 0);
      }
 
-     public function anotarPasajero($id_viaje,$id_user){
-         $this->db->query("
+     public function anotarPasajero($id_viaje,$id_user)
+     {
+         $viaje = $this->getViaje($id_viaje);
+         if (!(($this->estaEnPasajero($id_viaje, $id_user)) OR ($viaje->conductor_id == $id_user)) AND ($viaje->borrado_logico == '0')) {
 
-        INSERT INTO `pasajero` (`usuario_id`, `viaje_id`,`estado`, `calificacion_pasajero`,`calificacion_conductor`, `comentario_conductor`, `borrado_logico`) VALUES ('$id_user', '$id_viaje','0', '0', '0','','0');
-        
-        ");
-         //return "SELECT * FROM usuario WHERE email = '$username'";
+            $this->db->query("INSERT INTO `pasajero` (`usuario_id`, `viaje_id`,`estado`, `calificacion_pasajero`,`calificacion_conductor`, `comentario_conductor`, `borrado_logico`) VALUES ('$id_user', '$id_viaje','0', '0', '0','','0');");
+            return $this->db->execute();
+         }
+     }
+
+     public function aceptarPasajero($id_viaje,$id_user)
+     {
+         $viaje = $this->getViaje($id_viaje);
+         if ($this->estaEnPasajero($id_viaje, $id_user) AND ($viaje->conductor_id != $id_user) AND ($viaje->borrado_logico =='0') )
+         {
+
+             $this->db->query("UPDATE `pasajero` SET estado='1' WHERE usuario_id='$id_user' AND viaje_id='$id_viaje'");
+             return $this->db->execute();
+         }
+     }
+
+     public function rechazarPasajero($id_viaje,$id_user)
+     {
+         $viaje = $this->getViaje($id_viaje);
+         if ($this->estaEnPasajero($id_viaje, $id_user) AND ($viaje->conductor_id != $id_user) AND ($viaje->borrado_logico =='0') )
+         {
+
+             $this->db->query("UPDATE `pasajero` SET estado='2' WHERE usuario_id='$id_user' AND viaje_id='$id_viaje'");
+             return $this->db->execute();
+         }
+     }
+
+     public function eliminarPasajero($id_viaje,$id_user)
+     {
+         $pasajero = $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id_viaje' AND usuario_id='$id_user' AND borrado_logico='0'");
+
+         if ( $this->estaEnPasajero($id_viaje,$id_user) AND (0 == $pasajero->estado))
+             {
+             $this->db->query(" DELETE FROM `pasajero` WHERE viaje_id='$id_viaje' AND usuario_id='$id_user'");
+             }
+             else {$this->db->query(" UPDATE `viaje` SET borrado_logico='1' WHERE viaje_id='$id_viaje' AND usuario_id='$id_user'");};
          return $this->db->execute();
-
      }
 
      public function getAllViajes() {
@@ -125,6 +171,17 @@
          return $this->db->registrorowCount();
      }
 
+        public function getAllCantidadViajesFechaActual()
+     {
+         $this->db->query("SELECT * FROM viaje WHERE borrado_logico='0' AND horasalida > NOW() ORDER BY horasalida");
+         return $this->db->registrorowCount();
+     }
+
+      public function getAllViajesFechaActual() {
+   $this->db->query("SELECT * FROM viaje WHERE borrado_logico='0' AND horasalida > NOW() ORDER BY horasalida");
+         return $this->db->registros();
+     }
+
          public function getViaje($idViaje){
          $this->db->query("SELECT * FROM viaje WHERE id='$idViaje' AND borrado_logico='0'");
          return $this->db->registro();
@@ -132,10 +189,33 @@
     }
 
 
-    public function autoEnUso($id_auto, $fechayhorallegada, $fechayhorasalida, $id_viaje) {
-         $this->db->query("SELECT * FROM viaje v WHERE auto_id='$id_auto' AND id<>'$id_viaje' AND (('$fechayhorasalida'  BETWEEN horasalida and horallegada) OR ('$fechayhorallegada'  BETWEEN horasalida and horallegada)) AND borrado_logico='0'");
+     public function conductorEnUso($id_conductor, $fechayhorallegada, $fechayhorasalida, $id_viaje) {
+         $this->db->query("SELECT * FROM viaje WHERE conductor_id='$id_conductor' AND id<>'$id_viaje' AND (('$fechayhorasalida'  BETWEEN horasalida and horallegada) OR ('$fechayhorallegada'  BETWEEN horasalida and horallegada)) AND borrado_logico='0'");
          return $this->db->registrorowCount();
      }
+
+    public function autoEnUso($id_auto, $fechayhorallegada, $fechayhorasalida, $id_viaje) {
+         $this->db->query("SELECT * FROM viaje WHERE auto_id='$id_auto' AND id<>'$id_viaje' AND (('$fechayhorasalida'  BETWEEN horasalida and horallegada) OR ('$fechayhorallegada'  BETWEEN horasalida and horallegada)) AND borrado_logico='0'");
+         return $this->db->registrorowCount();
+     }
+
+     public function ViajesComoPasajero($id) {
+         $sql = "     select * from viaje
+         INNER JOIN pasajero WHERE pasajero.viaje_id= viaje.id
+         AND pasajero.usuario_id = '$id'";
+         
+        $this->db->query($sql);
+        return $this->db->registros();
+       //return $sql;
+    }
+    public function traerPasajero($id_viaje, $id_usuario) {
+        $sql = " select * from pasajero where viaje_id = '$id_viaje' and usuario_id ='$id_usuario'" ;
+        $this->db->query($sql);
+        return $this->db->registro();
+
+    }
+
+
 
 
  }

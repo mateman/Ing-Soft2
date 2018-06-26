@@ -6,18 +6,95 @@ class BuscadorAjax extends Controller {
     public function ajax() {
         $buscadorModelo = $this->model('ModeloBuscador');
         $salida="";
-        $datos =$buscadorModelo->getAllviajes();
-        if (isset($_POST['consulta'])) { 
-           $datos =$buscadorModelo->getViajes($_POST['consulta']['empty']);
-          //var_dump($_POST['consulta']);
-          
-        }
+        //$datos =$buscadorModelo->getAllviajes();
+        //if (isset($_POST['consulta']) and !(empty($_POST['consulta']))) { 
+        //   $datos = $buscadorModelo->getViajes($_POST['consulta']['empty']);
+        
+        //}
+        if (isset($_POST['v']) and !(empty($_POST['v']))) { 
+
+            $sql = "SELECT * FROM viaje ";
+            $concat = array(); 
+
+            if(!(empty($_POST['v']['origen']))) {
+                $origen = $_POST['v']['origen'];
+                $sentencia = "origen = '$origen'";
+                $concat['origen'] = $sentencia;
+
+                
+            }
+            if(!(empty($_POST['v']['destino']))) {
+                $destino = $_POST['v']['destino'];
+                $sentencia = "destino = '$destino'";
+                $concat['destino'] = $sentencia;
+            }
+            if(!(empty($_POST['v']['salidaresultadodesde'])) and !(empty($_POST['v']['salidaresultadohasta']))) {
+                $salidaresultadodesde = $_POST['v']['salidaresultadodesde'];
+                $salidaresultadohasta = $_POST['v']['salidaresultadohasta'];
+
+                $sentencia = "horasalida BETWEEN '$salidaresultadodesde' and '$salidaresultadohasta'";
+                $concat['salida'] = $sentencia;
+            }
+            if(!(empty($_POST['v']['llegadaresultadodesde'])) and !(empty($_POST['v']['llegadaresultadohasta']))) {
+                $llegadaresultadodesde = $_POST['v']['llegadaresultadodesde'];
+                $llegadaresultadohasta = $_POST['v']['llegadaresultadohasta'];
+
+                $sentencia = "horallegada BETWEEN '$llegadaresultadodesde' and '$llegadaresultadohasta'";
+                $concat['llegada'] = $sentencia;
+            }
+            $i=1;
+            foreach ( $concat as $valor) {
+                if ($i == 1) {
+                    $sql .= " WHERE ";
+                } else {
+                    $sql .= " AND ";
+                }
+                $sql .= $valor;
+                $i++;
+            }
+            $datos = $buscadorModelo->ConsultaSqlArmada($sql);
+            
+
+            
+         }
+         $salida = '<table class="table table-dark table-striped">
+         <thead>
+         <tr>
+             <th>Origen</th>
+             <th>Hora de salida</th>
+             <th>Destino</th>
+             <th>Hora de llegada</th>
+             <th>Descricpion</th>
+             <th>Costo</th>
+             <th> detalle </th>
+     
+         </tr>
+         </thead>
+         <tbody>';
+        
         if($datos) {
+            
             foreach ($datos as $d) {
-                $salida.="<p>" . $d->destino  . "<a href=". RUTA_URL."/viaje/modificarViaje/".$d->id.">" . "hola" . "</a>" . "</p>";
-             }
+                
+               
+                $salida .= "<tr>";
+                $salida .= "<td>" . $d->origen . "</td>";
+                $salida .= "<td>" . $d->horasalida . "</td>";
+                $salida .= "<td>" .  $d->destino . "</td>";
+                $salida .= "<td>" . $d->horallegada . "</td>";
+                $salida .= "<td>" . $d->descripcion . "</td>";
+                $salida .= "<td>" . $d->costo . "</td>";
+                $salida .= "<td> <a href=" . RUTA_URL . "/viaje/muro/".$d->id ." type="."button class=" . "btn btn-success" .">Muro</a>";
+                $salida .= "</tr>";
+            
+            
+            }
+            $salida .= "</tbody>";
+            $salida .= "</table>";
         } else {
+
             $salida .= "No hay datos :(";
+        
         }
 
        
@@ -27,3 +104,4 @@ class BuscadorAjax extends Controller {
      }
        
 }
+

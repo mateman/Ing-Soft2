@@ -18,20 +18,21 @@ class Userinterface extends Controller {
         return $usuarioModelo->getById($user_id);
     }
 
-    /**
-     *
-     */
-
     public function index() {
-        $viajemodelo = $this->model('Modeloviajes');
-        $cantViajes = $viajemodelo->getAllCantidadViajes();
-        $viajes = $viajemodelo->getAllViajes();
-        $datos = [
-            'mensaje' => '',
-            'cantViajes' => $cantViajes,
-            'viajes' => $viajes
-        ];
+        $usuario = $this->datosUsuario();
+        $this->allViajes('Hola '.$usuario->nombreusuario.', Bienvenido!');
 
+    }
+
+    public function allViajes($mensaje) {
+        $viajemodelo = $this->model('Modeloviajes');
+        $cantViajes = $viajemodelo->getAllCantidadViajesFechaActual();
+        $viajes = $viajemodelo->getAllViajesFechaActual();
+        $datos = [
+                         'mensaje' => $mensaje,
+                         'cantViajes' => $cantViajes,
+                         'viajes' => $viajes
+        ];
         $this->view('userinterface/index', $datos );
     }
 
@@ -121,12 +122,7 @@ class Userinterface extends Controller {
                  }
             }
         }
-        
-
-   
-   
-   
-   
+  
         public function misautos (){
         $autoModelo = $this->model('Modeloauto');
         $user_id = $this->session->get('id');
@@ -153,7 +149,22 @@ class Userinterface extends Controller {
          ];
 
         $this->view('userinterface/misviajes', $datos);
-    }  
+    }
+    public function misviajesPasajero () {
+        $usuarioModelo = $this->model('Usuario');
+        $user_id = $this->session->get('id');
+        $viajemodelo = $this->model('Modeloviajes');
+        $viajes = $viajemodelo->ViajesComoPasajero($user_id);
+       
+         $datos = [
+             'viajes' => $viajes
+         ];
+         //var_dump($datos);
+         //echo $viajes;
+         //var_dump($datos);
+
+        $this->view('userinterface/misviajespasajero', $datos);
+    }
 
     public function modificarAuto ($id) {
         $autoModelo = $this->model('Modeloauto');
@@ -275,21 +286,53 @@ class Userinterface extends Controller {
         header("Location:$url ");
 
     }
-    public function listarInfo(){
-        $idviaje = $_POST['listar'];
-        echo("<TD>Hola este el viaje".$idviaje."</TD> ");
-    }
+    
     public function anotarse(){
         $user_id = $this->session->get('id');
         $viajemodelo = $this->model('Modeloviajes');
         $automodelo = $this->model('Modeloauto');
         $idviaje = $_POST['anotarse'];
-        if (!($viajemodelo->estaEnPasajero($idviaje,$user_id)) and ($viajemodelo->getCantidadPasajeroAceptados($idviaje)< ($automodelo->getAuto(($viajemodelo->getViaje($idviaje))->auto_id))->asientosdisp))
+        if (!($viajemodelo->estaEnPasajero($idviaje,$user_id)) 
+        and 
+        ($viajemodelo->getCantidadPasajeroAceptados($idviaje) < 
+        ($automodelo->getAuto(($viajemodelo->getViaje($idviaje)->auto_id))->asientosdisp)))
+        
         {
          $viajemodelo->anotarPasajero($idviaje,$user_id);
          echo("Anotado");
         }
         else{echo("Rechazado");}
+    }
+
+    public function eliminarPasajero(){
+        $user_id = $this->session->get('id');
+        $viajemodelo = $this->model('Modeloviajes');
+        $idviaje = $_POST['eliminarse'];
+        if ($viajemodelo->estaEnPasajero($idviaje,$user_id))
+        {
+            $viajemodelo->eliminarPasajero($idviaje,$user_id);
+            echo("Borrado");
+        }
+        else{echo("Rechazado");}
+    }
+
+
+    public function aceptar(){
+        $user_id = $this->session->get('id');
+        $viajemodelo = $this->model('Modeloviajes');
+        $automodelo = $this->model('Modeloauto');
+        $idviaje = $_POST['anotarse'];
+        if (!($viajemodelo->estaEnPasajero($idviaje,$user_id))
+            and
+            ($viajemodelo->getCantidadPasajeroAceptados($idviaje) <
+                ($automodelo->getAuto(($viajemodelo->getViaje($idviaje)->auto_id))->asientosdisp)))
+
+        {
+            $viajemodelo->anotarPasajero($idviaje,$user_id);
+            echo("Anotado");
+        }
+        else{echo("Rechazado");}
+
     }
  
 }

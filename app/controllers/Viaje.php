@@ -74,10 +74,10 @@ class Viaje extends Controller
             }
 
             if (($fecha_actual < $fechayhorallegada) AND ($fecha_actual < $fechayhorasalida) AND ($fechayhorasalida < $fechayhorallegada)) {
-                $autoEnUso = $viajeModelo->autoEnUso($autodelviaje, $fechayhorasalida, $fechayhorallegada, 0);
-                if ($autoEnUso > 0) {
+                $conductorEnUso = $viajeModelo->conductorEnUso($user_id, $fechayhorasalida, $fechayhorallegada, 0);
+                if ($conductorEnUso > 0) {
                     $datos = [
-                        'mensaje' => 'El auto seleccionado esta en uso para el horario del viaje.',
+                        'mensaje' => 'Ya posee un viaje en este rango de fecha y hora.',
                         'origen' => $origen,
                         'destino' => $destino,
                         'fechayhorallegada' => $fechayhorallegada,
@@ -94,7 +94,7 @@ class Viaje extends Controller
                     exit();
                 }
 
-                $crearviaje = $viajeModelo->viajeAgregar($descripcion, $origen, $destino, $fechayhorallegada, $fechayhorasalida, $costo, $tipodeviaje, $autodelviaje, $user_id, $repetir);
+                $viajeModelo->viajeAgregar($descripcion, $origen, $destino, $fechayhorallegada, $fechayhorasalida, $costo, $tipodeviaje, $autodelviaje, $user_id, $repetir);
                 $viajemodelo = $this->model('Modeloviajes');
                 $cantViajes = $viajemodelo->getCantidadViajes($user_id);
                 $viajes = $viajemodelo->getViajes($user_id);
@@ -183,10 +183,10 @@ class Viaje extends Controller
                 $autodelviaje = $_POST['autodelviaje'];
 
                 if (($fecha_actual < $fechayhorallegada) AND ($fecha_actual < $fechayhorasalida) AND ($fechayhorasalida < $fechayhorallegada)) {
-                    $autoEnUso = $viajeModelo->autoEnUso($autodelviaje, $fechayhorasalida, $fechayhorallegada, $id);
-                    if ($autoEnUso > 0) {
+                    $conductorEnUso = $viajeModelo->conductorEnUso($user_id, $fechayhorasalida, $fechayhorallegada, $id);
+                    if ($conductorEnUso > 0) {
                         $datos = [
-                            'mensaje' => 'El auto seleccionado esta en uso para el horario del viaje.',
+                            'mensaje' => 'Ya posee un viaje en este rango de fecha y hora.',
                             'origen' => $_POST['origen'],
                             'destino' => $_POST['destino'],
                             'fechayhorallegada' => $_POST['fechayhorallegada'],
@@ -262,7 +262,7 @@ class Viaje extends Controller
         $user_id = $this->session->get('id');
         $viajeModelo = $this->model('Modeloviajes');
         if ($viajeModelo->getCantidadPasajeroAceptados($id) != 0){
-              $usuarioModelo->penalizar($user_id);
+              $usuarioModelo->restarPuntos($user_id,'1');
           }
         $viajeModelo->eliminarViaje($id);
         $cantViajes = $viajeModelo->getCantidadViajes($user_id);
@@ -277,37 +277,82 @@ class Viaje extends Controller
 
     public function muro($id)
     {
+        //Modelos con los cuales se va a trabajar
         $autoModelo = $this->model('Modeloauto');
-        $user_id = $this->session->get('id');
         $viajeModelo = $this->model('Modeloviajes');
+        $usuarioModelo = $this->model('Usuario');
+        
+        // id del usuario que estalogueado
+        $user_id = $this->session->get('id');
+        // id del viaje
         $viaje = $viajeModelo->getViaje($id);
+        // auto aplicado al viaje
         $auto = $autoModelo->getAuto($viaje->auto_id);
+        // conductor del viaje
+        $conductor = $usuarioModelo->getById($viaje->conductor_id);
+        // pasajeros postulada y no aceptada
+        $postulantes = $viajeModelo->getPostulante($id);
+        // pasajeros aceptados
+        $pasajerosAprobados = $viajeModelo->getPasajeroAprobado($id);
+        
+        $datos = [  'mensaje'            => '',
+                    'conductor'          => $conductor,
+                    'auto'               => $auto, // Datos relacionados al auto 
+                    'viaje'              => $viaje, // Datos del viaje
+                    'postulantes'        => $postulantes, // Ver esto
+                    'pasajerosAprobados' => $pasajerosAprobados,
+                    'rol'=>     '', // conductor aceptado postulado publico rechazado
+                    'estado'=>'', // 3 para conductor, 2 para rechazado, 1 para anotado, 0 para anotarse
+                    'path'=>'userinterface/allViajes/%20' // ver Esto
+                    //cond 3
+                    //acept 2
+                    //
+        ];
+       
         if ($viaje->conductor_id == $user_id){
-            $usuarioModelo = $this->model('Usuario');
-            $pasajeros = $viajeModelo->getPasajero($id);
-            $cantPasajero = $viajeModelo;
-            $datos = ['mensaje' => '',
-                'boton'=>'',
-                'auto' => $auto,
-                'viaje' => $viaje,
-                'pasajeros'=> $pasajeros
-            ];
+           $datos['rol'] = 'conductor';
+           $datos['estado'] = '3';
+           $datos['mensaje'] = 'Sos el creador de este viaje';
 
         }
-        else {
-            $usuario = $this->model('Usuario');
-            $conductor = $usuario->getById($viaje->conductor_id);
-            if ($viajeModelo->estaEnPasajero($id,$user_id)) {
-                $boton='';
+        elseif ($viajeModelo->estaEnPasajero($id,$user_id)) {
+            $pasajero = $viajeModelo->traerPasajero($id, $user_id);
+            $estado = $pasajero->estado;
+            if($estado == 1) {
+                $datos['rol'] = 'pasajero';
+                $datos['estado'] = '2';
+                $datos['mensaje'] = 'Ya te han aceptado para este viaje';
+            } else {
+                $datos['rol'] = 'postulado';
+                $datos['estado'] = '1';
+                $datos['mensaje'] = 'Esperando Confirmacion del creador';
             }
-            else{$boton = "<a id='anotar-". $viaje->id . "' onClick='Anotarse(".$viaje->id .")'><button>Anotarse</button></a>";};
-            $datos = ['mensaje' => '',
-                'boton'=>$boton,
-                'auto' => $auto,
-                'viaje' => $viaje,
-                'conductor'=> $conductor
-        ];
-        };
+           
+
+            
+           
+        }
+        else {
+            $datos['rol'] = 'publico';
+            $datos['estado'] = '0';
+            $datos['mensaje'] = 'Puedes postularte a este viaje!!!';
+        }
+
+
         $this->view('viaje/muro', $datos);
     }
-}
+     public function cancelarPostulante($idPostulante, $idViaje)
+    { $viajeModelo = $this->model('Modeloviajes');
+      $cancelar = $viajeModelo->rechazarPasajero($idViaje, $idPostulante);
+      /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje);); LA IDEA DE ESTO ES QUE ME REDIRIJA AL MURO PERO HAY ALGO QUE ME DA ERROR*/
+exit;
+        }
+             public function aceptarPostulante($idPostulante, $idViaje)
+    { $viajeModelo = $this->model('Modeloviajes');
+      $aceptar = $viajeModelo->aceptarPasajero($idViaje, $idPostulante);
+           /*  header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje);); */
+exit;
+        }
+
+    }
+

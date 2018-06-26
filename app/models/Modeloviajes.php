@@ -89,7 +89,7 @@
      }
 
      public function getCantidadPasajeroAceptados($id) {
-         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id' AND estado=3 AND borrado_logico='0'");
+         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id' AND estado=1 AND borrado_logico='0'");
          return $this->db->registrorowCount();
      }
 

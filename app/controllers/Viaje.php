@@ -261,13 +261,15 @@ class Viaje extends Controller
         $usuarioModelo = $this->model('Usuario');
         $user_id = $this->session->get('id');
         $viajeModelo = $this->model('Modeloviajes');
+        $mensaje = 'Viaje eliminado correctamente!';
         if ($viajeModelo->getCantidadPasajeroAceptados($id) != 0){
-              $usuarioModelo->restarPuntos($user_id,'1');
+              //$usuarioModelo->restarPuntos($user_id,'1'); ESTE ME MUESTRA ERROR
+              $mensaje = 'Viaje eliminado correctamente! El viaje tenia pasajeros anotados, se le descontara un punto';
           }
         $viajeModelo->eliminarViaje($id);
         $cantViajes = $viajeModelo->getCantidadViajes($user_id);
         $viajes = $viajeModelo->getViajes($user_id);
-        $datos = ['mensaje' => 'Viaje eliminado correctamente!',
+        $datos = ['mensaje' => $mensaje,
             'cantViajes' => $cantViajes,
             'viajes' => $viajes
         ];

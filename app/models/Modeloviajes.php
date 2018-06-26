@@ -93,10 +93,14 @@
          return $this->db->registrorowCount();
      }
 
+<<<<<<< HEAD
      public function getPasajero($id) { // idviaje
 
             //id milagros 3
             //id viaje creado por 302
+=======
+     public function getPasajero($id) {
+>>>>>>> caa027953e385c037d975a9508e797bc14b98ecc
          $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0'");
          return $this->db->registros();
      }
@@ -208,12 +212,15 @@
         return $this->db->registros();
        //return $sql;
     }
+<<<<<<< HEAD
     public function traerPasajero($id_viaje, $id_usuario) {
         $sql = " select * from pasajero where viaje_id = '$id_viaje' and usuario_id ='$id_usuario'" ;
         $this->db->query($sql);
         return $this->db->registro();
 
     }
+=======
+>>>>>>> caa027953e385c037d975a9508e797bc14b98ecc
 
 
 

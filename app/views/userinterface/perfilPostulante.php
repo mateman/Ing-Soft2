@@ -7,7 +7,7 @@
     max-height:60px;
 }
 </style>
-<?php echo ('<a href="'. RUTA_URL.'/viaje/muro/'.$datos['path'].'"><img src="'.RUTA_URL.'/public/img/icons8-undo-52.png" alt="" > </a>'); ?>
+<?php echo ('<a href="'. RUTA_URL.'/viaje/muro/'.$datos['path'].'/unAventon"><img src="'.RUTA_URL.'/public/img/icons8-undo-52.png" alt="" > </a>'); ?>
 
 <div class="container">
     <br>

@@ -6,7 +6,7 @@
         max-width: 25%;
     }
 </style>
-
+<?php echo ('<a href="'. RUTA_URL.'/userinterface/'.$datos['path'].'"><img src="'.RUTA_URL.'/public/img/icons8-undo-52.png" alt="" ></a>'); ?>
 <div class="container">
     <div class="row">
         <div class="col">
@@ -108,7 +108,6 @@
         <th>Telefono</th>
         <th>E-Mail</th>
         <th>Calificacion</th>
-        <th>Informacion</th>
          <th></th>
          <th></th>
         
@@ -124,10 +123,10 @@
         <td><?php echo ($postulante->email); ?></td>
         <td><?php echo ($postulante->calificacion_pasajero); ?></td> 
           <td> 
-            <a href="<?php echo RUTA_URL; ?>/viaje/cancelarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><button>Rechazar</button></a>
+            <a href="<?php echo RUTA_URL; ?>/viaje/cancelarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-delete.png" alt="" ></a>
         </td>
         <td>
-            <a href="<?php echo RUTA_URL; ?>/viaje/aceptarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><button>Aceptar</button></a>
+            <a href="<?php echo RUTA_URL; ?>/viaje/aceptarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-checkmark.png" alt="" ></a>
         </td>
         <td>
             <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" ></a>
@@ -150,7 +149,6 @@
         <th>Telefono</th>
         <th>E-Mail</th>
         <th>Calificacion</th>
-        <th>Informacion</th>
       </tr>
     </thead>
     <tbody>
@@ -178,7 +176,7 @@
 
 <br>
 
-<?php echo ('<a href="'. RUTA_URL.'/'.$datos['path'].'">Volver </a>'); ?>
+
 
 
 

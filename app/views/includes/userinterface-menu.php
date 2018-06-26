@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
 
-    <a class="navbar-brand" href="<?php echo RUTA_URL; ?>/userinterface">
+    <a class="navbar-brand" href="<?php echo RUTA_URL; ?>/userinterface/unAventon">
 
         <img src="<?php echo RUTA_URL;?>/public/img/Logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
         Un aventon

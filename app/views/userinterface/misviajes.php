@@ -50,14 +50,14 @@
             <td><?php echo($datos['viajes'][$i]->descripcion); ?></td>
             <td><?php echo($datos['viajes'][$i]->costo); ?></td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/modificarViaje/<?php echo($datos['viajes'][$i]->id); ?>"><button>Modificar</button></a>
+                <a href="<?php echo RUTA_URL; ?>/viaje/modificarViaje/<?php echo($datos['viajes'][$i]->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-maintenance.png" alt="" ></a>
             </td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/viajeEliminar/<?php echo($datos['viajes'][$i]->id); ?>"><button>Eliminar</button></a>
+                <a href="<?php echo RUTA_URL; ?>/viaje/viajeEliminar/<?php echo($datos['viajes'][$i]->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-trash.png" alt="" ></a>
 
             </td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" ></a>
+                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>/misviajes"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" ></a>
             </td>
 
         </tr>

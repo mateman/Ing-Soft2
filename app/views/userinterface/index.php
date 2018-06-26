@@ -33,7 +33,7 @@
                 <td><?php echo($datos['viajes'][$i]->descripcion); ?></td>
                 <td><?php echo($datos['viajes'][$i]->costo); ?></td>
                 <td>
-                    <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" ></a>
+                    <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>/unAventon"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" ></a>
                 </td>
                 <td>
 

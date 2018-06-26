@@ -29,6 +29,12 @@ class Userinterface extends Controller {
 
     }
 
+    public function unAventon() {
+        $usuario = $this->datosUsuario();
+        $this->allViajes('');
+
+    }
+
     public function allViajes($mensaje) {
         $viajemodelo = $this->model('Modeloviajes');
         $cantViajes = $viajemodelo->getAllCantidadViajesFechaActual();

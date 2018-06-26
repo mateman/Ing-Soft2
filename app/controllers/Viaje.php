@@ -277,7 +277,7 @@ class Viaje extends Controller
 
     }
 
-    public function muro($id)
+    public function muro($id,$volver)
     {
         //Modelos con los cuales se va a trabajar
         $autoModelo = $this->model('Modeloauto');
@@ -305,7 +305,7 @@ class Viaje extends Controller
                     'pasajerosAprobados' => $pasajerosAprobados,
                     'rol'=>     '', // conductor aceptado postulado publico rechazado
                     'estado'=>'', // 3 para conductor, 2 para rechazado, 1 para anotado, 0 para anotarse
-                    'path'=>'userinterface/allViajes/%20' // ver Esto
+                    'path'=>$volver // ver Esto
                     //cond 3
                     //acept 2
                     //

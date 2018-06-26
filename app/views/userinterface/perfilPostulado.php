@@ -7,6 +7,7 @@
     max-height:60px;
 }
 </style>
+<?php echo ('<a href="'. RUTA_URL.'/viaje/muro/'.$datos['path'].'"><img src="'.RUTA_URL.'/public/img/icons8-undo-52.png" alt="" ></a>'); ?>
 
 <div class="container">
     <br>
@@ -31,8 +32,6 @@
     $imdata = base64_encode($im);
     echo "<p><img class=\"img-perfil\" src='data:image/jpg;base64,".$imdata."' />";
     ?>
-    <?php echo ('<a href="'. RUTA_URL.'/viaje/muro/'.$datos['path'].'">Volver </a>'); ?>
-
 </div>
 
 <?php require RUTA_APP.'/views/includes/footer.php'; ?>

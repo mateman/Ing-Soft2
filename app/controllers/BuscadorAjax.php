@@ -84,8 +84,7 @@ class BuscadorAjax extends Controller {
                 $salida .= "<td>" . $d->horallegada . "</td>";
                 $salida .= "<td>" . $d->descripcion . "</td>";
                 $salida .= "<td>" . $d->costo . "</td>";
-                $salida .= "<td> <a href=" . RUTA_URL . "/viaje/muro/".$d->id ." type="."button class=" . "btn btn-success" .">Muro</a>";
-                $salida .= "</tr>";
+                $salida .= '<td><a href="' . RUTA_URL . '/viaje/muro/' . ($d->id).'/unAventon"> <img src=" '. RUTA_URL . '/public/img/icons8-car.png" alt="" ></a>';                $salida .= "</tr>";
             
             
             }

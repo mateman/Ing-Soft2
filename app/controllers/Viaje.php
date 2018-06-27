@@ -385,7 +385,7 @@ class Viaje extends Controller
     public function cancelarPostulante($idPostulante, $idViaje)
     { $viajeModelo = $this->model('Modeloviajes');
         $cancelar = $viajeModelo->rechazarPasajero($idViaje, $idPostulante);
-        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'"</script>;';
+        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/'.$idViaje.'"</script>;';
         /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje);); LA IDEA DE ESTO ES QUE ME REDIRIJA AL MURO PERO HAY ALGO QUE ME DA ERROR*/
         exit;
     }
@@ -395,7 +395,7 @@ class Viaje extends Controller
     public function aceptarPostulante($idPostulante, $idViaje)
     { $viajeModelo = $this->model('Modeloviajes');
         $aceptar = $viajeModelo->aceptarPasajero($idViaje, $idPostulante);
-        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'"</script>;';
+        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/'.$idViaje.'"</script>;';
         /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
         exit;
     }

@@ -50,7 +50,8 @@ class Viaje extends Controller
         $cantAutos = $autoModelo->getCantidadAutos($user_id);
         $viajeModelo = $this->model('Modeloviajes');
 
-        if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['fechayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['tipodeviaje'])) and !(empty($_POST['autodelviaje']))) {
+        if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['fechayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['tipodeviaje'])) and !(empty($_POST['autodelviaje']))) 
+        {
             $fecha_actual = date("Y-m-d H:i:s", time());  //en la version anterior estaba comparando fechas con formatos diferentes, pase fecha actual de salida y de llegada al mismo formato
             $origen = $_POST['origen'];
             $destino = $_POST['destino'];
@@ -73,7 +74,8 @@ class Viaje extends Controller
                 $repetir = 1;
             }
 
-            if (($fecha_actual < $fechayhorallegada) AND ($fecha_actual < $fechayhorasalida) AND ($fechayhorasalida < $fechayhorallegada)) {
+            if (($fecha_actual < $fechayhorallegada) AND ($fecha_actual < $fechayhorasalida) AND ($fechayhorasalida < $fechayhorallegada)) 
+            {
                 $conductorEnUso = $viajeModelo->conductorEnUso($user_id, $fechayhorasalida, $fechayhorallegada, 0);
                 if ($conductorEnUso > 0) {
                     $datos = [

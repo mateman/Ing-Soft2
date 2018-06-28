@@ -189,13 +189,29 @@
     }
 
 
-     public function conductorEnUso($id_conductor, $fechayhorallegada, $fechayhorasalida, $id_viaje) {
-         $this->db->query("SELECT * FROM viaje WHERE conductor_id='$id_conductor' AND id<>'$id_viaje' AND (('$fechayhorasalida'  BETWEEN horasalida and horallegada) OR ('$fechayhorallegada'  BETWEEN horasalida and horallegada)) AND borrado_logico='0'");
+     public function conductorEnUso($id_conductor, $fechayhorasalida, $fechayhorallegada, $id_viaje) {
+/*
+ * WHERE $fecha_inicio BETWEEN [campo_fecha_inicio] AND [campo_fecha_fin]
+ *   OR $fecha_fin BETWEEN [campo_fecha_inicio] AND [campo_fecha_fin]
+ *   OR campo_fecha_inicio BETWEEN $fecha_inicio AND $fecha_fin           
+*/         
+         $this->db->query("
+         SELECT * 
+         FROM viaje 
+         WHERE conductor_id='$id_conductor' AND id<>'$id_viaje' 
+                  AND (('$fechayhorasalida'  BETWEEN horasalida and horallegada) 
+                       OR ('$fechayhorallegada'  BETWEEN horasalida and horallegada) 
+                       OR (horasalida  BETWEEN '$fechayhorasalida'  and '$fechayhorallegada')) 
+                  AND borrado_logico='0'");
          return $this->db->registrorowCount();
      }
 
-    public function autoEnUso($id_auto, $fechayhorallegada, $fechayhorasalida, $id_viaje) {
-         $this->db->query("SELECT * FROM viaje WHERE auto_id='$id_auto' AND id<>'$id_viaje' AND (('$fechayhorasalida'  BETWEEN horasalida and horallegada) OR ('$fechayhorallegada'  BETWEEN horasalida and horallegada)) AND borrado_logico='0'");
+    public function autoEnUso($id_auto, $fechayhorasalida, $fechayhorallegada, $id_viaje) {
+         $this->db->query("SELECT * FROM viaje WHERE auto_id='$id_auto' AND id<>'$id_viaje' 
+                            AND (('$fechayhorasalida'  BETWEEN horasalida AND horallegada) 
+                                OR ('$fechayhorallegada'  BETWEEN horasalida AND horallegada) 
+                                OR (horasalida  BETWEEN '$fechayhorasalida' AND '$fechayhorallegada')) 
+                            AND borrado_logico='0'");
          return $this->db->registrorowCount();
      }
 

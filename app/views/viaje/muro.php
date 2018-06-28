@@ -23,8 +23,8 @@
     </div>
     <div class="row">
         <div class="col">
-            <h5>Saliendo: <?php echo($datos['viaje']->horasalida) ?><br></h5>
-            <h5>Llegando: <?php echo($datos['viaje']->horallegada); ?></h5>
+            <h5>Saliendo: <?php echo(date("d-m-Y H:i", strtotime($datos['viaje']->horasalida))); ?><br></h5>
+            <h5>Llegando: <?php echo(date("d-m-Y H:i", strtotime($datos['viaje']->horallegada))); ?></h5>
             <h5>Costo: $ <?php echo($datos['viaje']->costo); ?></h5>
         </div>
         <div class="col">
@@ -56,11 +56,14 @@
             echo "<p><img class=\"img-perfil\" src='data:image/jpg;base64,".$imdata."' />";
         ?>
         <h5>Nombre de usuario: <?php echo $datos['conductor']->nombreusuario; ?>
+        <br>
+        <h5>Calificacion: <?php echo $datos['calificacion_conductor']; ?> </h5>
+        <br>
         <?php if($datos['rol'] == 'conductor' or $datos['rol'] == 'pasajero'): ?>
             <h5>Nombre: <?php echo $datos['conductor']->nombre; ?> </h5>
             <h5>Apellido: <?php echo $datos['conductor']->apellido; ?></h5>
             <h5>Telefono: <?php echo $datos['conductor']->telefono; ?></h5>
-            <h5>Email: <?php echo $datos['conductor']->email; ?> </h5>
+            <h5>Email: <?php echo $datos['conductor']->email; ?> </h5> 
             <br>
         <?php endif;  ?>
 

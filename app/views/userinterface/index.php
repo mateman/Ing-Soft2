@@ -27,9 +27,9 @@
         <?php for ($i = 0; $i < $datos['cantViajes'] ; $i++) { ?>
             <tr>
                 <td><?php echo($datos['viajes'][$i]->origen); ?></td>
-                <td><?php echo($datos['viajes'][$i]->horasalida); ?></td>
+                <td><?php echo (date("d-m-Y H:i", strtotime($datos['viajes'][$i]->horasalida))); ?></td>
                 <td><?php echo($datos['viajes'][$i]->destino); ?></td>
-                <td><?php echo($datos['viajes'][$i]->horallegada); ?></td>
+                <td><?php echo(date("d-m-Y H:i", strtotime($datos['viajes'][$i]->horallegada))); ?></td>
                 <td><?php echo($datos['viajes'][$i]->descripcion); ?></td>
                 <td><?php echo($datos['viajes'][$i]->costo); ?></td>
                 <td>

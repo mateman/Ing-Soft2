@@ -25,10 +25,10 @@
  
     <?php foreach ($datos['viajes'] as $viaje):  ?>
         <tr>
-            <td><?php echo $viaje->origen ?></td>
-            <td><?php echo $viaje->horasalida ?></td>
+            <td><?php echo $viaje->origen; ?></td>
+            <td><?php echo date("d-m-Y H:i", strtotime($viaje->horasalida)); ?></td>
             <td><?php echo $viaje->destino; ?></td>
-            <td><?php echo $viaje->horallegada; ?></td>
+            <td><?php echo date("d-m-Y H:i", strtotime($viaje->horallegada)); ?></td>
             <td><?php echo $viaje->descripcion; ?></td>
             <td><?php echo $viaje->costo; ?></td>
             <td>

@@ -1,10 +1,10 @@
 <?php require RUTA_APP.'/views/includes/header.php'; ?>
 
 <?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
- <div class="mensaje">
-        <?php if(isset($datos['mensaje'])) {
+ <div class="mensaje" align="center">
+     <p><h3><strong><I><?php if(isset($datos['mensaje'])) {
                     echo $datos['mensaje'];
-                } ?> </div>
+                } ?></I></strong></h3></p> </div>
                 <div class="mensaje">
 </div>
 
@@ -50,14 +50,14 @@
             <td><?php echo($datos['viajes'][$i]->descripcion); ?></td>
             <td><?php echo($datos['viajes'][$i]->costo); ?></td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/modificarViaje/<?php echo($datos['viajes'][$i]->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-maintenance.png" alt="" ></a>
+                <a href="<?php echo RUTA_URL; ?>/viaje/modificarViaje/<?php echo($datos['viajes'][$i]->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-maintenance.png" alt="" onmouseover="normalImg(this)"  onmouseout="smallImg(this)" width="32" height="32"></a>
             </td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/viajeEliminar/<?php echo($datos['viajes'][$i]->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-trash.png" alt="" ></a>
+                <a><img src="<?php echo RUTA_URL;?>/public/img/icons8-trash.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32" onclick="borrar(<?php echo($datos['viajes'][$i]->id); ?>);"></a>
 
             </td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>/misviajes"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" ></a>
+                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>/misviajes"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
             </td>
 
         </tr>
@@ -68,6 +68,26 @@
     </tbody>
 </table>
 </div>
+
+<script>
+    function borrar(id) {
+        var respuesta=confirm("¿desea uted realmente borrar?");
+        if(respuesta==true)
+            window.location="<?php echo RUTA_URL; ?>/viaje/viajeEliminar/"+id;
+        else
+            return 0;
+    }
+
+    function smallImg(x) {
+        x.style.height = "32px";
+        x.style.width = "32px";
+    }
+
+    function normalImg(x) {
+        x.style.height = "50px";
+        x.style.width = "50px";
+    }
+</script>
 
 <?php require RUTA_APP.'/views/includes/footer.php'; ?>
 

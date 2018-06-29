@@ -193,8 +193,14 @@ class Userinterface extends Controller {
             $this->view('userinterface/modificarAuto', $datos);
         }
         else {
-            $datos =[ 'mensaje' =>'No se puede modificar el auto por encontrarse asociado a uno o mas viajes'];
-            $this->view('pages/error', $datos);
+            $user_id = $this->session->get('id');
+            $cantAutos = $autoModelo->getCantidadAutos($user_id);
+            $autos = $autoModelo->getAutos($user_id);
+            $datos = [
+                'cantAutos' => $cantAutos,
+                'autos' => $autos,
+                'mensaje' =>'No se puede modificar el auto por encontrarse asociado a uno o mas viajes'];
+            $this->view('userinterface/misautos', $datos);
         }
 
     }
@@ -239,21 +245,27 @@ class Userinterface extends Controller {
     
     public function eliminarauto ($id){
         $autoModelo = $this->model('Modeloauto');
+        $user_id = $this->session->get('id');
         if ($autoModelo->autolibre($id) == 0) {
                 $eliminar = $autoModelo->autoEliminar($id);
-                $user_id = $this->session->get('id');
                 $cantAutos = $autoModelo->getCantidadAutos($user_id);
                 $autos = $autoModelo->getAutos($user_id);
                 $datos = [
-                     'cantAutos' => $cantAutos,
-                     'autos' => $autos,
-                     'mensaje' => 'El auto ha sido eliminado exitosamente'
+                    'cantAutos' => $cantAutos,
+                    'autos' => $autos,
+                    'mensaje' => 'El auto ha sido eliminado exitosamente'
                 ];
-                $this->view('userinterface/misautos', $datos);
-        }
+                }
         else {
-            $datos = ['mensaje' => 'No se puede eliminar el auto por encontrarse asociado a uno o mas viajes'];
-            $this->view('pages/error', $datos);}
+            $cantAutos = $autoModelo->getCantidadAutos($user_id);
+            $autos = $autoModelo->getAutos($user_id);
+            $datos = [
+                'cantAutos' => $cantAutos,
+                'autos' => $autos,
+                'mensaje' => 'No se puede eliminar el auto por encontrarse asociado a uno o mas viajes'
+            ];
+        };
+        $this->view('userinterface/misautos', $datos);
     }
     
     public function agregarauto (){

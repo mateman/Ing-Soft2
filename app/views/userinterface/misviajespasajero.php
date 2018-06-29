@@ -32,7 +32,7 @@
             <td><?php echo $viaje->descripcion; ?></td>
             <td><?php echo $viaje->costo; ?></td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo $viaje->viaje_id; ?>/misviajespasajero"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" ></a>
+                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo $viaje->viaje_id; ?>/misviajespasajero"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="36" height="36"></a>
             </td>
 
         </tr>
@@ -45,6 +45,18 @@
     </div>
     </div>
 </div>
+<script>
+    function smallImg(x) {
+        x.style.height = "36px";
+        x.style.width = "36px";
+    }
+
+    function normalImg(x) {
+        x.style.height = "50px";
+        x.style.width = "50px";
+    }
+</script>
+
 <?php require RUTA_APP.'/views/includes/footer.php'; ?>
 
 

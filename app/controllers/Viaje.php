@@ -148,27 +148,39 @@ class Viaje extends Controller
         $autos = $autoModelo->getAutos($user_id);
         $cantAutos = $autoModelo->getCantidadAutos($user_id);
         $viajeModelo = $this->model('Modeloviajes');
-        $viaje = $viajeModelo->getViaje($id);
-        $datos = [
-            'mensaje' => '',
-            'origen' => $viaje->origen,
-            'destino' => $viaje->destino,
-            'fechayhorallegada' => date("d-m-Y H:i", strtotime($viaje->horallegada)),
-            'fechayhorasalida' => date("d-m-Y H:i", strtotime($viaje->horasalida)),
-            'costo' => $viaje->costo,
-            'autodelviaje' => $viaje->auto_id,
-            'descripcion' => $viaje->descripcion,
-            'autos' => $autos,
-            'cantAutos' => $cantAutos,
-            'id' => $id
-        ];
+        if ($viajeModelo->viajeLibre($id) == 0) {
+            $viaje = $viajeModelo->getViaje($id);
+            $datos = [
+                'mensaje' => '',
+                'origen' => $viaje->origen,
+                'destino' => $viaje->destino,
+                'fechayhorallegada' => date("d-m-Y H:i", strtotime($viaje->horallegada)),
+                'fechayhorasalida' => date("d-m-Y H:i", strtotime($viaje->horasalida)),
+                'costo' => $viaje->costo,
+                'autodelviaje' => $viaje->auto_id,
+                'descripcion' => $viaje->descripcion,
+                'autos' => $autos,
+                'cantAutos' => $cantAutos,
+                'id' => $id
+            ];
 
-        $this->view('viaje/modificarviaje', $datos);
+            $this->view('viaje/modificarviaje', $datos);
+        }
+        else {
+            $cantViajes = $viajeModelo->getCantidadViajes($user_id);
+            $viajes = $viajeModelo->getViajes($user_id);
+            $datos = [
+                'cantViajes' => $cantViajes,
+                'viajes' => $viajes,
+                'mensaje' =>'No se puede modificar el viaje por encontrarse una solicitud de un pasajero en el mismo'
+            ];
+            $this->view('userinterface/misviajes', $datos);
+            }
 
     }
 
 
-        public function viajeModificar($id)
+    public function viajeModificar($id)
     {
           date_default_timezone_set('America/Argentina/Buenos_Aires'); // hora Bs As
         $autoModelo = $this->model('Modeloauto');
@@ -176,50 +188,16 @@ class Viaje extends Controller
         $autos = $autoModelo->getAutos($user_id);
         $cantAutos = $autoModelo->getCantidadAutos($user_id);
         $viajeModelo = $this->model('Modeloviajes');
-
-        if ($viajeModelo->viajeLibre($id) == 0) {
-            if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['fechayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['autodelviaje']))) {
-                $fecha_actual = date("Y-m-d H:i:s", time());
-                $fechayhorallegada = date("Y-m-d H:i:s", strtotime($_POST['fechayhorallegada']));
-                $fechayhorasalida = date("Y-m-d H:i:s", strtotime($_POST['fechayhorasalida']));
-                $autodelviaje = $_POST['autodelviaje'];
-
-                if (($fecha_actual < $fechayhorallegada) AND ($fecha_actual < $fechayhorasalida) AND ($fechayhorasalida < $fechayhorallegada)) {
-                    $conductorEnUso = $viajeModelo->conductorEnUso($user_id, $fechayhorasalida, $fechayhorallegada, $id);
-                    if ($conductorEnUso > 0) {
-                        $datos = [
-                            'mensaje' => 'Ya posee un viaje en este rango de fecha y hora.',
-                            'origen' => $_POST['origen'],
-                            'destino' => $_POST['destino'],
-                            'fechayhorallegada' => $_POST['fechayhorallegada'],
-                            'fechayhorasalida' => $_POST['fechayhorasalida'],
-                            'costo' => $_POST['costo'],
-                            'autodelviaje' => $autodelviaje,
-                            'descripcion' => $_POST['descripcion'],
-                            'autos' => $autos,
-                            'cantAutos' => $cantAutos,
-                            'id' => $id
-                        ];
-
-                        $this->view('viaje/modificarviaje', $datos);
-                        exit();
-                    }
-
-                    $modificarviaje = $viajeModelo->viajeModificar($_POST['descripcion'], $_POST['origen'], $_POST['destino'], $fechayhorallegada, $fechayhorasalida, $_POST['costo'], $autodelviaje, $user_id, $id);
-
-                    $cantViajes = $viajeModelo->getCantidadViajes($user_id);
-        $viajes = $viajeModelo->getViajes($user_id);
-         $datos = [
-             'cantViajes' => $cantViajes,
-             'viajes' => $viajes,
-             'mensaje' => 'Viaje modificado correctamente!'
-         ];
-
-                    $this->view('userinterface/misviajes', $datos);
-                } else {
-                    $autos = $autoModelo->getAutos($user_id);
+        if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['fechayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['autodelviaje']))) {
+            $fecha_actual = date("Y-m-d H:i:s", time());
+            $fechayhorallegada = date("Y-m-d H:i:s", strtotime($_POST['fechayhorallegada']));
+            $fechayhorasalida = date("Y-m-d H:i:s", strtotime($_POST['fechayhorasalida']));
+            $autodelviaje = $_POST['autodelviaje'];
+            if (($fecha_actual < $fechayhorallegada) AND ($fecha_actual < $fechayhorasalida) AND ($fechayhorasalida < $fechayhorallegada)) {
+                $conductorEnUso = $viajeModelo->conductorEnUso($user_id, $fechayhorasalida, $fechayhorallegada, $id);
+                if ($conductorEnUso > 0) {
                     $datos = [
-                        'mensaje' => 'Debe poner fechas futuras!',
+                        'mensaje' => 'Ya posee un viaje en este rango de fecha y hora.',
                         'origen' => $_POST['origen'],
                         'destino' => $_POST['destino'],
                         'fechayhorallegada' => $_POST['fechayhorallegada'],
@@ -234,25 +212,49 @@ class Viaje extends Controller
 
                     $this->view('viaje/modificarviaje', $datos);
                     exit();
-
                 }
-            } else {
-                $autos = $autoModelo->getAutos($user_id);
+                $modificarviaje = $viajeModelo->viajeModificar($_POST['descripcion'], $_POST['origen'], $_POST['destino'], $fechayhorallegada, $fechayhorasalida, $_POST['costo'], $autodelviaje, $user_id, $id);
+                $cantViajes = $viajeModelo->getCantidadViajes($user_id);
+                $viajes = $viajeModelo->getViajes($user_id);
                 $datos = [
-                    'mensaje' => 'Debe completar todos los campos!',
-                    'cantAutos' => $cantAutos,
+                    'cantViajes' => $cantViajes,
+                    'viajes' => $viajes,
+                    'mensaje' => 'Viaje modificado correctamente!'
+                ];
+                $this->view('userinterface/misviajes', $datos);
+            }
+            else {
+                $autos = $autoModelo->getAutos($user_id);   $datos = [
+                    'mensaje' => 'Debe poner fechas futuras!',
+                    'origen' => $_POST['origen'],
+                    'destino' => $_POST['destino'],
+                    'fechayhorallegada' => $_POST['fechayhorallegada'],
+                    'fechayhorasalida' => $_POST['fechayhorasalida'],
+                    'costo' => $_POST['costo'],
+                    'autodelviaje' => $autodelviaje,
+                    'descripcion' => $_POST['descripcion'],
                     'autos' => $autos,
+                    'cantAutos' => $cantAutos,
+                    'id' => $id
                 ];
 
                 $this->view('viaje/modificarviaje', $datos);
+                exit();
             }
-
         }
         else {
-            $datos =[ 'mensaje' =>'No se puede modificar el viaje por encontrarse alguna una solicitud de un usuario'];
-            $this->view('pages/error', $datos);
+            $autos = $autoModelo->getAutos($user_id);
+            $datos = [
+                'mensaje' => 'Debe completar todos los campos!',
+                'cantAutos' => $cantAutos,
+                'autos' => $autos,
+            ];
+
+            $this->view('viaje/modificarviaje', $datos);
         }
+
     }
+
 
 
     /**

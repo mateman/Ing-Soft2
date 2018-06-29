@@ -126,13 +126,13 @@
         <td><?php echo ($postulante->email); ?></td>
         <td><?php echo ($postulante->calificacion_pasajero); ?></td> 
           <td> 
-            <a href="<?php echo RUTA_URL; ?>/viaje/cancelarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-delete.png" alt="" ></a>
+            <a href="<?php echo RUTA_URL; ?>/viaje/cancelarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-delete.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
         <td>
-            <a href="<?php echo RUTA_URL; ?>/viaje/aceptarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-checkmark.png" alt="" ></a>
+            <a href="<?php echo RUTA_URL; ?>/viaje/aceptarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-checkmark.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
         <td>
-            <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" ></a>
+            <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
 
     </tr>
@@ -163,7 +163,7 @@
         <td><?php echo ($aceptados->email); ?></td>
         <td><?php echo ($aceptados->calificacion_pasajero); ?></td>
         <td>
-            <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" ></a>
+            <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
     </tr>
               
@@ -188,6 +188,19 @@
 
 
 <script>
+
+
+    function smallImg(x) {
+        x.style.height = "32px";
+        x.style.width = "32px";
+    }
+
+    function normalImg(x) {
+        x.style.height = "50px";
+        x.style.width = "50px";
+    }
+
+
     var lista = nuevoAjax();
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

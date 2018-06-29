@@ -33,7 +33,7 @@
                 <td><?php echo($datos['viajes'][$i]->descripcion); ?></td>
                 <td><?php echo($datos['viajes'][$i]->costo); ?></td>
                 <td>
-                    <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>/unAventon"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" ></a>
+                    <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>/unAventon"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="36" height="36"></a>
                 </td>
                 <td>
 
@@ -49,7 +49,19 @@
 </div>
 
 <script>
-    var lista = nuevoAjax();
+
+    function smallImg(x) {
+        x.style.height = "36px";
+        x.style.width = "36px";
+    }
+
+    function normalImg(x) {
+        x.style.height = "50px";
+        x.style.width = "50px";
+    }
+
+
+var lista = nuevoAjax();
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

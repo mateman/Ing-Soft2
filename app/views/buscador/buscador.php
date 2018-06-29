@@ -91,11 +91,20 @@ $('form').on('submit' , function(e) {
     });
   
 })
-  
-  
-  
-  
-  
-  
+
+function smallImg(x) {
+    x.style.height = "36px";
+    x.style.width = "36px";
+}
+
+function normalImg(x) {
+    x.style.height = "50px";
+    x.style.width = "50px";
+}
+
+
+
+
+
 
 </script> 

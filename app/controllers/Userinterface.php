@@ -168,7 +168,8 @@ class Userinterface extends Controller {
         $viajes = $viajemodelo->ViajesComoPasajero($user_id);
        
          $datos = [
-             'viajes' => $viajes
+             'viajes' => $viajes,
+             'id-user' => $user_id
          ];
          //var_dump($datos);
          //echo $viajes;

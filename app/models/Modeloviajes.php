@@ -84,7 +84,7 @@
      }
 
      public function getViajes($id) {
-         $this->db->query("SELECT * FROM viaje WHERE conductor_id='$id' AND borrado_logico='0'");
+         $this->db->query("SELECT * FROM viaje WHERE conductor_id='$id' AND borrado_logico='0' ORDER BY horasalida, horallegada DESC");
          return $this->db->registros();
      }
 
@@ -100,16 +100,26 @@
          $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0'");
          return $this->db->registros();
      }
+
      public function getPasajeroAprobado($id) {
          $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 1");
          return $this->db->registros();
      }
+
      public function getPostulante($id) {
-         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 0");
+         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 0" );
          return $this->db->registros();
      }
 
+     public function getPasajeroRechazado($id) {
+         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 2");
+         return $this->db->registros();
+     }
 
+     public function getEstadoPasajero($id_viaje,$id_user){
+         $this->db->query("SELECT estado FROM pasajero WHERE viaje_id='$id_viaje' AND usuario_id='$id_user' AND borrado_logico='0'");
+         return $this->db->registro();
+     }
 
      public function estaEnPasajero($id_viaje,$id_user){
          $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id_viaje' AND usuario_id='$id_user' AND borrado_logico='0'");
@@ -161,7 +171,7 @@
      }
 
      public function getAllViajes() {
-         $this->db->query("SELECT * FROM viaje WHERE borrado_logico='0' ");
+         $this->db->query("SELECT * FROM viaje WHERE borrado_logico='0' ORDER BY horasalida, horallegada DESC");
          return $this->db->registros();
      }
 
@@ -178,7 +188,7 @@
      }
 
       public function getAllViajesFechaActual() {
-   $this->db->query("SELECT * FROM viaje WHERE borrado_logico='0' AND horasalida > NOW() ORDER BY horasalida");
+   $this->db->query("SELECT * FROM viaje WHERE borrado_logico='0' AND horasalida > NOW() ORDER BY horasalida, horallegada DESC");
          return $this->db->registros();
      }
 
@@ -218,7 +228,7 @@
      public function ViajesComoPasajero($id) {
          $sql = "     select * from viaje
          INNER JOIN pasajero WHERE pasajero.viaje_id= viaje.id
-         AND pasajero.usuario_id = '$id'";
+         AND pasajero.usuario_id = '$id' ORDER BY viaje.horasalida, viaje.horallegada DESC";
          
         $this->db->query($sql);
         return $this->db->registros();

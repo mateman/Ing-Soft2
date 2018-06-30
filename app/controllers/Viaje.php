@@ -357,12 +357,23 @@ class Viaje extends Controller
                 elseif ($time==2){$datos['estado'] = '6';}
                 else{$datos['estado'] = '4';};
 
-            } else {
+            }
+            elseif ($estado == 2) {
+                $datos['rol'] = 'pasajero';
+                if ($time==0)
+                {
+                    $datos['estado'] = '1';
+                    $datos['mensaje'] = 'Su solicitud fue rechazada ';
+                }
+                elseif ($time==2){$datos['estado'] = '5';}
+                else{$datos['estado'] = '4';};
+            }
+            else {
                 $datos['rol'] = 'postulado';
                 if ($time==0)
                 {
                     $datos['estado'] = '1';
-                    $datos['mensaje'] = 'Esperando Confirmacion del creador';
+                    $datos['mensaje'] = 'Esperando a ser confirmado';
                 }
                 elseif ($time==2){$datos['estado'] = '5';}
                 else{$datos['estado'] = '4';};

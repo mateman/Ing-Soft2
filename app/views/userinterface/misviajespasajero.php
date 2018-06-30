@@ -32,7 +32,7 @@
             <td><?php echo $viaje->descripcion; ?></td>
             <td><?php echo $viaje->costo; ?></td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo $viaje->viaje_id; ?>/misviajespasajero"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="36" height="36"></a>
+                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo $viaje->viaje_id; ?>/misviajespasajero"> <img src="<?php echo RUTA_URL;?>/public/img/<?php  if ($viaje->estado ==1){echo 'icons8-car-aceptado.png';}elseif ($viaje->estado ==2){echo 'icons8-car-rechazado.png';}else{echo 'icons8-car.png';}; ?>" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="36" height="36"></a>
             </td>
 
         </tr>

@@ -30,13 +30,13 @@ CREATE TABLE `pasajero` (
   `id` int(11) NOT NULL,
   `usuario_id` int(11) NOT NULL,
   `viaje_id` int(11) NOT NULL,
-  `estado` int(11) NOT NULL,
-  `calificacion_pasajero` int(11) NOT NULL,
-  `calificacion_conductor` int(11) NOT NULL,
-  `comentario_conductor` text NOT NULL,
-  `comentario_pasajero` text NOT NULL,
-  `flag-calificacion_conductor`  bit NOT NULL,
-  `flag-calificacion_pasajero`  bit NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT '0',
+  `calificacion_pasajero` int(11) NOT NULL DEFAULT '0',
+  `calificacion_conductor` int(11) NOT NULL DEFAULT '0',
+  `comentario_conductor` text DEFAULT '',
+  `comentario_pasajero` text DEFAULT '',
+  `flag-calificacion_conductor`  bit DEFAULT '0',
+  `flag-calificacion_pasajero`  bit DEFAULT '0',
   `borrado_logico` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -59,8 +59,8 @@ CREATE TABLE `usuario` (
   `email` varchar(40) NOT NULL,
   `id` int(11) NOT NULL,
   `tienevehiculo` tinyint(1) NOT NULL,
-  `foto_contenido` longblob NOT NULL,
-  `foto_tipo` varchar(5) NOT NULL,
+  `foto_contenido` longblob,
+  `foto_tipo` varchar(5),
   `imagen_url` varchar(250) NOT NULL,
   `borrado_logico` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

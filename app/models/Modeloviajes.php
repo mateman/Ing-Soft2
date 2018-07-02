@@ -241,6 +241,16 @@
 
     }
 
+    public function tienePasajeros($id_viaje) {
+        $sql = " select * from pasajero where viaje_id = '$id_viaje' and estado = 1" ;
+        $this->db->query($sql);
+        if ($this->db->registrorowCount() > 0){
+            return 1;}
+            else{
+                return 0;
+            }
+
+    }
 
 
 

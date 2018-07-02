@@ -120,6 +120,12 @@
 
     }
 
+    public function verPuntosConductor ($id_User){
+        SELECT a.id, a.nombre, SUM(b.valor)
+   FROM tablanombres a LEFT JOIN tablavalores b ON a.id = b.id
+   GROUP BY a.id, a.nombre
+    }
+
     public function sumarPuntos($id,$puntos){
         $this->db->query("UPDATE tabla SET puntos = puntos +$puntos  WHERE id='$id' AND borrado_logico='0';");
         return $this->db->execute();

@@ -325,6 +325,7 @@ class Viaje extends Controller
                     'conductor'          => $conductor,
                     'auto'               => $auto, // Datos relacionados al auto 
                     'viaje'              => $viaje, // Datos del viaje
+                    'calificacion_conductor' => '0',
                     'postulantes'        => $postulantes, // Ver esto
                     'pasajerosAprobados' => $pasajerosAprobados,
                     'rol'=>     '', // conductor aceptado postulado publico rechazado

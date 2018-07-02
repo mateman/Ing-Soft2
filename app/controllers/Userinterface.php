@@ -149,17 +149,28 @@ class Userinterface extends Controller {
     }
 
     public function misviajes () {
-        $usuarioModelo = $this->model('Usuario');
         $user_id = $this->session->get('id');
-        $viajemodelo = $this->model('Modeloviajes');
-        $cantViajes = $viajemodelo->getCantidadViajes($user_id);
-        $viajes = $viajemodelo->getViajes($user_id);
-         $datos = [
-             'cantViajes' => $cantViajes,
-             'viajes' => $viajes
-         ];
+        $autoModelo = $this->model('Modeloauto');
+        $cantAutos = $autoModelo->getCantidadAutos($user_id);
 
-        $this->view('userinterface/misviajes', $datos);
+        if ($cantAutos == 0) {
+            $datos = [
+                'mensaje' => 'Usted no posee autos, no puede crearviaje'
+            ];
+
+            $this->view('pages/error', $datos);
+        } else {
+            $usuarioModelo = $this->model('Usuario');
+            $viajemodelo = $this->model('Modeloviajes');
+            $cantViajes = $viajemodelo->getCantidadViajes($user_id);
+            $viajes = $viajemodelo->getViajes($user_id);
+            $datos = [
+                'cantViajes' => $cantViajes,
+                'viajes' => $viajes
+            ];
+
+            $this->view('userinterface/misviajes', $datos);
+        }
     }
     public function misviajesPasajero () {
         $usuarioModelo = $this->model('Usuario');

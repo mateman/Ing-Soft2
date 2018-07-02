@@ -34,8 +34,12 @@ CREATE TABLE `pasajero` (
   `calificacion_pasajero` int(11) NOT NULL,
   `calificacion_conductor` int(11) NOT NULL,
   `comentario_conductor` text NOT NULL,
+  `comentario_pasajero` text NOT NULL,
+  `flag-calificacion_conductor`  bit NOT NULL,
+  `flag-calificacion_pasajero`  bit NOT NULL,
   `borrado_logico` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 -- --------------------------------------------------------
 

@@ -1,7 +1,7 @@
 <?php require RUTA_APP.'/views/includes/header.php'; ?>
 
 <?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
-
+<script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
 
  <div class="mensaje" align="center">
      <p><h3><strong><I><?php if(isset($datos['mensaje'])) {
@@ -58,7 +58,7 @@
                 <a href="<?php echo RUTA_URL; ?>/viaje/modificarViaje/<?php echo($datos['viajes'][$i]->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-maintenance.png" alt="" onmouseover="normalImg(this)"  onmouseout="smallImg(this)" width="32" height="32"></a>
             </td>
             <td>
-                <a><img src="<?php echo RUTA_URL;?>/public/img/icons8-trash.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32" onclick="borrar(<?php echo ($tienePasajeros); ?>);"></a>
+                <a><img src="<?php echo RUTA_URL;?>/public/img/icons8-trash.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32" onclick="borrar(<?php echo($datos['viajes'][$i]->id); ?>);"></a>
 
             </td>
             <td>
@@ -82,11 +82,9 @@
         else{
             var mensaje = "El viaje seleccionado tiene pasajeros aceptados, si lo elimina se le descontará un punto ¿desea realmente borrarlo?";
         }
-        var respuesta=confirm(mensaje);
-        if(respuesta==true)
-            window.location="<?php echo RUTA_URL; ?>/viaje/viajeEliminar/"+id;
-        else
-            return 0;
+        var link = "<?php echo RUTA_URL; ?>/viaje/viajeEliminar/"+id;
+        var respuesta=Confirm('Borrar Viaje',mensaje, link);
+     
     }
 
     function smallImg(x) {

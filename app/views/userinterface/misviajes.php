@@ -1,6 +1,8 @@
 <?php require RUTA_APP.'/views/includes/header.php'; ?>
 
 <?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
+<script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
+
  <div class="mensaje" align="center">
      <p><h3><strong><I><?php if(isset($datos['mensaje'])) {
                     echo $datos['mensaje'];
@@ -41,13 +43,16 @@
     </tr>
     </thead>
     <tbody>
-    <?php for ($i = 0; $i < $datos['cantViajes'] ; $i++) { ?>
+    <?php for ($i = 0; $i < $datos['cantViajes'] ; $i++) {
+    $modeloViajes= $this->model('Modeloviajes');
+    $tienePasajeros = $modeloViajes->tienePasajeros($datos['viajes'][$i]->id); 
+     ?>
         <tr>
             <td><?php echo($datos['viajes'][$i]->origen); ?></td>
             <td><?php echo(date("d-m-Y H:i", strtotime($datos['viajes'][$i]->horasalida))); ?></td>
             <td><?php echo($datos['viajes'][$i]->destino); ?></td>
             <td><?php echo(date("d-m-Y H:i", strtotime($datos['viajes'][$i]->horallegada))); ?></td>
-            <td><?php echo($datos['viajes'][$i]->descripcion); ?></td>
+            <td><?php echo($datos['viajes'][$i]->descripcion);  ?></td>
             <td><?php echo($datos['viajes'][$i]->costo); ?></td>
             <td>
                 <a href="<?php echo RUTA_URL; ?>/viaje/modificarViaje/<?php echo($datos['viajes'][$i]->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-maintenance.png" alt="" onmouseover="normalImg(this)"  onmouseout="smallImg(this)" width="32" height="32"></a>
@@ -71,11 +76,15 @@
 
 <script>
     function borrar(id) {
-        var respuesta=confirm("¿desea uted realmente borrar?");
-        if(respuesta==true)
-            window.location="<?php echo RUTA_URL; ?>/viaje/viajeEliminar/"+id;
-        else
-            return 0;
+        if(id == 0){
+            var mensaje = "¿desea usted realmente borrar el viaje?";
+        }
+        else{
+            var mensaje = "El viaje seleccionado tiene pasajeros aceptados, si lo elimina se le descontará un punto ¿desea realmente borrarlo?";
+        }
+        var link = "<?php echo RUTA_URL; ?>/viaje/viajeEliminar/"+id;
+        var respuesta=Confirm('Borrar Viaje',mensaje, link);
+     
     }
 
     function smallImg(x) {

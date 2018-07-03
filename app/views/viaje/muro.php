@@ -20,9 +20,9 @@
             <hr />
             <br />
         </div>
-        <?php if ($datos['estado']=='pos') { ?>
+        <?php if ($datos['estado']=='pos' AND $datos['rol']=='aceptado') { ?>
         <div class="col"
-            <h5><I><strong>Calificacion: </strong><input type="radio" name="calificacion" value="-11">Negativo<input type="radio" name="calificacion" value="0">Neutro<input type="radio" name="calificacion" value="1">Positivo</I></h5>
+            <h5><I><strong>Calificacion: </strong><input type="radio" id="calificacionN" name="calificacion" value="-1"  onChange="calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,'-1');">Negativo<input type="radio" id="calificacion0" name="calificacion" value="0"  onChange="calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,'0');">Neutro<input type="radio" id="calificacionP" name="calificacion" value="1"  onChange="calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,'1');">Positivo</I></h5>
         </div>
         <?php } ?>
     </div>
@@ -167,7 +167,7 @@
         <?php if ($datos['estado']=='pre' OR $datos['estado']=='en') { ?>
         <td><?php echo ($aceptados->calificacion_pasajero); ?></td>
         <?php } elseif ($datos['estado']=='pos') { ?>
-        <td><input type="radio" name="calificacion" value="-11">Negativo<input type="radio" name="calificacion" value="0">Neutro<input type="radio" name="calificacion" value="1">Positivo
+        <td><input type="radio" name="calificacion" value="-1">Negativo<input type="radio" name="calificacion" value="0">Neutro<input type="radio" name="calificacion" value="1">Positivo
         </td>
         <?php } else {}; ?>
         <td>
@@ -251,6 +251,20 @@
                 if (lista.responseText == "Rechazado"){alert("Se rechazo la eliminacion");}
                 else{document.getElementById('borrar-' + idviaje).style.visibility= 'hidden';
                      document.getElementById('anotar-' + idviaje).style.visibility= 'visible';};
+            };
+        };
+    };
+    //------------------------------------------------------------------------------------------------------------------------------
+    function calificar(idviaje,idpasajero, punto) {
+        lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/calificar/", true);
+        lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        lista.send("viajer= " + idviaje+"&usuario="+idpasajero+"&punto="+punto);
+        lista.onreadystatechange = function () {
+            if (lista.readyState == 4) {
+                if (lista.responseText == "Rechazado"){alert("Se rechazo la calificacion");}
+                else{document.getElementById('calificacionN').style.visibility= 'hidden';
+                    document.getElementById('calificacion0').style.visibility= 'hidden';
+                    document.getElementById('calificacionP').style.visibility= 'hidden';};
             };
         };
     };

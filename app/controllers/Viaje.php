@@ -402,5 +402,14 @@ class Viaje extends Controller
     }
 
 
+    public function calificar(){
+        $usuarioModelo = $this->model('Usuario');
+        $user_id = $this->session->get('id');
+        $viajeModelo = $this->model('Modeloviajes');
+        $viaje = $_POST['viaje'];
+        $usuario = $_POST['usuario'];
+        $punto = $_POST['punto'];
+        echo 'alert("'.$viaje.$usuario.$punto.'")';
+    }
 }
 

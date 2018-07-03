@@ -120,12 +120,24 @@
 
     }
 
-    public function verPuntosConductor ($id_User){
-        SELECT a.id, a.nombre, SUM(b.valor)
-   FROM tablanombres a LEFT JOIN tablavalores b ON a.id = b.id
-   GROUP BY a.id, a.nombre
+    public function verPuntosPasajero ($id_User){
+        $this->db->query("SELECT SUM(calificacion_pasajero) AS suma
+                              FROM pasajero 
+                              WHERE usuario_id = '$id_User'
+                        ");
+        return $this->db->registro();
     }
 
+  // ver select tabla1.nombre, sum(tabla2.valor) from tabla1, tabla2 where id_tabla1 = id_tabla2 group by tabla1.nombre, tabla2.valor
+     public function verPuntosConductor ($id_User){
+         $res1 = $this->db->query("SELECT  SUM(b.calificacion_conductor) AS suma 
+                              FROM viaje a LEFT JOIN pasajero b ON a.id = b.viaje_id
+                              WHERE a.conductor_id = '$id_User'
+                        ");
+         return ($this->db->registro());
+     }
+
+    
     public function sumarPuntos($id,$puntos){
         $this->db->query("UPDATE tabla SET puntos = puntos +$puntos  WHERE id='$id' AND borrado_logico='0';");
         return $this->db->execute();

@@ -320,12 +320,12 @@ class Viaje extends Controller
         $postulantes = $viajeModelo->getPostulante($id);
         // pasajeros aceptados
         $pasajerosAprobados = $viajeModelo->getPasajeroAprobado($id);
-        
+        $calificacion_conductor = $usuarioModelo->verPuntosConductor($viaje->conductor_id);
         $datos = [  'mensaje'            => '',
                     'conductor'          => $conductor,
                     'auto'               => $auto, // Datos relacionados al auto 
                     'viaje'              => $viaje, // Datos del viaje
-                    'calificacion_conductor' => '0',
+                    'calificacion_conductor' => $calificacion_conductor->suma,
                     'postulantes'        => $postulantes, // Ver esto
                     'pasajerosAprobados' => $pasajerosAprobados,
                     'rol'=>     '', // conductor aceptado postulado publico rechazado

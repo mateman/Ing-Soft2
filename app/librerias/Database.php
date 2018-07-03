@@ -65,6 +65,7 @@ class Database {
         $this->execute();
         return $this->stmt->fetch(PDO::FETCH_OBJ);
      }
+
      public function registrorowCount() {
         $this->execute();
         return $this->stmt->rowCount();

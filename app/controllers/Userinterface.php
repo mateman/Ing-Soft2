@@ -372,16 +372,22 @@ class Userinterface extends Controller {
 
     public function infoPostulante($idPostulante, $idViaje)
     {
+        $usuarioModelo = $this->model('Usuario');
         $usuario = $this->datosUsuarioById($idPostulante);
         $datos = $this->datoVista($usuario);
+        $calificacion_pasajero = $usuarioModelo->verPuntosPasajero($idPostulante);
+        $datos['calificacion'] = $calificacion_pasajero->suma;
         $datos['path'] = $idViaje;
         $this->view('userinterface/perfilPostulante', $datos);
     }
 
     public function infoPostulado($idPostulado, $idViaje)
     {
+        $usuarioModelo = $this->model('Usuario');
         $usuario = $this->datosUsuarioById($idPostulado);
         $datos = $this->datoVista($usuario);
+        $calificacion_pasajero = $usuarioModelo->verPuntosPasajero($idPostulado);
+        $datos['calificacion'] = $calificacion_pasajero->suma;
         $datos['path'] = $idViaje;
         $this->view('userinterface/perfilPostulado', $datos);
     }

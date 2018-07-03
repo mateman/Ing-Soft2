@@ -21,6 +21,8 @@
     <hr>
     <p><b>Ciudad:</b> <?php echo $datos['ciudad'] ?>
     <hr>
+    <p><b>Calificaion:</b> <?php echo $datos['calificacion'] ?>
+    <hr>
     <hr>
     <?php
     $im = file_get_contents(RUTA_APP.'/../public/img/users/'. $datos['imagenurl']);

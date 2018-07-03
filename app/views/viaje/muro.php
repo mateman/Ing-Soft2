@@ -20,6 +20,11 @@
             <hr />
             <br />
         </div>
+        <?php if ($datos['estado']=='pos') { ?>
+        <div class="col"
+            <h5><I><strong>Calificacion: </strong><input type="radio" name="calificacion" value="-11">Negativo<input type="radio" name="calificacion" value="0">Neutro<input type="radio" name="calificacion" value="1">Positivo</I></h5>
+        </div>
+        <?php } ?>
     </div>
     <div class="row">
         <div class="col">
@@ -38,7 +43,7 @@
         <h3>Auto adjudicado a este viaje:</h3>
         <h5>Marca: <?php echo $datos['auto']->marca; ?> </h5>
         <h5>Modelo: <?php echo $datos['auto']->modelo; ?></h5>
-        <?php if($datos['rol'] == 'conductor' or $datos['rol'] == 'pasajero'):?>
+        <?php if($datos['rol'] == 'conductor' or $datos['rol'] == 'aceptado'):?>
             <h5>Patente: <?php echo $datos['auto']->patente; ?></h5>
         <?php endif; ?>
       
@@ -71,7 +76,7 @@
         
         </div>
         <div class="row">
-        <?php if ($datos['rol'] =='publico')
+        <?php if ($datos['rol'] =='publico' AND $datos['estado']=='pre')
       {
             $class_succes = ' class="btn btn-success"';
             $class_danger = ' class="btn btn-danger"';
@@ -79,14 +84,14 @@
             echo '<br />';
             echo "<a id='borrar-". ($datos['viaje']->id) . "' onClick='Borrarse(".($datos['viaje']->id).")' style='visibility: hidden'><button".$class_danger.">Darse de Baja</button></a>";
       }
-      elseif ($datos['rol'] =='postulado')
+      elseif ($datos['rol'] =='postulado' AND $datos['estado']=='pre')
       {
           $class_succes = ' class="btn btn-success"';
           $class_danger = ' class="btn btn-danger"';
           echo "<a id='anotar-". ($datos['viaje']->id) . "' onClick='Anotarse(".($datos['viaje']->id).")' style='visibility: hidden'><button".$class_succes.">Anotarse</button></a>";
           echo "<a id='borrar-". ($datos['viaje']->id) . "' onClick='Borrarse(".($datos['viaje']->id).")'><button".$class_danger.">Darse de Baja</button></a>";}
       
-          elseif ($datos['estado'] =='3'){
+          elseif ($datos['rol'] =='conductor'){
     ?>
         </div>
     </div>
@@ -97,10 +102,8 @@
 
 
       <div class="container">
-  
-  
-  
-  
+
+   <?php if ($datos['estado']=='pre') { ?>
   
   <h2>Listado de Postulantes</h2>
         <table class="table table-dark table-striped">
@@ -124,8 +127,8 @@
         <td><?php echo ($postulante->apellido); ?></td>
         <td><?php echo ($postulante->telefono); ?></td>
         <td><?php echo ($postulante->email); ?></td>
-        <td><?php echo ($postulante->calificacion_pasajero); ?></td> 
-          <td> 
+        <td><?php echo ($postulante->calificacion_pasajero); ?></td>
+          <td>
             <a href="<?php echo RUTA_URL; ?>/viaje/cancelarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-delete.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
         <td>
@@ -134,7 +137,6 @@
         <td>
             <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
-
     </tr>
               
         <?php } ?> </tbody>
@@ -142,7 +144,8 @@
           
              </table>
              </div>
- <div class="container">
+  <?php } ?>
+  <div class="container">
   <h2>Listado de Pasajeros Aceptados</h2>
         <table class="table table-dark table-striped">
     <thead>
@@ -161,7 +164,12 @@
         <td><?php echo ($aceptados->apellido); ?></td>
         <td><?php echo ($aceptados->telefono); ?></td>
         <td><?php echo ($aceptados->email); ?></td>
+        <?php if ($datos['estado']=='pre' OR $datos['estado']=='en') { ?>
         <td><?php echo ($aceptados->calificacion_pasajero); ?></td>
+        <?php } elseif ($datos['estado']=='pos') { ?>
+        <td><input type="radio" name="calificacion" value="-11">Negativo<input type="radio" name="calificacion" value="0">Neutro<input type="radio" name="calificacion" value="1">Positivo
+        </td>
+        <?php } else {}; ?>
         <td>
             <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>

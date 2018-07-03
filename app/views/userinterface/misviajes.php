@@ -44,8 +44,8 @@
     </thead>
     <tbody>
     <?php for ($i = 0; $i < $datos['cantViajes'] ; $i++) {
-    $modeloViajes= $this->model('Modeloviajes');
-    $tienePasajeros = $modeloViajes->tienePasajeros($datos['viajes'][$i]->id); 
+ //   $modeloViajes= $this->model('Modeloviajes');
+ //   $tienePasajeros = $modeloViajes->tienePasajeros($datos['viajes'][$i]->id);
      ?>
         <tr>
             <td><?php echo($datos['viajes'][$i]->origen); ?></td>

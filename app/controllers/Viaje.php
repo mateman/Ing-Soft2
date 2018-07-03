@@ -284,16 +284,23 @@ class Viaje extends Controller
     public function muro($id,$volver)
     {
         /*
-         * Definicion de estado:
-         * 0: Puedes postularte
-         * 1: Postulante pendiente de aceptacion
-         * 2: postulante aceptado
-         * 3: conductor antes del viaje
-         * 4: En medio del viaje , no hay ninguna opcion
-         * -- Aca se retiran todos los botones y quedan solo el puntar
-         * 5: postulados no aceptados y pendientes despues del viaje
-         * 6: postulante aceptado despues del viaje
-         * 7: conductor despues del viaje
+         * Definicion de estado y rol:
+         * hay tres estados (de tiempo) pre(viaje) en(viaje y pos(viaje) de ahora pre en y pos
+         * hay 5 roles
+         * 4 de usuario y 1 de conductor
+         * rol(conductor) :conductor
+         * rol(publico) :un postulante
+         * rol(postulado) :un postulado esperando a que lo acepte el conductor
+         * rol(aceptado) :un postulado aceptado por conductor, ya no se puede dar de baja a la postulacion
+         * rol(rechazado) :un postulado rechazado con lo cual se puede dar de baja despues del viaje
+         *
+         * en los roles postulado y publico ambos aparecen los botones  anotarse y dar de baja en estado pre y en estado en y pos no puede ver el viaje
+         *
+         * en el rol aceptado deja de ver los botones anotarse y baja en estado pre y en, pero ve mas datos del conductor
+         * y en estado pos ve un calificar, que una vez calificado deja de ver este.
+         *
+         * en el rol conductor ve los postulados y aceptados en el estado pre , en el estado 'en' solo ve los aceptados,
+         * y en pos solo los aceptados con la opcion de calificar
          */
         //Modelos con los cuales se va a trabajar
         $autoModelo = $this->model('Modeloauto');
@@ -305,9 +312,9 @@ class Viaje extends Controller
         $viaje = $viajeModelo->getViaje($id);
         $fechayhorallegada = date("Y-m-d H:i:s", strtotime($viaje->horallegada));
         $fechayhorasalida = date("Y-m-d H:i:s", strtotime($viaje->horasalida));
-        if($fecha_actual<$fechayhorallegada){$time = 0;}
-        elseif (($fecha_actual>$fechayhorallegada)AND($fecha_actual<$fechayhorasalida)){$time=1;}
-        else{$time=2;}
+        if($fecha_actual<$fechayhorallegada){$estado = 'pre';}
+        elseif (($fecha_actual>$fechayhorallegada)AND($fecha_actual<$fechayhorasalida)){$estado='en';}
+        else{$estado='pos';}
         // id del usuario que estalogueado
         $user_id = $this->session->get('id');
         // id del viaje
@@ -329,7 +336,7 @@ class Viaje extends Controller
                     'postulantes'        => $postulantes, // Ver esto
                     'pasajerosAprobados' => $pasajerosAprobados,
                     'rol'=>     '', // conductor aceptado postulado publico rechazado
-                    'estado'=>'', // 3 para conductor, 2 para rechazado, 1 para anotado, 0 para anotarse
+                    'estado'            =>$estado,// 3  estados pre, en y pos
                     'path'=>$volver // ver Esto
                     //cond 3
                     //acept 2
@@ -338,61 +345,39 @@ class Viaje extends Controller
        
         if ($viaje->conductor_id == $user_id){
            $datos['rol'] = 'conductor';
-           if ($time==0)
-           {$datos['estado'] = '3';}
-           elseif ($time==2){$datos['estado'] = '7';}
-           else {$datos['estado'] = '4';};
            $datos['mensaje'] = 'Sos el creador de este viaje';
-
         }
         elseif ($viajeModelo->estaEnPasajero($id,$user_id)) {
             $pasajero = $viajeModelo->traerPasajero($id, $user_id);
-            $estado = $pasajero->estado;
-            if($estado == 1) {
-                $datos['rol'] = 'pasajero';
-                if ($time==0)
+            $rol = $pasajero->estado;
+            if($rol == 1) { //aceptado
+                $datos['rol'] = 'aceptado';
+                if ($estado == 'pre')
                 {
-                    $datos['estado'] = '2';
-                    $datos['mensaje'] = 'Ya te han aceptado para este viaje';
-                }
-                elseif ($time==2){$datos['estado'] = '6';}
-                else{$datos['estado'] = '4';};
-
+                     $datos['mensaje'] = 'Ya te han aceptado para este viaje';
+                };
             }
-            elseif ($estado == 2) {
-                $datos['rol'] = 'pasajero';
-                if ($time==0)
+            elseif ($rol == 2) {
+                $datos['rol'] = 'rechazado';
+                if ($estado== 'pre')
                 {
-                    $datos['estado'] = '1';
                     $datos['mensaje'] = 'Su solicitud fue rechazada ';
-                }
-                elseif ($time==2){$datos['estado'] = '5';}
-                else{$datos['estado'] = '4';};
+                };
             }
             else {
                 $datos['rol'] = 'postulado';
-                if ($time==0)
+                if ($estado=='pre')
                 {
-                    $datos['estado'] = '1';
                     $datos['mensaje'] = 'Esperando a ser confirmado';
-                }
-                elseif ($time==2){$datos['estado'] = '5';}
-                else{$datos['estado'] = '4';};
-            }
-           
-
-            
-           
+                };
+            };
         }
         else {
             $datos['rol'] = 'publico';
-            if ($time==0) {
-                $datos['estado'] = '0';
+            if ($estado=='pre') {
                 $datos['mensaje'] = 'Puedes postularte a este viaje!!!';
-            }
-            else{$datos['estado'] = '4';};
-        }
-
+            };
+        };
 
         $this->view('viaje/muro', $datos);
     }

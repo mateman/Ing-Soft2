@@ -6,6 +6,10 @@
         max-width: 25%;
     }
 </style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<?php echo ('<script type="text/javascript" src="'. RUTA_URL.'/ckeditor/ckeditor.js"></script>'); ?>
 <?php echo ('<a href="'. RUTA_URL.'/userinterface/'.$datos['path'].'"><img src="'.RUTA_URL.'/public/img/icons8-undo-52.png" alt="" ></a>'); ?>
 <div class="container">
     <div class="row">
@@ -21,8 +25,10 @@
             <br />
         </div>
         <?php if ($datos['estado']=='pos' AND $datos['rol']=='aceptado') { ?>
-        <div class="col"
-            <h5><I><strong>Calificacion: </strong><input type="radio" id="calificacionN" name="calificacion" value="-1"  onChange="calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,'-1');">Negativo<input type="radio" id="calificacion0" name="calificacion" value="0"  onChange="calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,'0');">Neutro<input type="radio" id="calificacionP" name="calificacion" value="1"  onChange="calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,'1');">Positivo</I></h5>
+        <div class="col">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#miModal">
+            Calificar
+        </button>
         </div>
         <?php } ?>
     </div>
@@ -89,6 +95,7 @@
           $class_succes = ' class="btn btn-success"';
           $class_danger = ' class="btn btn-danger"';
           echo "<a id='anotar-". ($datos['viaje']->id) . "' onClick='Anotarse(".($datos['viaje']->id).")' style='visibility: hidden'><button".$class_succes.">Anotarse</button></a>";
+          echo '<br />';
           echo "<a id='borrar-". ($datos['viaje']->id) . "' onClick='Borrarse(".($datos['viaje']->id).")'><button".$class_danger.">Darse de Baja</button></a>";}
       
           elseif ($datos['rol'] =='conductor'){
@@ -189,7 +196,22 @@
 
 
 
-
+<div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                <h5><I><strong>Calificacion: </strong><input type="radio" id="calificacionN" name="calificacion" value="-1"  onChange="calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,'-1');">Negativo<input type="radio" id="calificacion0" name="calificacion" value="0"  onChange="calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,'0');">Neutro<input type="radio" id="calificacionP" name="calificacion" value="1"  onChange="calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,'1');">Positivo</I></h5>
+                <textarea name="editor">Coloque el comentario del viaje</textarea>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -197,6 +219,8 @@
 
 <script>
 
+    type="text/javascript">
+    CKEDITOR.replace('editor');
 
     function smallImg(x) {
         x.style.height = "32px";

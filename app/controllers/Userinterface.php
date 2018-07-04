@@ -71,8 +71,12 @@ class Userinterface extends Controller {
     }
 
     public function perfil() {
-        $usuario = $this->datosUsuario();
-        $datos = $this->datoVista($usuario);
+        $user_id= $this->session->get('id');
+        $datos = $this->datoVista($this->datosUsuario());
+        $modelousuario =$this->model('Usuario');
+        $modeloviaje =$this->model('Modeloviajes');
+        if ($modeloviaje->esPasajero($user_id)){$datos['puntospasajero']= $modelousuario->verPuntosPasajero($user_id)->suma;};
+        if ($modeloviaje->esConductor($user_id)){$datos['puntosconductor']= $modelousuario->verPuntosConductor($user_id)->suma;};
         $this->view('userinterface/perfil', $datos);
     }
 
@@ -160,7 +164,6 @@ class Userinterface extends Controller {
 
             $this->view('pages/error', $datos);
         } else {
-            $usuarioModelo = $this->model('Usuario');
             $viajemodelo = $this->model('Modeloviajes');
             $cantViajes = $viajemodelo->getCantidadViajes($user_id);
             $viajes = $viajemodelo->getViajes($user_id);
@@ -173,18 +176,13 @@ class Userinterface extends Controller {
         }
     }
     public function misviajesPasajero () {
-        $usuarioModelo = $this->model('Usuario');
         $user_id = $this->session->get('id');
         $viajemodelo = $this->model('Modeloviajes');
         $viajes = $viajemodelo->ViajesComoPasajero($user_id);
-       
-         $datos = [
+        $datos = [
              'viajes' => $viajes,
              'id-user' => $user_id
          ];
-         //var_dump($datos);
-         //echo $viajes;
-         //var_dump($datos);
 
         $this->view('userinterface/misviajespasajero', $datos);
     }
@@ -192,7 +190,6 @@ class Userinterface extends Controller {
     public function modificarAuto ($id) {
         $autoModelo = $this->model('Modeloauto');
         $auto = $autoModelo->getAuto($id);
-        $modeloViaje = $this->model('Modeloviajes');
         if ($autoModelo->autolibre($id) == 0) {
             $datos = [
                 'id' => $auto->id,

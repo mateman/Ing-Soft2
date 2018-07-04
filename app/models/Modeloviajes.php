@@ -93,10 +93,17 @@
          return $this->db->registrorowCount();
      }
 
-     public function getPasajero($id) { // idviaje
+     public function esPasajero($id){
+         $this->db->query("SELECT * FROM pasajero WHERE usuario_id='$id'");
+         return ($this->db->registrorowCount() != 0);
+     }
 
-            //id milagros 3
-            //id viaje creado por 302
+     public function esConductor($id){
+         $this->db->query("SELECT * FROM viaje WHERE conductor_id='$id'");
+         return ($this->db->registrorowCount() != 0);
+     }
+
+     public function getPasajero($id) { // idviaje
          $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0'");
          return $this->db->registros();
      }

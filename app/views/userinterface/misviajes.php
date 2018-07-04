@@ -1,7 +1,8 @@
 <?php require RUTA_APP.'/views/includes/header.php'; ?>
 
 <?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
-<script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
+-+
+ <script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
 
  <div class="mensaje" align="center">
      <p><h3><strong><I><?php if(isset($datos['mensaje'])) {

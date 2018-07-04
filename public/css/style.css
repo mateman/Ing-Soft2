@@ -1,4 +1,9 @@
-
+.titulo{
+    text-align: center;
+    font-size: 30px;
+    font-family: Arial;
+    margin: 40px;
+}
 .form-signin {
     width: 100%;
     max-width: 330px;

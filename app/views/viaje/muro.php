@@ -1,8 +1,6 @@
 <head>
     <link rel="stylesheet" href="<?php echo RUTA_URL; ?>/css/consultas.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="<?php echo RUTA_URL;?>/ckeditor/ckeditor.js"></script>
 <script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
 

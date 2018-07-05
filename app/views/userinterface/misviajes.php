@@ -1,7 +1,7 @@
 <?php require RUTA_APP.'/views/includes/header.php'; ?>
 
 <?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
--+
+
  <script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
 
  <div class="mensaje" align="center">
@@ -59,11 +59,11 @@
                 <a href="<?php echo RUTA_URL; ?>/viaje/modificarViaje/<?php echo($datos['viajes'][$i]->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-maintenance.png" alt="" onmouseover="normalImg(this)"  onmouseout="smallImg(this)" width="32" height="32"></a>
             </td>
             <td>
-                <a><img src="<?php echo RUTA_URL;?>/public/img/icons8-trash.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32" onclick="borrar(<?php echo($datos['viajes'][$i]->id); ?>);"></a>
+                <a><img src="<?php echo RUTA_URL;?>/public/img/icons8-trash.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32" onclick="borrar(<?php echo($datos['viajes'][$i]->id); ?>,<?php if ($datos['viajes'][$i]->aceptados == NULL){ echo 0;}else{ echo $datos['viajes'][$i]->aceptados;}; ?>);"></a>
 
             </td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>/misviajes"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-car.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
+                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>/misviajes"> <img src="<?php echo RUTA_URL;?>/public/img/<?php  if ($datos['viajes'][$i]->postulados >0){echo 'icons8-car-rechazado.png" title="Postulados';}elseif ($datos['viajes'][$i]->aceptados >0){echo 'icons8-car-aceptado.png" title="Aceptados';}else{echo 'icons8-car.png" title="En espera';}; ?>" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="36" height="36"></a>
             </td>
 
         </tr>
@@ -76,16 +76,17 @@
 </div>
 
 <script>
-    function borrar(id) {
-        if(id == 0){
-            var mensaje = "¿desea usted realmente borrar el viaje?";
+    function borrar(id,aceptados) {
+        if(aceptados == 0){
+            var respuesta= confirm("¿desea usted realmente borrar el viaje?");
         }
         else{
-            var mensaje = "El viaje seleccionado tiene pasajeros aceptados, si lo elimina se le descontará un punto ¿desea realmente borrarlo?";
+            var respuesta= confirm("El viaje seleccionado tiene pasajeros aceptados, si lo elimina se le descontará un punto ¿desea realmente borrarlo?");
         }
-        var link = "<?php echo RUTA_URL; ?>/viaje/viajeEliminar/"+id;
-        var respuesta=Confirm('Borrar Viaje',mensaje, link);
-     
+        if(respuesta==true)
+            window.location="<?php echo RUTA_URL; ?>/viaje/viajeEliminar/"+id;
+        else
+            return 0;
     }
 
     function smallImg(x) {

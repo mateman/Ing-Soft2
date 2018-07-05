@@ -326,6 +326,10 @@ class Viaje extends Controller
         // pasajeros postulada y no aceptada
         $postulantes = $viajeModelo->getPostulante($id);
         // pasajeros aceptados
+        $consultasAprobadas = $viajeModelo->getConsultas($id,1);
+        //consultas aprobadas por el conductor para que aparezcan en el muro
+        $consultasPendientes = $viajeModelo->getConsultas($id,0);
+        //consultas enviadas por pasajeros, todavia no aprobadas 
         $pasajerosAprobados = $viajeModelo->getPasajeroAprobado($id);
         $calificacion_conductor = $usuarioModelo->verPuntosConductor($viaje->conductor_id);
         $datos = [  'mensaje'            => '',
@@ -335,6 +339,8 @@ class Viaje extends Controller
                     'calificacion_conductor' => $calificacion_conductor->suma,
                     'postulantes'        => $postulantes, // Ver esto
                     'pasajerosAprobados' => $pasajerosAprobados,
+                    'consultasPendientes' => $consultasPendientes,
+                    'consultasAprobadas' => $consultasAprobadas,
                     'rol'=>     '', // conductor aceptado postulado publico rechazado
                     'estado'            =>$estado,// 3  estados pre, en y pos
                     'path'=>$volver // ver Esto

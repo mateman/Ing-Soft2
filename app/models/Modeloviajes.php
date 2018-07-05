@@ -268,9 +268,18 @@
             else{
                 return 0;
             }
+        }
+       public function getConsultas($id_viaje, $estado) {
+
+        $sql = " select * from comentarios where id_viaje = '$id_viaje' and estado = '$estado'" ;
+        $this->db->query($sql);
+        return $this->db->registro();
+            }
+
+      
 
     }
 
 
 
- }
+ 

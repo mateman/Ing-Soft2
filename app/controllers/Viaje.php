@@ -415,7 +415,8 @@ class Viaje extends Controller
         $viaje = $_POST['viaje'];
         $usuario = $_POST['usuario'];
         $punto = $_POST['punto'];
-        echo 'alert("'.$viaje.$usuario.$punto.'")';
+        $editor = $_POST['editor'];
+        echo 'alert("'.$viaje.$usuario.$punto.$editor.'")';
     }
 }
 

@@ -8,8 +8,9 @@
         window.onload = function()
         {
             CKEDITOR.replace('editor');
+            CKEDITOR.add;
+            CKEDITOR.replace('preguntas');
         }
-
         function smallImg(x) {
             x.style.height = "32px";
             x.style.width = "32px";
@@ -79,10 +80,10 @@
             };
         };
         //------------------------------------------------------------------------------------------------------------------------------
-        function calificar(idviaje,idpasajero, punto) {
+        function calificar(idviaje,idpasajero, punto, editor) {
             lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/calificar/", true);
             lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            lista.send("viaje= " + idviaje+"&usuario="+idpasajero+"&punto="+punto);
+            lista.send("viaje= " + idviaje+"&usuario="+idpasajero+"&punto="+punto+"&editor="+editor);
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
                     if (lista.responseText == "Rechazado"){alert("Se rechazo la calificacion");}
@@ -290,7 +291,7 @@
 
 <br>
 
-
+<div>
 <section>
 <div class="titulo">Preguntas y Respuestas </div>
 <input class="animate" type="radio" name="question" id="q1"/>
@@ -309,6 +310,9 @@
 <label class="animate" for="q4">Q: En serio es una Ferrari?</label>
 <p class="response animate">A: There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc..</p>
 </section>
+    <textarea name="preguntas">Haga su pregunta</textarea>
+    <a id='bt-pregunta' onClick='preguntar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,CKEDITOR.instances.preguntas.getData())'><button class="btn btn-primary btn-lg">Preguntar</button></a>
+</div>
 
 <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -322,7 +326,7 @@
             <div class="modal-body">
                 <h5><I><strong>Calificacion: </strong><input type="radio" id="calificacionN" name="calificacion" value="-1">Negativo<input type="radio" id="calificacion0" name="calificacion" value="0">Neutro<input type="radio" id="calificacionP" name="calificacion" value="1">Positivo</I></h5>
                 <textarea name="editor">Coloque el comentario del viaje</textarea>
-                <a id='bt-calificacion' onClick='valor=seleccionado();calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,valor)'><button class="btn btn-primary btn-lg">Anotarse</button></a>
+                <a id='bt-calificacion' onClick='valor=seleccionado();calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,valor,CKEDITOR.instances.editor.getData())'><button class="btn btn-primary btn-lg">Anotarse</button></a>
             </div>
         </div>
     </div>

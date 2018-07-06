@@ -4,6 +4,98 @@
     <script src="<?php echo RUTA_URL;?>/ckeditor/ckeditor.js"></script>
 <script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
 
+    <script>
+        window.onload = function()
+        {
+            CKEDITOR.replace('editor');
+        }
+
+        function smallImg(x) {
+            x.style.height = "32px";
+            x.style.width = "32px";
+        }
+
+        function normalImg(x) {
+            x.style.height = "50px";
+            x.style.width = "50px";
+        }
+
+        function seleccionado() {
+
+                if (document.getElementById('calificacionP').checked) {
+                    return document.getElementById('calificacionP').value;
+                }
+                else if(document.getElementById('calificacionN').checked) {
+                    return document.getElementById('calificacionN').value;
+                } else if (document.getElementById('calificacion0').checked) {
+                    return document.getElementById('calificacion0').value;
+                } else {return null;
+                }
+        }
+
+        var lista = nuevoAjax();
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        function nuevoAjax(){
+            var xmlhttp=false;
+            try{
+                xmlhttp=new ActiveXObject("Msxml2.XMLHTTP");
+            }catch(e){
+                try{
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                }catch(E){
+                    if (!xmlhttp && typeof XMLHttpRequest!='undefined') xmlhttp=new XMLHttpRequest();
+                };
+            };
+            return xmlhttp;
+        };
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        function Anotarse(idviaje) {
+            lista.open("POST", "<?php echo RUTA_URL; ?>/userinterface/anotarse/", true);
+            lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lista.send("anotarse= " + idviaje);
+            lista.onreadystatechange = function () {
+                if (lista.readyState == 4) {
+                    if (lista.responseText == "Rechazado"){alert("Se rechazo la postulacion");}
+                    else {document.getElementById('anotar-' + idviaje).style.visibility= 'hidden';
+                        document.getElementById('borrar-' + idviaje).style.visibility= 'visible';};
+                };
+            };
+        };
+        //------------------------------------------------------------------------------------------------------------------------------
+        function Borrarse(idviaje) {
+            lista.open("POST", "<?php echo RUTA_URL; ?>/userinterface/eliminarPasajero/", true);
+            lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lista.send("eliminarse= " + idviaje);
+            lista.onreadystatechange = function () {
+                if (lista.readyState == 4) {
+                    if (lista.responseText == "Rechazado"){alert("Se rechazo la eliminacion");}
+                    else{document.getElementById('borrar-' + idviaje).style.visibility= 'hidden';
+                        document.getElementById('anotar-' + idviaje).style.visibility= 'visible';};
+                };
+            };
+        };
+        //------------------------------------------------------------------------------------------------------------------------------
+        function calificar(idviaje,idpasajero, punto) {
+            lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/calificar/", true);
+            lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lista.send("viaje= " + idviaje+"&usuario="+idpasajero+"&punto="+punto);
+            lista.onreadystatechange = function () {
+                if (lista.readyState == 4) {
+                    if (lista.responseText == "Rechazado"){alert("Se rechazo la calificacion");}
+                    else{document.getElementById('bt-calificacion').style.visibility= 'hidden';};
+                };
+            };
+        };
+        //------------------------------------------------------------------------------------------------------------------------------
+
+    </script>
+
+
+
 </head>
 <?php require RUTA_APP.'/views/includes/header.php'; ?>
 
@@ -74,7 +166,7 @@
         <br>
         <h5>Calificacion: <?php echo $datos['calificacion_conductor']; ?> </h5>
         <br>
-        <?php if($datos['rol'] == 'conductor' or $datos['rol'] == 'pasajero'): ?>
+        <?php if($datos['rol'] == 'conductor' or $datos['rol'] == 'aceptado'): ?>
             <h5>Nombre: <?php echo $datos['conductor']->nombre; ?> </h5>
             <h5>Apellido: <?php echo $datos['conductor']->apellido; ?></h5>
             <h5>Telefono: <?php echo $datos['conductor']->telefono; ?></h5>
@@ -212,7 +304,12 @@
 <input class="animate" type="radio" name="question" id="q3"/>
 <label class="animate" for="q3">Q: Puedo llevar una valija de 30 kg aprox?</label>
 <p class="response animate">A: Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
-    
+
+<input class="animate" type="radio" name="question" id="q4"/>
+<label class="animate" for="q4">Q: En serio es una Ferrari?</label>
+<p class="response animate">A: There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc..</p>
+</section>
+
 <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -223,98 +320,13 @@
                 <h4 class="modal-title" id="myModalLabel"></h4>
             </div>
             <div class="modal-body">
-                <h5><I><strong>Calificacion: </strong><input type="radio" id="calificacionN" name="calificacion" value="-1"  onChange="calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,'-1');">Negativo<input type="radio" id="calificacion0" name="calificacion" value="0"  onChange="calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,'0');">Neutro<input type="radio" id="calificacionP" name="calificacion" value="1"  onChange="calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,'1');">Positivo</I></h5>
+                <h5><I><strong>Calificacion: </strong><input type="radio" id="calificacionN" name="calificacion" value="-1">Negativo<input type="radio" id="calificacion0" name="calificacion" value="0">Neutro<input type="radio" id="calificacionP" name="calificacion" value="1">Positivo</I></h5>
                 <textarea name="editor">Coloque el comentario del viaje</textarea>
+                <a id='bt-calificacion' onClick='valor=seleccionado();calificar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,valor)'><button class="btn btn-primary btn-lg">Anotarse</button></a>
             </div>
         </div>
     </div>
 </div>
-
-<input class="animate" type="radio" name="question" id="q4"/>
-<label class="animate" for="q4">Q: En serio es una Ferrari?</label>
-<p class="response animate">A: There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc..</p>
-</section>
-
-
-<script>
-
-    type="text/javascript">
-    CKEDITOR.replace('editor');
-
-    function smallImg(x) {
-        x.style.height = "32px";
-        x.style.width = "32px";
-    }
-
-    function normalImg(x) {
-        x.style.height = "50px";
-        x.style.width = "50px";
-    }
-
-
-    var lista = nuevoAjax();
-
-    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    function nuevoAjax(){
-        var xmlhttp=false;
-        try{
-            xmlhttp=new ActiveXObject("Msxml2.XMLHTTP");
-        }catch(e){
-            try{
-                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-            }catch(E){
-                if (!xmlhttp && typeof XMLHttpRequest!='undefined') xmlhttp=new XMLHttpRequest();
-            };
-        };
-        return xmlhttp;
-    };
-
-
-    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    function Anotarse(idviaje) {
-        lista.open("POST", "<?php echo RUTA_URL; ?>/userinterface/anotarse/", true);
-        lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        lista.send("anotarse= " + idviaje);
-        lista.onreadystatechange = function () {
-            if (lista.readyState == 4) {
-                if (lista.responseText == "Rechazado"){alert("Se rechazo la postulacion");}
-                else {document.getElementById('anotar-' + idviaje).style.visibility= 'hidden';
-                      document.getElementById('borrar-' + idviaje).style.visibility= 'visible';};
-            };
-        };
-    };
-    //------------------------------------------------------------------------------------------------------------------------------
-    function Borrarse(idviaje) {
-        lista.open("POST", "<?php echo RUTA_URL; ?>/userinterface/eliminarPasajero/", true);
-        lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        lista.send("eliminarse= " + idviaje);
-        lista.onreadystatechange = function () {
-            if (lista.readyState == 4) {
-                if (lista.responseText == "Rechazado"){alert("Se rechazo la eliminacion");}
-                else{document.getElementById('borrar-' + idviaje).style.visibility= 'hidden';
-                     document.getElementById('anotar-' + idviaje).style.visibility= 'visible';};
-            };
-        };
-    };
-    //------------------------------------------------------------------------------------------------------------------------------
-    function calificar(idviaje,idpasajero, punto) {
-        lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/calificar/", true);
-        lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        lista.send("viajer= " + idviaje+"&usuario="+idpasajero+"&punto="+punto);
-        lista.onreadystatechange = function () {
-            if (lista.readyState == 4) {
-                if (lista.responseText == "Rechazado"){alert("Se rechazo la calificacion");}
-                else{document.getElementById('calificacionN').style.visibility= 'hidden';
-                    document.getElementById('calificacion0').style.visibility= 'hidden';
-                    document.getElementById('calificacionP').style.visibility= 'hidden';};
-            };
-        };
-    };
-    //------------------------------------------------------------------------------------------------------------------------------
-
-</script>
-
 
 
 <?php require RUTA_APP.'/views/includes/footer.php'; ?>

@@ -213,6 +213,14 @@
 
     }
 
+ //select v.*,p.flagcalificacion_pasajero,p.flagcalificacion_conductor,p.estado,p.calificacion_pasajero,p.calificacion_conductor,p.comentario_pasajero,p.comentario_conductor from ingenieriadev.viaje v left join ingenieriadev.pasajero p on v.id=p.viaje_id where v.id='296' and p.usuario_id='2' ;
+     public function getViajePasajero($idViaje,$idpasajero){
+
+         $this->db->query("SELECT v.*,p.flagcalificacion_pasajero,p.flagcalificacion_conductor,p.estado,p.calificacion_pasajero,p.calificacion_conductor,p.comentario_pasajero,p.comentario_conductor FROM ingenieriadev.viaje v LEFT JOIN ingenieriadev.pasajero p ON v.id=p.viaje_id where v.id=$idViaje AND p.usuario_id=$idpasajero");
+         return $this->db->registro();
+
+     }
+
 
      public function conductorEnUso($id_conductor, $fechayhorasalida, $fechayhorallegada, $id_viaje) {
 /*

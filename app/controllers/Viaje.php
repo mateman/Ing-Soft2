@@ -306,7 +306,8 @@ class Viaje extends Controller
         $autoModelo = $this->model('Modeloauto');
         $viajeModelo = $this->model('Modeloviajes');
         $usuarioModelo = $this->model('Usuario');
-
+        // id del usuario que estalogueado
+        $user_id = $this->session->get('id');
         // Fechas para poner o no botones de aceptar-rechazar y puntar viaje
         $fecha_actual = date("Y-m-d H:i:s", time());
         $viaje = $viajeModelo->getViaje($id);
@@ -315,10 +316,6 @@ class Viaje extends Controller
         if($fecha_actual<$fechayhorallegada){$estado = 'pre';}
         elseif (($fecha_actual>$fechayhorallegada)AND($fecha_actual<$fechayhorasalida)){$estado='en';}
         else{$estado='pos';}
-        // id del usuario que estalogueado
-        $user_id = $this->session->get('id');
-        // id del viaje
-        $viaje = $viajeModelo->getViaje($id);
         // auto aplicado al viaje
         $auto = $autoModelo->getAuto($viaje->auto_id);
         // conductor del viaje
@@ -361,7 +358,8 @@ class Viaje extends Controller
                 if ($estado == 'pre')
                 {
                      $datos['mensaje'] = 'Ya te han aceptado para este viaje';
-                };
+                }
+                elseif ($estado == 'pos'){$datos['viaje'] = $viajeModelo->getViajePasajero($id,$user_id);};
             }
             elseif ($rol == 2) {
                 $datos['rol'] = 'rechazado';
@@ -416,7 +414,18 @@ class Viaje extends Controller
         $usuario = $_POST['usuario'];
         $punto = $_POST['punto'];
         $editor = $_POST['editor'];
-        echo 'alert("'.$viaje.$usuario.$punto.$editor.'")';
+        if ($editor=='' OR $editor=='<p>Coloque el comentario del viaje</p>' OR $punto=='null'){echo 'Rechazado';}
+        else{
+            if (($viajeModelo->getViaje($viaje))->conductor_id == $user_id)
+            {
+                $usuarioModelo->calificarPasajero($viaje,$punto,$usuario,$editor);
+
+            }
+            else {
+                $usuarioModelo->calificarConductor($viaje,$punto,$user_id,$editor);
+            };
+            echo 'Aceptado';
+        };
     }
 }
 

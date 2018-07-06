@@ -84,11 +84,11 @@
         function calificar(punto, editor) {
             lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/calificar/", true);
             lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            lista.send("viaje= " +<?php echo $datos['viaje']->id ?>+"&usuario="+<?php echo $datos['conductor']->id ?>+"&punto="+punto+"&editor="+editor);
+            lista.send("viaje=" +<?php echo $datos['viaje']->id ?>+"&usuario="+<?php echo $datos['conductor']->id ?>+"&punto="+punto+"&editor="+editor);
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
                     if (lista.responseText == "Rechazado"){alert("Se rechazo la calificacion");}
-                    else{document.getElementById('bt-calificar').style.visibility= 'hidden';};
+                    else{location.reload();};
                 };
             };
         };
@@ -102,7 +102,7 @@
         function calificar(punto, editor) {
             lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/calificar/", true);
             lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            lista.send("viaje= " +<?php echo $datos['viaje']->id ?>+"&usuario="+pasajeroid+"&punto="+punto+"&editor="+editor);
+            lista.send("viaje="+<?php echo $datos['viaje']->id ?>+"&usuario="+pasajeroid+"&punto="+punto+"&editor="+editor);
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
                     if (lista.responseText == "Rechazado"){alert("Se rechazo la calificacion");}
@@ -139,12 +139,12 @@
             <hr />
             <br />
         </div>
-        <?php if ($datos['estado']=='pos' AND $datos['rol']=='aceptado') { ?>
-        <div class="col">
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#miModal" id="bt-calificar" name="bt-calificar">
+        <?php if ($datos['estado']=='pos' AND $datos['rol']=='aceptado' AND $datos['viaje']->estado=='1' AND $datos['viaje']->flagcalificacion_conductor=='0') { ?>
+            <div class="col">
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#miModal" id="bt-calificar" name="bt-calificar">
             Calificar
-        </button>
-        </div>
+            </button>
+            </div>
         <?php } ?>
     </div>
     <div class="row">
@@ -346,7 +346,7 @@
             <div class="modal-body">
                 <h5><I><strong>Calificacion: </strong><input type="radio" id="calificacionN" name="calificacion" value="-1">Negativo<input type="radio" id="calificacion0" name="calificacion" value="0">Neutro<input type="radio" id="calificacionP" name="calificacion" value="1">Positivo</I></h5>
                 <textarea name="editor">Coloque el comentario del viaje</textarea>
-                <a id='bt-calificacion' onClick='valor=seleccionado();calificar(valor,CKEDITOR.instances.editor.getData())'><button class="btn btn-primary btn-lg">Anotarse</button></a>
+                <a id='bt-calificacion' onClick='valor=seleccionado();calificar(valor,CKEDITOR.instances.editor.getData())'><button class="btn btn-primary btn-lg" class="close" data-dismiss="modal" aria-label="Close">Anotarse</button></a>
             </div>
         </div>
     </div>

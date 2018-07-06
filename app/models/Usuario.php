@@ -138,13 +138,13 @@
      }
 
     
-    public function sumarPuntos($id,$puntos){
-        $this->db->query("UPDATE tabla SET puntos = puntos +$puntos  WHERE id='$id' AND borrado_logico='0';");
+    public function calificarPasajero($viaje_id,$punto,$usuario_id,$comentario){
+        $this->db->query("UPDATE pasajero SET calificacion_pasajero='$punto', comentario_pasajero='$comentario', flagcalificacion_pasajero= b'1' WHERE viaje_id='$viaje_id' AND usuario_id=$usuario_id AND estado='1' AND borrado_logico='0';");
         return $this->db->execute();
     }
 
-    public function restarPuntos($id,$puntos){
-        $this->db->query( "UPDATE tabla SET puntos = puntos -$puntos  WHERE id='$id'AND borrado_logico='0';");
+    public function calificarConductor($viaje_id,$punto,$usuario_id,$comentario){
+        $this->db->query("UPDATE pasajero SET calificacion_conductor='$punto', comentario_conductor='$comentario', flagcalificacion_conductor= b'1'  WHERE viaje_id='$viaje_id' AND usuario_id='$usuario_id' AND estado='1' AND borrado_logico='0';");
         return $this->db->execute();
     }
 

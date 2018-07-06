@@ -56,14 +56,14 @@
             <td><?php echo($datos['viajes'][$i]->descripcion);  ?></td>
             <td><?php echo($datos['viajes'][$i]->costo); ?></td>
             <td>
-                <?php  if ($datos['viajes'][$i]->aceptados >0 OR $datos['viajes'][$i]->postulados >0){echo '<a';}else{echo '<a href="'.RUTA_URL.'/viaje/modificarViaje/'.$datos['viajes'][$i]->id;}; ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-maintenance.png" alt="" onmouseover="normalImg(this)"  onmouseout="smallImg(this)" width="32" height="32"></a>
+                <?php  if ($datos['viajes'][$i]->aceptados >0 OR $datos['viajes'][$i]->postulados >0){echo '<a><img src="'.RUTA_URL.'/public/img/icons8-maintenance-gris.png" alt="" onclick="alert(\'No se puede modificar el viaje por encontrarse una solicitud de un pasajero en el mismo\');"';}else{ echo '<a href="'.RUTA_URL.'/viaje/modificarViaje/'.$datos['viajes'][$i]->id.'"><img src="'.RUTA_URL.'/public/img/icons8-maintenance.png" alt="" ';}; ?> onmouseover="normalImg(this)"  onmouseout="smallImg(this)" width="32" height="32"></a>
             </td>
             <td>
                 <a><img src="<?php echo RUTA_URL;?>/public/img/<?php  if ($datos['viajes'][$i]->aceptados >0){echo 'icons8-trash-gris.png" title="Va a ser penalizado!';}else{echo 'icons8-trash.png"';}; ?>" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32" onclick="borrar(<?php echo($datos['viajes'][$i]->id); ?>,<?php if ($datos['viajes'][$i]->aceptados == NULL){ echo 0;}else{ echo $datos['viajes'][$i]->aceptados;}; ?>);"></a>
 
             </td>
             <td>
-                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>/misviajes"> <img src="<?php echo RUTA_URL;?>/public/img/<?php  if ($datos['viajes'][$i]->postulados >0){echo 'icons8-car-rechazado.png" title="Postulados';}elseif ($datos['viajes'][$i]->aceptados >0){echo 'icons8-car-aceptado.png" title="Aceptados';}else{echo 'icons8-car.png" title="En espera';}; ?>" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="36" height="36"></a>
+                <a href="<?php echo RUTA_URL; ?>/viaje/muro/<?php echo($datos['viajes'][$i]->id);?>/misviajes"> <img src="<?php echo RUTA_URL;?>/public/img/<?php  if ($datos['viajes'][$i]->postulados >0){echo 'icons8-car-postulado.png" title="Postulados';}elseif ($datos['viajes'][$i]->aceptados >0){echo 'icons8-car-pasajero.png" title="Aceptados';}else{echo 'icons8-car.png" title="En espera';}; ?>" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="36" height="36"></a>
             </td>
 
         </tr>

@@ -328,6 +328,7 @@ class Viaje extends Controller
         $consultasPendientes = $viajeModelo->getConsultas($id,0);
         //consultas enviadas por pasajeros, todavia no aprobadas 
         $pasajerosAprobados = $viajeModelo->getPasajeroAprobado($id);
+        $pasajerosCantAprobados = $viajeModelo->getCantidadPasajeroAceptados($id);
         $calificacion_conductor = $usuarioModelo->verPuntosConductor($viaje->conductor_id);
         $datos = [  'mensaje'            => '',
                     'conductor'          => $conductor,
@@ -335,6 +336,7 @@ class Viaje extends Controller
                     'viaje'              => $viaje, // Datos del viaje
                     'calificacion_conductor' => $calificacion_conductor->suma,
                     'postulantes'        => $postulantes, // Ver esto
+                    'pasajerosCantAprobados' => $pasajerosCantAprobados,
                     'pasajerosAprobados' => $pasajerosAprobados,
                     'consultasPendientes' => $consultasPendientes,
                     'consultasAprobadas' => $consultasAprobadas,

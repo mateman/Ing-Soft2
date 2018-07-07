@@ -169,8 +169,8 @@
         <?php endif; ?>
       
         <h5>Cantidad de asientos: <?php echo $datos['auto']->asientosdisp; ?> </h5>
-   
-   
+        <h5>Asientos disponibles: <?php echo ($datos['auto']->asientosdisp - $datos['pasajerosCantAprobados']); ?> </h5>
+
         </div>
         <div class="col">
         <h3>Datos del conductor:</h3>
@@ -197,7 +197,7 @@
         
         </div>
         <div class="row">
-        <?php if ($datos['rol'] =='publico' AND $datos['estado']=='pre')
+        <?php if ($datos['rol'] =='publico' AND $datos['estado']=='pre' AND ($datos['auto']->asientosdisp - $datos['pasajerosCantAprobados']))
       {
             $class_succes = ' class="btn btn-success"';
             $class_danger = ' class="btn btn-danger"';
@@ -205,7 +205,7 @@
             echo '<br />';
             echo "<a id='borrar-". ($datos['viaje']->id) . "' onClick='Borrarse(".($datos['viaje']->id).")' style='visibility: hidden'><button".$class_danger.">Darse de Baja</button></a>";
       }
-      elseif ($datos['rol'] =='postulado' AND $datos['estado']=='pre')
+      elseif ($datos['rol'] =='postulado' AND $datos['estado']=='pre' AND ($datos['auto']->asientosdisp - $datos['pasajerosCantAprobados']))
       {
           $class_succes = ' class="btn btn-success"';
           $class_danger = ' class="btn btn-danger"';

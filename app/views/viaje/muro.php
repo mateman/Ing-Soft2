@@ -84,7 +84,7 @@
         function calificar(punto, editor) {
             lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/calificar/", true);
             lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            lista.send("viaje=" +<?php echo $datos['viaje']->id ?>+"&usuario="+<?php echo $datos['conductor']->id ?>+"&punto="+punto+"&editor="+editor);
+            lista.send("viaje=" +<?php echo $datos['viaje']->id ?>+"&usuario="+<?php echo $datos['conductor']->id ?>+"&punto="+punto+"&editor="+encodeURIComponent(editor));
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
                     if (lista.responseText == "Rechazado"){alert("Se rechazo la calificacion");}
@@ -102,11 +102,11 @@
         function calificar(punto, editor) {
             lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/calificar/", true);
             lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            lista.send("viaje="+<?php echo $datos['viaje']->id ?>+"&usuario="+pasajeroid+"&punto="+punto+"&editor="+editor);
+            lista.send("viaje="+<?php echo $datos['viaje']->id ?>+"&usuario="+pasajeroid+"&punto="+punto+"&editor="+encodeURIComponent(editor));
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
                     if (lista.responseText == "Rechazado"){alert("Se rechazo la calificacion");}
-                    else{document.getElementById('bt-calificacion').style.visibility= 'hidden';};
+                    else{location.reload();};
                 };
             };
         };
@@ -183,7 +183,7 @@
         ?>
         <h5>Nombre de usuario: <?php echo $datos['conductor']->nombreusuario; ?>
         <br>
-        <h5>Calificacion: <?php echo $datos['calificacion_conductor']; ?> </h5>
+        <h5>Calificacion: <?php if (datos['calificacion_conductor']<0) {echo '0';} else { echo $datos['calificacion_conductor'];}; ?> </h5>
         <br>
         <?php if($datos['rol'] == 'conductor' or $datos['rol'] == 'aceptado'): ?>
             <h5>Nombre: <?php echo $datos['conductor']->nombre; ?> </h5>
@@ -288,10 +288,10 @@
         <td><?php echo ($aceptados->email); ?></td>
         <?php if ($datos['estado']=='pre' OR $datos['estado']=='en') { ?>
         <td><?php echo ($aceptados->calificacion_pasajero); ?></td>
-        <?php } elseif ($datos['estado']=='pos') { ?>
+        <?php } elseif ($datos['estado']=='pos' AND $aceptados->flagcalificacion_pasajero=='0') { ?>
         <td><button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#miModal" id="bt-calificar" name="bt-calificar" onclick="pasajeroid=<?php echo ($aceptados->id); ?>">Calificar</button>
         </td>
-        <?php } else {}; ?>
+        <?php } else {echo '<td>'.$aceptados->calificacion_pasajero.' '.$aceptados->comentario_pasajero.'</td>';}; ?>
         <td>
             <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
@@ -350,6 +350,27 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id='miVentana' tabindex='-1' role='dialog' aria-labellebdy='myModalLabel'
+     aria-hidden='true'>
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="text-center">Productos añadidos</h2>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+
 </div>
 
 

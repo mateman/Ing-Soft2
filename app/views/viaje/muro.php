@@ -289,7 +289,7 @@
         <?php if ($datos['estado']=='pre' OR $datos['estado']=='en') { ?>
         <td><?php echo ($aceptados->calificacion_pasajero); ?></td>
         <?php } elseif ($datos['estado']=='pos') { ?>
-        <td><input type="radio" name="calificacion" value="-1">Negativo<input type="radio" name="calificacion" value="0">Neutro<input type="radio" name="calificacion" value="1">Positivo
+        <td><button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#miModal" id="bt-calificar" name="bt-calificar" onclick="pasajeroid=<?php echo ($aceptados->id); ?>">Calificar</button>
         </td>
         <?php } else {}; ?>
         <td>

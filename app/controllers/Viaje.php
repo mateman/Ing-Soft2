@@ -310,7 +310,7 @@ class Viaje extends Controller
         $user_id = $this->session->get('id');
         // Fechas para poner o no botones de aceptar-rechazar y puntar viaje
         $fecha_actual = date("Y-m-d H:i:s", time());
-        $viaje = $viajeModelo->getViaje($id);
+        $viaje = $viajeModelo->getViajePasajero($id,$user_id);
         $fechayhorallegada = date("Y-m-d H:i:s", strtotime($viaje->horallegada));
         $fechayhorasalida = date("Y-m-d H:i:s", strtotime($viaje->horasalida));
         if($fecha_actual<$fechayhorallegada){$estado = 'pre';}
@@ -358,8 +358,7 @@ class Viaje extends Controller
                 if ($estado == 'pre')
                 {
                      $datos['mensaje'] = 'Ya te han aceptado para este viaje';
-                }
-                elseif ($estado == 'pos'){$datos['viaje'] = $viajeModelo->getViajePasajero($id,$user_id);};
+                };
             }
             elseif ($rol == 2) {
                 $datos['rol'] = 'rechazado';

@@ -15,7 +15,7 @@
         <th>Hora de salida</th>
         <th>Destino</th>
         <th>Hora de llegada</th>
-        <th>Descricpion</th>
+        <th>Descripcion</th>
         <th>Costo</th>
         <th>Muro</th>
 

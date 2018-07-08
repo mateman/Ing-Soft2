@@ -286,7 +286,7 @@
 
         $sql = " select * from consultas where id_viaje = '$id_viaje' and estado = '$estado'" ;
         $this->db->query($sql);
-        return $this->db->registro();
+        return $this->db->registros();
             }
 
       

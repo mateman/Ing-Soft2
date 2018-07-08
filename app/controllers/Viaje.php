@@ -417,7 +417,7 @@ class Viaje extends Controller
         $editor = $_POST['editor'];
         if ($editor=='' OR $editor=='<p>Coloque el comentario del viaje</p>' OR $punto=='null'){echo 'Rechazado';}
         else{
-            if (($viajeModelo->getViaje($viaje))->conductor_id == $user_id)
+            if (($viajeModelo->getViaje($viaje)->conductor_id == $user_id))
             {
                 $usuarioModelo->calificarPasajero($viaje,$punto,$usuario,$editor);
 

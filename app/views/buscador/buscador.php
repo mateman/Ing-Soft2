@@ -1,34 +1,47 @@
 <?php require RUTA_APP.'/views/includes/header.php'; ?>
 
 <?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
+<style>
+.one-line {
+  width:10px;
+}
 
+
+</style>
 <div class="container">
   <div class="row">
   <div class="col-3">
       <form>
           <div>
           <label><input type="checkbox" id="salida" value="true">Salida</label>
+          <p>Entre las fechas:</p>
           <input type="datetime-local" id="salidaresultadodesde" disabled />
-          Entre:<input type="datetime-local" id="salidaresultadohasta" disabled />
+          <input type="datetime-local" id="salidaresultadohasta" disabled />
           </div>
          <div>
+         <hr>
          <label><input type="checkbox" id="llegada" >Llegada</label>
+          <p>Entre las fechas:</p>
           <input type="datetime-local" id="llegadaresultadodesde" disabled>
-          Entre: <input type="datetime-local" id="llegadaresultadohasta" disabled>
+          <input type="datetime-local" id="llegadaresultadohasta" disabled>
          </div>
          <div>
-         <label><input type="checkbox" id="origen" >Origen</label>
+         <hr>
+         <label><input class="one-line" type="checkbox" id="origen" > Origen:&nbsp;</label>
           <input type="text" id="origenresultado" disabled>
          </div>
+         <hr>
          <div>
-         <label><input type="checkbox" id="destino" >Destino</label>
+       
+         <label><input type="checkbox" id="destino" class="one-line" > Destino:</label>
           <input type="text" id="destinoresultado" disabled>
          </div>
+         <hr>
          <div>
-         <label><input type="checkbox" id="costo" >Costo</label>
+         <label><input type="checkbox" id="costo" class="one-line" > Costo:&nbsp;&nbsp;</label>
           <input type="text" id="costoresultado" disabled>
          </div>
-         <label ><input type="submit" id="submit-form"></label>
+         <label ><input type="submit" id="submit-form"value="Buscar"></label>
         </form>
       </div>
       <div class="col-9">

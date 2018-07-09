@@ -217,7 +217,7 @@
      public function getViajePasajero($idViaje,$idpasajero){
 
          if ($this->estaEnPasajero($idViaje,$idpasajero)){
-             $this->db->query("SELECT v.*,p.flagcalificacion_pasajero,p.flagcalificacion_conductor,p.estado,p.calificacion_pasajero,p.calificacion_conductor,p.comentario_pasajero,p.comentario_conductor FROM ingenieriadev.viaje v LEFT JOIN ingenieriadev.pasajero p ON v.id=p.viaje_id where v.id=$idViaje AND p.usuario_id=$idpasajero");
+             $this->db->query("SELECT v.*,p.flagcalificacion_pasajero,p.flagcalificacion_conductor,p.estado,p.calificacion_pasajero,p.calificacion_conductor,p.comentario_pasajero,p.comentario_conductor FROM viaje v LEFT JOIN pasajero p ON v.id=p.viaje_id where v.id=$idViaje AND p.usuario_id=$idpasajero");
          }
          else{
              $this->db->query("SELECT * FROM viaje WHERE id='$idViaje' AND borrado_logico='0'");

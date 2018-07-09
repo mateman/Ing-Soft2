@@ -330,7 +330,8 @@ class Viaje extends Controller
         $pasajerosAprobados = $viajeModelo->getPasajeroAprobado($id);
         $pasajerosCantAprobados = $viajeModelo->getCantidadPasajeroAceptados($id);
         $calificacion_conductor = $usuarioModelo->verPuntosConductor($viaje->conductor_id);
-        $datos = [  'mensaje'            => '',
+        $datos = [  'usuario'           => $user_id,
+                    'mensaje'            => '',
                     'conductor'          => $conductor,
                     'auto'               => $auto, // Datos relacionados al auto 
                     'viaje'              => $viaje, // Datos del viaje
@@ -428,6 +429,34 @@ class Viaje extends Controller
             };
             echo 'Aceptado';
         };
+    }
+
+    public function preguntar()
+    { $viajeModelo = $this->model('Modeloviajes');
+        $idUsuario =  $_POST['idUsuario'];
+        $idViaje =  $_POST['idViaje'];
+        $pregunta =  $_POST['pregunta'];
+        $aceptar = $viajeModelo->hacerPregunta($idUsuario, $idViaje, $pregunta);
+        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/'.$idViaje.'"</script>;';
+        /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
+        exit;
+    }
+        public function responderPregunta()
+    { $viajeModelo = $this->model('Modeloviajes');
+        $idPregunta = $_POST['idPregunta'];
+        $respuesta = $_POST['respuesta'];
+        $aceptar = $viajeModelo->responderPregunta($idPregunta, $respuesta);
+        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/'.$idViaje.'"</script>;';
+        /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
+        exit;
+    }
+          public function eliminarPregunta()
+    { $viajeModelo = $this->model('Modeloviajes');
+        $idPregunta = $_POST['idPregunta'];
+        $aceptar = $viajeModelo->eliminarPregunta($idPregunta);
+        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/'.$idViaje.'"</script>;';
+        /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
+        exit;
     }
 }
 

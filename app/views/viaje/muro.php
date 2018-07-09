@@ -81,7 +81,56 @@
                 };
             };
         };
+        //------------------------------------------------------------------------------------------------------------------------------BORRAR PREGUNTA SI SOS CONDUCTOR. -CLAUDIO
+        <?php if ($datos['rol'] =='conductor' AND $datos['estado']=='pre') : ?>
+            function BorrarPregunta(idpregunta) {
+            lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/eliminarPregunta/", true);
+            lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lista.send("idPregunta= " + idPregunta);
+            lista.onreadystatechange = function () {
+                if (lista.readyState == 4) {
+                    if (lista.responseText == "Rechazado"){alert("Se rechazo la eliminacion");}
+                    else{document.getElementById('borrar-' + idviaje).style.visibility= 'hidden';
+                        document.getElementById('anotar-' + idviaje).style.visibility= 'visible';};
+                };
+            };
+        };
+
+        <?php endif; ?>
+        //------------------------------------------------------------------------------------------------------------------------------HACER PREGUNTA PARA PASAJERO Y PUBLICO GRAL -CLAUDIO
+    
+            function HacerPregunta(idUsuario, idViaje, pregunta) {
+            lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/preguntar/", true);
+            lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lista.send("idUsuario= " + idUsuario + "&idViaje=" + idViaje + "&pregunta=" + pregunta);
+            lista.onreadystatechange = function () {
+                if (lista.readyState == 4) {
+                    if (lista.responseText == "Rechazado"){alert("Se rechazo la eliminacion");}
+                    else{document.getElementById('borrar-' + idviaje).style.visibility= 'hidden';
+                        document.getElementById('anotar-' + idviaje).style.visibility= 'visible';};
+                };
+            };
+        };
+
+      
+        //------------------------------------------------------------------------------------------------------------------------------RESPONDER PREGUNTAS -CLAUDIO
+             <?php if ($datos['rol'] =='conductor' ) : ?>
+            function ResponderPregunta(idpregunta, respuesta) {
+            lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/responderPregunta/", true);
+            lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lista.send("idPregunta= " + idPregunta + "respuesta=" + respuesta);
+            lista.onreadystatechange = function () {
+                if (lista.readyState == 4) {
+                    if (lista.responseText == "Rechazado"){alert("Se rechazo la eliminacion");}
+                    else{document.getElementById('borrar-' + idviaje).style.visibility= 'hidden';
+                        document.getElementById('anotar-' + idviaje).style.visibility= 'visible';};
+                };
+            };
+        };
+
+        <?php endif; ?>
         //------------------------------------------------------------------------------------------------------------------------------
+
         <?php if ($datos['rol'] =='aceptado' AND $datos['estado']=='pos') : ?>
         function calificar(punto, editor) {
             lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/calificar/", true);
@@ -321,8 +370,8 @@
 <?php } ?>
 
 <?php if (($datos['rol'] =='publico' OR$datos['rol'] =='postulado' OR $datos['rol'] =='aceptado') AND $datos['estado']=='pre') : ?>
-    <textarea name="preguntas">Haga su pregunta</textarea>
-    <a id='bt-pregunta' onClick='preguntar(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,CKEDITOR.instances.preguntas.getData())'><button class="btn btn-primary btn-lg">Preguntar</button></a>
+    <textarea style="resize:none;width:100%;float:center;"  name="preguntas">Haga su pregunta</textarea>
+    <a style="align-content: center;" id='bt-pregunta' onClick='HacerPregunta(<?php echo $datos['usuario'].','.$datos['viaje']->id?>,CKEDITOR.instances.preguntas.getData())'><button style="margin-top: 15px; " class="btn btn-primary btn-lg">Preguntar</button></a><!-- BOTON PREGUNTAR - CLAUDIO -->
 <?php endif; ?>
 
 </section>
@@ -334,8 +383,8 @@
 <?php foreach($datos['consultasPendientes'] as $consultasPendientes){ ?>
 <input class="animate" type="radio" name="question" id=%22<?php echo $consultasPendientes->id; ?>%22>
 <label class="animate" for=%22<?php echo $consultasPendientes->id; ?>%22><?php echo $consultasPendientes->pregunta; ?></label>
-<p class="response animate"><textarea name="responder">Escriba la respuesta...</textarea>
-    <a id='bt-pregunta' onClick='responder(<?php echo $datos['viaje']->id.','.$datos['conductor']->id ?>,CKEDITOR.instances.responder.getData())'><button class="btn btn-primary btn-lg">Responder</button></a><button class="btn btn-primary btn-lg">Eliminar</button></p>
+<p class="response animate"><textarea maxlength="300"  style="resize:none;width:70%;float:left;margin-right:20px;" name="responder">Escriba la respuesta...</textarea>
+    <a id='bt-pregunta' onClick='ResponderPregunta(<?php echo$consultasPendientes->id ?>,CKEDITOR.instances.responder.getData())'><button style="margin-right: 20px;" class="btn btn-primary btn-lg">Responder</button></a><a onClick='BorrarPregunta(<?php echo $consultasPendientes->id?>)'><button class="btn btn-primary btn-lg">Eliminar</button></a></p><!-- BOTONES RESPONDER Y ELIMINAR - CLAUDIO -->
 <?php }} ?>
 </div>
 </section>

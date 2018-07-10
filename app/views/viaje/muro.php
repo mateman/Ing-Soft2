@@ -162,8 +162,11 @@
         <?php endif; ?>
 
  </script>
-
+<style>
+</style>
 </head>
+
+
 <?php require RUTA_APP.'/views/includes/header.php'; ?>
 
 <?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
@@ -342,6 +345,8 @@
         <?php } else {echo '<td>'.$aceptados->calificacion_pasajero.' '.$aceptados->comentario_pasajero.'</td>';}; ?>
         <td>
             <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
+            <a data-toggle="modal" data-target="#exampleModal" id="open-modal" value=<?php echo($aceptados->usuario_id); ?>>Modal</a>
+            
         </td>
     </tr>
               
@@ -424,5 +429,57 @@
 
 </div>
 
+<!-- ------------------------------------------------------------------------------------------------ -->
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-result"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 <?php require RUTA_APP.'/views/includes/footer.php'; ?>
+
+<script>
+$("#open-modal").on('click', function(){
+    var value = $(this).attr('value')
+    $.ajax({
+    data:  {v:'v'}, 
+    url:   "<?php echo RUTA_URL; ?>/infopostulanteajax/infoPostulado/"+ value, 
+    type:  'POST', 
+    dataType:'html',
+    success:  function (response) {
+              $("#modal-result").html(response);
+               //console.log(response)
+              
+              }
+    });
+  
+})
+   
+
+
+
+ 
+</script>

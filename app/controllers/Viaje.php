@@ -436,19 +436,23 @@ class Viaje extends Controller
         $idUsuario =  $_POST['idUsuario'];
         $idViaje =  $_POST['idViaje'];
         $pregunta =  $_POST['pregunta'];
-        $aceptar = $viajeModelo->hacerPregunta($idUsuario, $idViaje, $pregunta);
-        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/'.$idViaje.'"</script>;';
-        /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
-        exit;
+        if ($pregunta=='' OR $pregunta=='<p>Haga su pregunta</p>'){echo 'Rechazado';}
+        else {
+            $aceptar = $viajeModelo->hacerPregunta($idUsuario, $idViaje, $pregunta);
+            echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/'.$idViaje.'"</script>;';
+            /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
+        };
     }
         public function responderPregunta()
     { $viajeModelo = $this->model('Modeloviajes');
         $idPregunta = $_POST['idPregunta'];
         $respuesta = $_POST['respuesta'];
-        $aceptar = $viajeModelo->responderPregunta($idPregunta, $respuesta);
-        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/'.$idViaje.'"</script>;';
-        /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
-        exit;
+        if ($pregunta=='' OR $pregunta=='<p>Escriba la respuesta...</p>'){echo 'Rechazado';}
+        else {
+            $aceptar = $viajeModelo->responderPregunta($idPregunta, $respuesta);
+            echo '<script language="javascript">window.location="' . RUTA_URL . '/viaje/muro/' . $idViaje . '/' . $idViaje . '"</script>;';
+            /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
+        };
     }
           public function eliminarPregunta()
     { $viajeModelo = $this->model('Modeloviajes');

@@ -290,7 +290,7 @@
             }
     public function hacerPregunta($idUsuario, $idViaje, $pregunta) {
 
-        $sql = " INSERT INTO consultas (id_viaje, id_usuario, pregunta, estado) VALUES ('$idViaje', '$idUsuario', $pregunta, 0) " ;
+        $sql = " INSERT INTO consultas (id_viaje, id_usuario, pregunta, estado) VALUES ('$idViaje', '$idUsuario', '$pregunta', 0) " ;
         $this->db->query($sql);
         return $this->db->execute();
             }

@@ -59,7 +59,7 @@
         function Anotarse(idviaje) {
             lista.open("POST", "<?php echo RUTA_URL; ?>/userinterface/anotarse/", true);
             lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            lista.send("anotarse= " + idviaje);
+            lista.send("anotarse=" + idviaje);
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
                     if (lista.responseText == "Rechazado"){alert("Se rechazo la postulacion");}
@@ -72,7 +72,7 @@
         function Borrarse(idviaje) {
             lista.open("POST", "<?php echo RUTA_URL; ?>/userinterface/eliminarPasajero/", true);
             lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            lista.send("eliminarse= " + idviaje);
+            lista.send("eliminarse=" + idviaje);
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
                     if (lista.responseText == "Rechazado"){alert("Se rechazo la eliminacion");}
@@ -83,15 +83,14 @@
         };
         //------------------------------------------------------------------------------------------------------------------------------BORRAR PREGUNTA SI SOS CONDUCTOR. -CLAUDIO
         <?php if ($datos['rol'] =='conductor' AND $datos['estado']=='pre') : ?>
-            function BorrarPregunta(idpregunta) {
+            function BorrarPregunta(idPregunta) {
             lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/eliminarPregunta/", true);
             lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            lista.send("idPregunta= " + idPregunta);
+            lista.send("idPregunta=" + idPregunta);
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
                     if (lista.responseText == "Rechazado"){alert("Se rechazo la eliminacion");}
-                    else{document.getElementById('borrar-' + idviaje).style.visibility= 'hidden';
-                        document.getElementById('anotar-' + idviaje).style.visibility= 'visible';};
+                    else{location.reload();};
                 };
             };
         };
@@ -102,12 +101,11 @@
             function HacerPregunta(idUsuario, idViaje, pregunta) {
             lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/preguntar/", true);
             lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            lista.send("idUsuario= " + idUsuario + "&idViaje=" + idViaje + "&pregunta=" + pregunta);
+            lista.send("idUsuario=" + idUsuario + "&idViaje=" + idViaje + "&pregunta=" + encodeURIComponent(pregunta));
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
-                    if (lista.responseText == "Rechazado"){alert("Se rechazo la eliminacion");}
-                    else{document.getElementById('borrar-' + idviaje).style.visibility= 'hidden';
-                        document.getElementById('anotar-' + idviaje).style.visibility= 'visible';};
+                    if (lista.responseText == "Rechazado"){alert("Por favor introduzca una pregrunta");}
+                    else{location.reload();};
                 };
             };
         };
@@ -115,15 +113,14 @@
       
         //------------------------------------------------------------------------------------------------------------------------------RESPONDER PREGUNTAS -CLAUDIO
              <?php if ($datos['rol'] =='conductor' ) : ?>
-            function ResponderPregunta(idpregunta, respuesta) {
+            function ResponderPregunta(idPregunta, respuesta) {
             lista.open("POST", "<?php echo RUTA_URL; ?>/viaje/responderPregunta/", true);
             lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            lista.send("idPregunta= " + idPregunta + "respuesta=" + respuesta);
+            lista.send("idPregunta=" + idPregunta + "&respuesta=" + encodeURIComponent(respuesta));
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
-                    if (lista.responseText == "Rechazado"){alert("Se rechazo la eliminacion");}
-                    else{document.getElementById('borrar-' + idviaje).style.visibility= 'hidden';
-                        document.getElementById('anotar-' + idviaje).style.visibility= 'visible';};
+                    if (lista.responseText == "Rechazado"){alert("Por favor escriba una respuesta a la pregunta");}
+                    else{location.reload();};
                 };
             };
         };
@@ -234,7 +231,7 @@
         ?>
         <h5>Nombre de usuario: <?php echo $datos['conductor']->nombreusuario; ?>
         <br>
-        <h5>Calificacion: <?php if (datos['calificacion_conductor']<0) {echo '0';} else { echo $datos['calificacion_conductor'];}; ?> </h5>
+        <h5>Calificacion: <?php if ($datos['calificacion_conductor']<0) {echo '0';} else { echo $datos['calificacion_conductor'];}; ?> </h5>
         <br>
         <?php if($datos['rol'] == 'conductor' or $datos['rol'] == 'aceptado'): ?>
             <h5>Nombre: <?php echo $datos['conductor']->nombre; ?> </h5>
@@ -369,7 +366,7 @@
 <p class="response animate"><?php echo $consultasAprobadas->respuesta; ?></p>
 <?php } ?>
 
-<?php if (($datos['rol'] =='publico' OR$datos['rol'] =='postulado' OR $datos['rol'] =='aceptado') AND $datos['estado']=='pre') : ?>
+<?php if (($datos['rol'] =='publico' OR $datos['rol'] =='postulado' OR $datos['rol'] =='aceptado') AND $datos['estado']=='pre') : ?>
     <textarea style="resize:none;width:100%;float:center;"  name="preguntas">Haga su pregunta</textarea>
     <a style="align-content: center;" id='bt-pregunta' onClick='HacerPregunta(<?php echo $datos['usuario'].','.$datos['viaje']->id?>,CKEDITOR.instances.preguntas.getData())'><button style="margin-top: 15px; " class="btn btn-primary btn-lg">Preguntar</button></a><!-- BOTON PREGUNTAR - CLAUDIO -->
 <?php endif; ?>
@@ -383,8 +380,8 @@
 <?php foreach($datos['consultasPendientes'] as $consultasPendientes){ ?>
 <input class="animate" type="radio" name="question" id=%22<?php echo $consultasPendientes->id; ?>%22>
 <label class="animate" for=%22<?php echo $consultasPendientes->id; ?>%22><?php echo $consultasPendientes->pregunta; ?></label>
-<p class="response animate"><textarea maxlength="300"  style="resize:none;width:70%;float:left;margin-right:20px;" name="responder">Escriba la respuesta...</textarea>
-    <a id='bt-pregunta' onClick='ResponderPregunta(<?php echo$consultasPendientes->id ?>,CKEDITOR.instances.responder.getData())'><button style="margin-right: 20px;" class="btn btn-primary btn-lg">Responder</button></a><a onClick='BorrarPregunta(<?php echo $consultasPendientes->id?>)'><button class="btn btn-primary btn-lg">Eliminar</button></a></p><!-- BOTONES RESPONDER Y ELIMINAR - CLAUDIO -->
+<p class="response animate"><textarea maxlength="300"  style="resize:none;width:70%;float:left;margin-right:20px;" name="preguntas">Escriba la respuesta...</textarea>
+    <a id='bt-pregunta' onClick='ResponderPregunta(<?php echo $consultasPendientes->id ?>,CKEDITOR.instances.preguntas.getData())'><button style="margin-right: 20px;" class="btn btn-primary btn-lg">Responder</button></a><a onClick='BorrarPregunta(<?php echo $consultasPendientes->id?>)'><button class="btn btn-primary btn-lg">Eliminar</button></a></p><!-- BOTONES RESPONDER Y ELIMINAR - CLAUDIO -->
 <?php }} ?>
 </div>
 </section>

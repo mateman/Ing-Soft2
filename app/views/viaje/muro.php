@@ -452,7 +452,7 @@
                 <h4 class="modal-title" id="myModalLabel"></h4>
             </div>
             <div class="modal-body">
-                <p class="response animate"><textarea style="resize:none;width:100%;float:center;"  name="preguntas">Haga su pregunta</textarea>
+                <textarea style="resize:none;width:100%;float:center;"  name="preguntas">Haga su pregunta</textarea>
                     <a id='bt-pregunta' onClick='ResponderPregunta(respondido,CKEDITOR.instances.preguntas.getData())'><button style="margin-right: 20px;" class="btn btn-primary btn-lg">Responder</button></a>
             </div>
         </div>

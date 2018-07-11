@@ -7,13 +7,15 @@
 <script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
 
     <script>
+
         window.onload = function()
         {
             CKEDITOR.replace('editor');
             CKEDITOR.add;
             CKEDITOR.replace('preguntas');
         }
-        function smallImg(x) {
+
+         function smallImg(x) {
             x.style.height = "32px";
             x.style.width = "32px";
         }
@@ -158,15 +160,28 @@
                 };
             };
         };
+        <?php endif; ?>
+
+        //------------------------------------------------------------------------------------------------------------------------------HACER PREGUNTA PARA PASAJERO Y PUBLICO GRAL -CLAUDIO
+        <?php if ($datos['rol'] =='conductor') : ?>
+        function getInfo (ruta) {
+            lista.open("POST", ruta, true);
+            lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lista.send();
+            lista.onreadystatechange = function () {
+                if (lista.readyState == 4) {
+                    if (lista.responseText == "Rechazado"){alert("Por favor introduzca una pregrunta");}
+                    else{document.getElementById('divINFO').innerHTML = lista.responseText;};
+                };
+            };
+        };
+
         //------------------------------------------------------------------------------------------------------------------------------
         <?php endif; ?>
 
  </script>
-<style>
-</style>
+
 </head>
-
-
 <?php require RUTA_APP.'/views/includes/header.php'; ?>
 
 <?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
@@ -308,8 +323,9 @@
             <a href="<?php echo RUTA_URL; ?>/viaje/aceptarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-checkmark.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
         <td>
-            <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"> <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
-        </td>
+            <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($postulante->usuario_id); ?>" name="bt-info<?php echo ($postulante->usuario_id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($postulante->usuario_id); ?>');">
+                <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
+            </td>
     </tr>
               
         <?php } ?> </tbody>
@@ -344,9 +360,8 @@
         </td>
         <?php } else {echo '<td>'.$aceptados->calificacion_pasajero.' '.$aceptados->comentario_pasajero.'</td>';}; ?>
         <td>
-            <a href="<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>/<?php echo($datos['viaje']->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
-            <a data-toggle="modal" data-target="#exampleModal" id="open-modal" value=<?php echo($aceptados->usuario_id); ?>>Modal</a>
-            
+            <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($aceptados->id); ?>" name="bt-info<?php echo ($aceptados->id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>');">
+                <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
         </td>
     </tr>
               
@@ -385,11 +400,13 @@
 <?php foreach($datos['consultasPendientes'] as $consultasPendientes){ ?>
 <input class="animate" type="radio" name="question" id=%22<?php echo $consultasPendientes->id; ?>%22>
 <label class="animate" for=%22<?php echo $consultasPendientes->id; ?>%22><?php echo $consultasPendientes->pregunta; ?></label>
-<p class="response animate"><textarea maxlength="300"  style="resize:none;width:70%;float:left;margin-right:20px;" name="preguntas">Escriba la respuesta...</textarea>
-    <a id='bt-pregunta' onClick='ResponderPregunta(<?php echo $consultasPendientes->id ?>,CKEDITOR.instances.preguntas.getData())'><button style="margin-right: 20px;" class="btn btn-primary btn-lg">Responder</button></a><a onClick='BorrarPregunta(<?php echo $consultasPendientes->id?>)'><button class="btn btn-primary btn-lg">Eliminar</button></a></p><!-- BOTONES RESPONDER Y ELIMINAR - CLAUDIO -->
+    <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#respuestaModal" id="bt-respuesta<?php echo $consultasPendientes->id; ?>" name="bt-calificar<?php echo $consultasPendientes->id; ?>" onclick="respondido=<?php echo $consultasPendientes->id; ?>">Responder</button><a onClick='BorrarPregunta(<?php echo $consultasPendientes->id?>)'><button class="btn btn-primary btn-lg">Eliminar</button></a></p><!-- BOTONES RESPONDER Y ELIMINAR - CLAUDIO -->
 <?php }} ?>
 </div>
 </section>
+
+
+
 <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -408,78 +425,31 @@
     </div>
 </div>
 
-<div class="modal fade" id='miVentana' tabindex='-1' role='dialog' aria-labellebdy='myModalLabel'
-     aria-hidden='true'>
-
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="text-center">Productos añadidos</h2>
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-            </div>
+<div class="modal fade" data-refresh="true" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:51%;">
+        <div class="modal-content" id="divINFO">
         </div>
 
     </div>
-
+    <!-- /.modal-dialog -->
 </div>
 
-<!-- ------------------------------------------------------------------------------------------------ -->
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p id="modal-result"></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-      </div>
+<div class="modal fade" id="respuestaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                <p class="response animate"><textarea maxlength="300"  style="resize:none;width:70%;float:left;margin-right:20px;" name="preguntas">Escriba la respuesta...</textarea>
+                    <a id='bt-pregunta' onClick='ResponderPregunta(respondido,CKEDITOR.instances.preguntas.getData())'><button style="margin-right: 20px;" class="btn btn-primary btn-lg">Responder</button></a>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-
-
 
 
 <?php require RUTA_APP.'/views/includes/footer.php'; ?>
-
-<script>
-$("#open-modal").on('click', function(){
-    var value = $(this).attr('value')
-    $.ajax({
-    data:  {v:'v'}, 
-    url:   "<?php echo RUTA_URL; ?>/infopostulanteajax/infoPostulado/"+ value, 
-    type:  'POST', 
-    dataType:'html',
-    success:  function (response) {
-              $("#modal-result").html(response);
-               //console.log(response)
-              
-              }
-    });
-  
-})
-   
-
-
-
- 
-</script>

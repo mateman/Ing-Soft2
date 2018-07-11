@@ -439,7 +439,7 @@ class Viaje extends Controller
         if ($pregunta=='' OR $pregunta=='<p>Haga su pregunta</p>'){echo 'Rechazado';}
         else {
             $aceptar = $viajeModelo->hacerPregunta($idUsuario, $idViaje, $pregunta);
-            echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/'.$idViaje.'"</script>;';
+            echo'Aceptado';
             /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
         };
     }
@@ -447,10 +447,10 @@ class Viaje extends Controller
     { $viajeModelo = $this->model('Modeloviajes');
         $idPregunta = $_POST['idPregunta'];
         $respuesta = $_POST['respuesta'];
-        if ($pregunta=='' OR $pregunta=='<p>Escriba la respuesta...</p>'){echo 'Rechazado';}
+        if ($idPregunta=='' OR $idPregunta=='<p></p>' OR $idPregunta=='<p>Escriba la respuesta...</p>'){echo 'Rechazado';}
         else {
             $aceptar = $viajeModelo->responderPregunta($idPregunta, $respuesta);
-            echo '<script language="javascript">window.location="' . RUTA_URL . '/viaje/muro/' . $idViaje . '/' . $idViaje . '"</script>;';
+            echo 'Aceptado';
             /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
         };
     }
@@ -458,7 +458,7 @@ class Viaje extends Controller
     { $viajeModelo = $this->model('Modeloviajes');
         $idPregunta = $_POST['idPregunta'];
         $aceptar = $viajeModelo->eliminarPregunta($idPregunta);
-        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/'.$idViaje.'"</script>;';
+        echo'Aceptado';
         /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
         exit;
     }

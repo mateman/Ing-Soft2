@@ -436,7 +436,7 @@ class Viaje extends Controller
         $idUsuario =  $_POST['idUsuario'];
         $idViaje =  $_POST['idViaje'];
         $pregunta =  $_POST['pregunta'];
-        if ($pregunta=='' OR $pregunta=='<p>Haga su pregunta</p>'){echo 'Rechazado';}
+        if ($pregunta=='' OR $pregunta=='<p></p>' OR $pregunta=='<p>Haga su pregunta</p>'){echo 'Rechazado';}
         else {
             $aceptar = $viajeModelo->hacerPregunta($idUsuario, $idViaje, $pregunta);
             echo'Aceptado';

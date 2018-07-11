@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -8,6 +8,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?php echo RUTA_URL; ?>/public/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="<?php echo RUTA_URL; ?>/css/style.css">
-    <title>Hello, world!</title>
+    <title>Un Aventon</title>
   </head>
   <body>

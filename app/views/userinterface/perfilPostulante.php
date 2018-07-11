@@ -14,7 +14,7 @@
     <hr>
     <p><b>Ciudad:</b> <?php echo $datos['ciudad'] ?>
     <hr>
-    <p><b>Calificaion:</b> <?php if ($datos['calificacion']<0) { echo '0';} else { echo $datos['calificacion'];}; ?>
+    <p><b>Calificacion:</b> <?php if ($datos['calificacion']<0) { echo '0';} else { echo $datos['calificacion'];}; ?>
     <hr>
     <hr>
     <?php

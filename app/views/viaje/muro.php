@@ -1,10 +1,18 @@
+<html lang="es">
 <head>
-<meta charset="utf-8">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Un Aventon</title>
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="<?php echo RUTA_URL; ?>/public/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="<?php echo RUTA_URL; ?>/css/style.css">
     <link rel="stylesheet" href="<?php echo RUTA_URL; ?>/css/consultas.css">
-  <!--  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script> -->
+
+    <!--  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script> -->
     <script src="<?php echo RUTA_URL;?>/ckeditor/ckeditor.js"></script>
-<script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
+    <script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
 
     <script>
 
@@ -180,16 +188,16 @@
         <?php endif; ?>
 
  </script>
+ <style>
+     .datos{
+         max-width: 25%;
+     }
+ </style>
+
 
 </head>
-<?php require RUTA_APP.'/views/includes/header.php'; ?>
 
 <?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
-<style>
-    .datos{
-        max-width: 25%;
-    }
-</style>
 
 <?php echo ('<a href="'. RUTA_URL.'/userinterface/'.$datos['path'].'"><img src="'.RUTA_URL.'/public/img/icons8-undo-52.png" alt="" ></a>'); ?>
 <div class="container">
@@ -360,7 +368,7 @@
         </td>
         <?php } else {echo '<td>'.$aceptados->calificacion_pasajero.' '.$aceptados->comentario_pasajero.'</td>';}; ?>
         <td>
-            <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($aceptados->id); ?>" name="bt-info<?php echo ($aceptados->id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>');">
+            <button type="button" class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($aceptados->id); ?>" name="bt-info<?php echo ($aceptados->id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>');" >
                 <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
         </td>
     </tr>
@@ -419,7 +427,7 @@
             <div class="modal-body">
                 <h5><I><strong>Calificacion: </strong><input type="radio" id="calificacionN" name="calificacion" value="-1">Negativo<input type="radio" id="calificacion0" name="calificacion" value="0">Neutro<input type="radio" id="calificacionP" name="calificacion" value="1">Positivo</I></h5>
                 <textarea name="editor">Coloque el comentario del viaje</textarea>
-                <a id='bt-calificacion' onClick='valor=seleccionado();calificar(valor,CKEDITOR.instances.editor.getData())'><button class="btn btn-primary btn-lg" class="close" data-dismiss="modal" aria-label="Close">Anotarse</button></a>
+                <a id='bt-calificacion' onClick='valor=seleccionado();calificar(valor,CKEDITOR.instances.editor.getData())'><button class="btn btn-primary btn-lg" class="close" data-dismiss="modal" aria-label="Close">Calificar</button></a>
             </div>
         </div>
     </div>
@@ -444,7 +452,7 @@
                 <h4 class="modal-title" id="myModalLabel"></h4>
             </div>
             <div class="modal-body">
-                <p class="response animate"><textarea maxlength="300"  style="resize:none;width:70%;float:left;margin-right:20px;" name="preguntas">Escriba la respuesta...</textarea>
+                <p class="response animate"><textarea style="resize:none;width:100%;float:center;"  name="preguntas">Haga su pregunta</textarea>
                     <a id='bt-pregunta' onClick='ResponderPregunta(respondido,CKEDITOR.instances.preguntas.getData())'><button style="margin-right: 20px;" class="btn btn-primary btn-lg">Responder</button></a>
             </div>
         </div>

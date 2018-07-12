@@ -118,9 +118,10 @@ class Userinterface extends Controller {
                 $contrasena2 = $_POST['contrasena2'];
                 $usuarioModelo = $this->model('Usuario');
                 $user_id = $this->session->get('id');
-                
+                $usuario = $usuarioModelo->getById($user_id)->nombreusuario;
                 if($contrasena == $contrasena2) {
-                    $usuario = $usuarioModelo->contrasenaUpdate($contrasena,$user_id);
+                    $pass = sha1($usuario.$contrasena);
+                    $cambio = $usuarioModelo->contrasenaUpdate($pass,$user_id);
                     $datos = [
                         'msj' => '<div class="alert alert-success" role="alert">
                         Password modificado correctamente

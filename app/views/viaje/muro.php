@@ -223,9 +223,10 @@
     </div>
     <div class="row">
         <div class="col">
-            <h5>Saliendo: <?php echo(date("d-m-Y H:i", strtotime($datos['viaje']->horasalida))); ?><br></h5>
-            <h5>Llegando: <?php echo(date("d-m-Y H:i", strtotime($datos['viaje']->horallegada))); ?></h5>
-            <h5>Costo: $ <?php echo($datos['viaje']->costo); ?></h5>
+            <h5>Saliendo: <?php echo(date("d-m-Y H:i", strtotime($datos['viaje']->horasalida))); ?>hs<br></h5>
+            <h5>Llegando: <?php echo(date("d-m-Y H:i", strtotime($datos['viaje']->horallegada))); ?>hs</h5>
+            <h5>Costo Total: $ <?php echo($datos['viaje']->costo); ?></h5>
+            <h5>Costo por pasajero: $ <?php echo(($datos['viaje']->costo)/($datos['auto']->asientosdisp)+1); ?></h5>
         </div>
         <div class="col">
             <h5>Descripcion: <?php echo($datos['viaje']->descripcion); ?> </h5>
@@ -452,7 +453,7 @@
                 <h4 class="modal-title" id="myModalLabel"></h4>
             </div>
             <div class="modal-body">
-                <textarea style="resize:none;width:100%;float:center;"  name="preguntas">Haga su pregunta</textarea>
+                <textarea style="resize:none;width:100%;float:center;"  name="preguntas">Escriba la respuesta...</textarea>
                     <a id='bt-pregunta' onClick='ResponderPregunta(respondido,CKEDITOR.instances.preguntas.getData())'><button style="margin-right: 20px;" class="btn btn-primary btn-lg">Responder</button></a>
             </div>
         </div>

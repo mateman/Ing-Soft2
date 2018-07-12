@@ -14,5 +14,11 @@
         </li>
        
       </ul>
+      <ul class="navbar-nav">
+         <li class="nav-item">
+           <a class="nav-link" href="<?php echo RUTA_URL; ?>/recuperar">Recuperar Contraseña <span class="sr-only">(current)</span></a>
+         </li>
+
+        </ul>
     </div>
   </nav>

@@ -6,7 +6,7 @@ class Registrate extends Controller {
     public function index() {
         $num = 1;
         $datos = [
-            'title' => 'Bienvenido al mvc',
+            'title' => 'Bienvenido a Un Aventon!',
             'num' => $num
         ];
         $this->view('registrate/index', $datos);
@@ -91,10 +91,10 @@ class Registrate extends Controller {
             $this->view('registrate/index', $datos);
             die();
         }
-
+        $pass = sha1($nombreusuario.$contrasena);
         $usuario = $usuarioModelo->userCreate(
             $email,
-            $contrasena, 
+            $pass,
             $provincia,
             $fechanac,
             $apellido,

@@ -447,7 +447,7 @@ class Viaje extends Controller
     { $viajeModelo = $this->model('Modeloviajes');
         $idPregunta = $_POST['idPregunta'];
         $respuesta = $_POST['respuesta'];
-        if ($idPregunta=='' OR $idPregunta=='<p></p>' OR $idPregunta=='<p>Escriba la respuesta...</p>'){echo 'Rechazado';}
+        if ($respuesta=='' OR $respuesta=='<p></p>' OR $respuesta=='<p>Escriba la respuesta...</p>'){echo 'Rechazado';}
         else {
             $aceptar = $viajeModelo->responderPregunta($idPregunta, $respuesta);
             echo 'Aceptado';

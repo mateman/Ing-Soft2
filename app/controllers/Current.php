@@ -20,7 +20,8 @@ class Current extends Controller {
             if (!(is_null($_POST['nombreusuario'])) and !(is_null($_POST['password']))) {
                 $nombreusuario =  $_POST['nombreusuario'];
                 $contrasena =  $_POST['password'];
-                $usuario =$this->usuarioModelo->login($nombreusuario,$contrasena);
+                $pass = sha1($nombreusuario.$contrasena);
+                $usuario =$this->usuarioModelo->login($nombreusuario,$pass);
                
                 if ($usuario) {
                     $this->session->init();

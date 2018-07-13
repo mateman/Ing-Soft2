@@ -50,37 +50,91 @@ class Recuperar extends Controller
 
         $token = $usuario->contrasena;
         $destinatario = $usuario->email;
-        $asunto = "Este mensaje es de prueba";
+        $asunto = "Recuperar contraseña para Un Aventon";
         $cuerpo = ' 
 <html> 
 <head> 
-   <title>Prueba de correo</title> 
+   <title>Recuperar contraseña para Un Aventon</title> 
 </head> 
 <body> 
-<h1>Hola amigos!</h1> 
+<h1>Hola amigo!</h1> 
 <p> 
 <b>Para recuperar la contraseña debera dirigirse a:</b><br>
-'.RUTA_URL.'/recuperar/cambiarPassword  
+'.RUTA_URL.'/recuperar/cambiarPassword/'.$destinatario.'/'.$usuario->nombreusuario.'/'.$token.'  
 </p> 
 </body> 
 </html> 
 ';
 
-//para el envío en formato HTML
-        $headers = "MIME-Version: 1.0\r\n";
-        $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
-
-//dirección del remitente
-        $headers .= "From: Un Aventon <mateman@jg.gba.gov.ar>\r\n";
-
-//dirección de respuesta, si queremos que sea distinta que la del remitente
-        $headers .= "Reply-To: mateman@jg.gba.gov.ar\r\n";
-
-//ruta del mensaje desde origen a destino
-        $headers .= "Return-path: mateman@jg.gba.gov.ar\r\n";
-
-        mail($destinatario,$asunto,$cuerpo,$headers);
-        echo $destinatario.'<br></br>'.$headers.'<br></br>'.$asunto.'<br></br>'.$cuerpo;
+        mail($destinatario,$asunto,$cuerpo);
+        $datos[ 'mensaje'=>'Se le ha enviado un correo a '.$destinatario.' indicandole donde ingresar para cambiar la Contraseña'
+        ]
+            $this->view('recuperar/respuesta', $datos);
     }
+
+    public function cambiarPassword($destinatario,$nombreusuario,$token)
+    {
+        $usuarioModelo = $this->model('Usuario');
+        $usuario = $usuarioModelo->userNameExist($nombreusuario);
+
+        if (!$usuario) {
+            $datos = [
+                'mensaje' => 'usuario: '.$nombreusuario.'  no registrado'
+            ];
+            $this->view('recuperar/respuesta', $datos);
+            die();
+        }
+        if ($usuario->email != $destinatario) {
+            $datos = [
+                'mensaje' => 'e-mail '.$usuario->email.' no registrado'
+            ];
+            $this->view('recuperar/respuesta', $datos);
+            die();
+        }
+        if ($usuario->email == $destinatario and $usuario->email == $destinatario and $usuario->contrasena == $token)
+        {
+            $datos[ 'mensaje' => '',
+                    'usuario' => $nombreusuario
+            ]
+            $this->view('recuperar/cambiarPassword', $datos);
+            die();
+        }
+        $datos = [
+                'mensaje' => 'No se pudo procesar esta página'
+        ];
+        $this->view('recuperar/respuesta', $datos);
+
+
+    }
+public function procesarContrasenas() {
+
+            if (!(empty($_POST['contrasena']))  and !(empty($_POST['contrasena2'])))  { 
+                $contrasena =  $_POST['contrasena'];
+                $contrasena2 = $_POST['contrasena2'];
+                $usuarioModelo = $this->model('Usuario');
+                $user_id = $this->session->get('id');
+                $usuario = $usuarioModelo->getById($user_id)->nombreusuario;
+                if($contrasena == $contrasena2) {
+                    $pass = sha1($usuario.$contrasena);
+                    $cambio = $usuarioModelo->contrasenaUpdate($pass,$user_id);
+                    $datos = [
+                        'msj' => '<div class="alert alert-success" role="alert">
+                        Password modificado correctamente
+                      </div>'
+                    ];
+                    return $this->view('recuperar/cambiarPassword', $datos);
+                } else {
+                $datos = [
+                    'msj' => '<div class="alert alert-danger" role="alert">
+                    Los passwords no son iguales
+                  </div>'
+                ];
+                return $this->view('recuperar/cambiarPassword', $datos);
+                 }
+            }
+        }
+  
+
+
 
 }

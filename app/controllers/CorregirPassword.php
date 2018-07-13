@@ -13,7 +13,7 @@ class CorregirPassword extends Controller
     $usuarios = $modelUsuario->getUsuarios();
     foreach ($usuarios as $usuario){
         $pass = sha1($usuario->nombreusuario.$usuario->contrasena);
-        echo $pass.'<br>';
+        echo $usuario->nombreusuario.'  '.$usuario->contrasena.'    '.$pass.'<br>';
         $cambio =$modelUsuario->contrasenaUpdate($pass,($usuario->id));
     };
 

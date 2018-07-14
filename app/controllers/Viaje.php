@@ -462,5 +462,27 @@ class Viaje extends Controller
         /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
         exit;
     }
+
+              public function validacionTarjeta()
+    { $viajemodelo = $this->model('Modeloviajes');
+        $idviaje = $_POST['viaje'];
+        $path = $_POST['path'];
+          $user_id = $this->session->get('id');
+           $automodelo = $this->model('Modeloauto');
+
+        if (!($viajemodelo->estaEnPasajero($idviaje,$user_id)) 
+        and 
+        ($viajemodelo->getCantidadPasajeroAceptados($idviaje) < 
+        ($automodelo->getAuto(($viajemodelo->getViaje($idviaje)->auto_id))->asientosdisp)))
+        
+        {
+         $viajemodelo->anotarPasajero($idviaje,$user_id);
+         echo("Anotado");
+        }
+        else{echo("Rechazado");}
+        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idviaje.'/'.$path.'"</script>;';
+
+        exit;
+    }
 }
 

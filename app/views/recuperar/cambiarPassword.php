@@ -1,12 +1,15 @@
 <?php require RUTA_APP.'/views/includes/header.php'; ?>
 
-<?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
+<?php require RUTA_APP.'/views/includes/login-registrate-menu.php'; ?>
 
  <div class="container">
             <div class="row cincuenta">
               <div class="col">
                 <div class="text-center">
-                    <form class="form-signin"action="<?php echo RUTA_URL; ?>/recuperar/procesarcontrasenas" method="post">
+                    <form class="form-signin"action="<?php echo RUTA_URL; ?>/recuperar/procesarContrasenas" method="post">
+                        <input type="hidden" id="usuario" name="usuario" value="<?php echo $datos['usuario']; ?>">
+                        <input type="hidden" id="email" name="email" value="<?php echo $datos['email']; ?>">
+                        <input type="hidden" id="token" name="token" value="<?php echo $datos['token']; ?>">
                         <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
                         <h1 class="h3 mb-3 font-weight-normal">Ingrese su nuevo password</h1>
                         <label for="inputEmail" class="sr-only">Password</label>

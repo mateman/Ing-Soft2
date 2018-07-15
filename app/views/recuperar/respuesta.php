@@ -2,7 +2,7 @@
 
 <?php require RUTA_APP.'/views/includes/login-registrate-menu.php'; ?>
 
- div class="container">
+ <div class="container">
     <br>
     <br>
     <p><strong><h2><?php echo  $datos['mensaje']?></h2></strong></p>

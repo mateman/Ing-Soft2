@@ -67,8 +67,8 @@ class Recuperar extends Controller
 ';
 
         mail($destinatario,$asunto,$cuerpo);
-        $datos[ 'mensaje'=>'Se le ha enviado un correo a '.$destinatario.' indicandole donde ingresar para cambiar la Contraseña'
-        ]
+        $datos = [ 'mensaje'=>'Se le ha enviado un correo a '.$destinatario.' indicandole donde ingresar para cambiar la Contraseña'
+        ];
             $this->view('recuperar/respuesta', $datos);
     }
 
@@ -91,11 +91,13 @@ class Recuperar extends Controller
             $this->view('recuperar/respuesta', $datos);
             die();
         }
-        if ($usuario->email == $destinatario and $usuario->email == $destinatario and $usuario->contrasena == $token)
+        if ( $usuario->email == $destinatario and $usuario->contrasena == $token)
         {
-            $datos[ 'mensaje' => '',
-                    'usuario' => $nombreusuario
-            ]
+            $datos = [ 'mensaje' => '',
+                    'usuario' => $nombreusuario,
+                    'email' => $destinatario,
+                    'token' => $token
+            ];
             $this->view('recuperar/cambiarPassword', $datos);
             die();
         }
@@ -111,11 +113,12 @@ public function procesarContrasenas() {
             if (!(empty($_POST['contrasena']))  and !(empty($_POST['contrasena2'])))  { 
                 $contrasena =  $_POST['contrasena'];
                 $contrasena2 = $_POST['contrasena2'];
+                $usuario =  $_POST['usuario'];
                 $usuarioModelo = $this->model('Usuario');
-                $user_id = $this->session->get('id');
-                $usuario = $usuarioModelo->getById($user_id)->nombreusuario;
-                if($contrasena == $contrasena2) {
+                $user = $usuarioModelo->userNameExist($usuario);
+                if($contrasena == $contrasena2 and $user->contrasena == $_POST['token'] and $user->email == $_POST['email'] ) {
                     $pass = sha1($usuario.$contrasena);
+                    $user_id = $user->id;
                     $cambio = $usuarioModelo->contrasenaUpdate($pass,$user_id);
                     $datos = [
                         'msj' => '<div class="alert alert-success" role="alert">

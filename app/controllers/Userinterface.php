@@ -113,13 +113,13 @@ class Userinterface extends Controller {
         }
         public function procesarContrasenas() {
 
-            if (!(empty($_POST['contrasena']))  and !(empty($_POST['contrasena2'])))  { 
+            if (!(empty($_POST['contrasena']))  and !(empty($_POST['contrasena2'])))  {
                 $contrasena =  $_POST['contrasena'];
                 $contrasena2 = $_POST['contrasena2'];
                 $usuarioModelo = $this->model('Usuario');
                 $user_id = $this->session->get('id');
                 $usuario = $usuarioModelo->getById($user_id)->nombreusuario;
-                if($contrasena == $contrasena2) {
+                if($contrasena == $contrasena2 and strlen($contrasena)>7) {
                     $pass = sha1($usuario.$contrasena);
                     $cambio = $usuarioModelo->contrasenaUpdate($pass,$user_id);
                     $datos = [
@@ -131,7 +131,7 @@ class Userinterface extends Controller {
                 } else {
                 $datos = [
                     'msj' => '<div class="alert alert-danger" role="alert">
-                    Los passwords no son iguales
+                    Los passwords no son iguales o no supera los 7 caracteres
                   </div>'
                 ];
                 return $this->view('userinterface/modificarcontrasena', $datos);

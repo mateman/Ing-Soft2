@@ -91,6 +91,21 @@ class Registrate extends Controller {
             $this->view('registrate/index', $datos);
             die();
         }
+        if (strlen($contrasena)<8){
+            $datos = [
+                'err' => 'contrasenas insegura, debe superar los 7 caracteres',
+                'nombre' => $nombre,
+                'apellido' => $apellido,
+                'fechanac' => $fechanac,
+                'telefono' => $telefono,
+                'nombreusuario' => $nombreusuario,
+                'ciudad' => $ciudad,
+                'email' => $email,
+                'provincia' => $provincia
+            ];
+            $this->view('registrate/index', $datos);
+            die();
+        }
         $pass = sha1($nombreusuario.$contrasena);
         $usuario = $usuarioModelo->userCreate(
             $email,

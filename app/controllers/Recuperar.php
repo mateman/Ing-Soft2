@@ -52,19 +52,11 @@ class Recuperar extends Controller
         $destinatario = $usuario->email;
         $asunto = "Recuperar contraseña para Un Aventon";
         $cuerpo = ' 
-<html> 
-<head> 
-   <title>Recuperar contraseña para Un Aventon</title> 
-</head> 
-<body> 
-<h1>Hola amigo!</h1> 
-<p> 
-<b>Para recuperar la contraseña debera dirigirse a:</b><br>
-'.RUTA_URL.'/recuperar/cambiarPassword/'.$destinatario.'/'.$usuario->nombreusuario.'/'.$token.'  
-</p> 
-</body> 
-</html> 
-';
+Hola amigo!
+
+
+Para recuperar la contraseña debera dirigirse a:
+'.RUTA_URL.'/recuperar/cambiarPassword/'.$destinatario.'/'.$usuario->nombreusuario.'/'.$token;
 
         mail($destinatario,$asunto,$cuerpo);
         $datos = [ 'mensaje'=>'Se le ha enviado un correo a '.$destinatario.' indicandole donde ingresar para cambiar la Contraseña'
@@ -116,7 +108,7 @@ public function procesarContrasenas() {
                 $usuario =  $_POST['usuario'];
                 $usuarioModelo = $this->model('Usuario');
                 $user = $usuarioModelo->userNameExist($usuario);
-                if($contrasena == $contrasena2 and $user->contrasena == $_POST['token'] and $user->email == $_POST['email'] ) {
+                if($contrasena == $contrasena2 and strlen($contrasena)>7 and  $user->contrasena == $_POST['token'] and $user->email == $_POST['email'] ) {
                     $pass = sha1($usuario.$contrasena);
                     $user_id = $user->id;
                     $cambio = $usuarioModelo->contrasenaUpdate($pass,$user_id);
@@ -129,7 +121,7 @@ public function procesarContrasenas() {
                 } else {
                 $datos = [
                     'msj' => '<div class="alert alert-danger" role="alert">
-                    Los passwords no son iguales
+                    Los passwords no son iguales o no superan la longitud de 8 caracteres
                   </div>'
                 ];
                 return $this->view('recuperar/cambiarPassword', $datos);

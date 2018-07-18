@@ -13,9 +13,9 @@
                         <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
                         <h1 class="h3 mb-3 font-weight-normal">Ingrese su nuevo password</h1>
                         <label for="inputEmail" class="sr-only">Password</label>
-                        <input type="password" id="inputEmail" class="form-control" placeholder="Password" name="contrasena" required autofocus>
+                        <input type="password" id="inputEmail" class="form-control" placeholder="Password" name="contrasena" pattern=".{8,}" title="Minimo 8 caracteres" required autofocus>
                         <label for="inputPassword" class="sr-only">Repita el password</label>
-                        <input type="password" id="inputPassword" class="form-control" placeholder="Repita su password" name ="contrasena2" required>
+                        <input type="password" id="inputPassword" class="form-control" placeholder="Repita su password" name ="contrasena2" pattern=".{8,}" title="Minimo 8 caracteres" required>
                         <div class="checkbox mb-3">
                       
                         </div>

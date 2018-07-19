@@ -281,33 +281,44 @@
             else{
                 return 0;
             }
-        }
-       public function getConsultas($id_viaje, $estado) {
+    }
+
+    public function getConsultas($id_viaje, $estado) {
 
         $sql = " select * from consultas where id_viaje = '$id_viaje' and estado = '$estado'" ;
         $this->db->query($sql);
         return $this->db->registros();
-            }
+    }
+
     public function hacerPregunta($idUsuario, $idViaje, $pregunta) {
 
         $sql = " INSERT INTO consultas (id_viaje, id_usuario, pregunta, estado) VALUES ('$idViaje', '$idUsuario', '$pregunta', 0) " ;
         $this->db->query($sql);
         return $this->db->execute();
-            }
-      public function responderPregunta($idPregunta, $respuesta) {
+    }
+
+    public function responderPregunta($idPregunta, $respuesta) {
 
         $sql = " UPDATE consultas SET respuesta='$respuesta', estado = 1 WHERE id = '$idPregunta'" ;
         $this->db->query($sql);
         return $this->db->execute();
-            }
+    }
+
     public function eliminarPregunta($idPregunta) {
 
         $sql = " DELETE FROM consultas  WHERE id = '$idPregunta'" ;
         $this->db->query($sql);
         return $this->db->execute();
-            }
-
     }
+
+     public function ConsultaSqlArmada($sql) {
+         $this->db->query($sql);
+         return $this->db->registros();
+
+     }
+
+
+ }
 
 
 

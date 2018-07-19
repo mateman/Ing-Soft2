@@ -4,14 +4,9 @@
 class BuscadorAjax extends Controller {
     
     public function ajax() {
-        $buscadorModelo = $this->model('ModeloBuscador');
-        $salida="";
-        //$datos =$buscadorModelo->getAllviajes();
-        //if (isset($_POST['consulta']) and !(empty($_POST['consulta']))) { 
-        //   $datos = $buscadorModelo->getViajes($_POST['consulta']['empty']);
-        
-        //}
-        if (isset($_POST['v']) and !(empty($_POST['v']))) { 
+        $buscadorModelo = $this->model('Modeloviajes');
+
+        if (isset($_POST['v']) and !(empty($_POST['v']))) {
 
             $sql = "SELECT * FROM viaje ";
             $concat = array(); 
@@ -50,6 +45,7 @@ class BuscadorAjax extends Controller {
                     $sql .= " AND ";
                 }
                 $sql .= $valor;
+                $sql .= "and borrado_logico='0' and  horasalida > NOW() ORDER BY horasalida, horallegada DESC";
                 $i++;
             }
             $datos = $buscadorModelo->ConsultaSqlArmada($sql);

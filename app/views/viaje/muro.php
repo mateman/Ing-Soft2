@@ -92,6 +92,20 @@
                 };
             };
         };
+
+        //------------------------------------------------------------------------------------------------------------------------------
+        function getComentarios (ruta) {
+            lista.open("POST", ruta, true);
+            lista.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lista.send();
+            lista.onreadystatechange = function () {
+                if (lista.readyState == 4) {
+                    if (lista.responseText == "Rechazado"){alert("Por favor introduzca una pregrunta");}
+                    else{document.getElementById('divINFO').innerHTML = lista.responseText;};
+                };
+            };
+        };
+
         //------------------------------------------------------------------------------------------------------------------------------BORRAR PREGUNTA SI SOS CONDUCTOR. -CLAUDIO
         <?php if ($datos['rol'] =='conductor' AND $datos['estado']=='pre') : ?>
             function BorrarPregunta(idPregunta) {
@@ -227,7 +241,7 @@
             <h5>Saliendo: <?php echo(date("d-m-Y H:i", strtotime($datos['viaje']->horasalida))); ?>hs<br></h5>
             <h5>Llegando: <?php echo(date("d-m-Y H:i", strtotime($datos['viaje']->horallegada))); ?>hs</h5>
             <h5>Costo Total: $ <?php echo($datos['viaje']->costo); ?></h5>
-            <h5>Costo por pasajero: $ <?php echo(($datos['viaje']->costo)/($datos['auto']->asientosdisp)+1); ?></h5>
+            <h5>Costo por pasajero: $ <?php echo(($datos['viaje']->costo)/($datos['auto']->asientosdisp)); ?></h5>
         </div>
         <div class="col">
             <h5>Descripcion: <?php echo($datos['viaje']->descripcion); ?> </h5>
@@ -245,7 +259,7 @@
         <?php endif; ?>
       
         <h5>Cantidad de asientos: <?php echo $datos['auto']->asientosdisp; ?> </h5>
-        <h5>Asientos disponibles: <?php echo ($datos['auto']->asientosdisp - $datos['pasajerosCantAprobados']); ?> </h5>
+        <h5>Asientos disponibles: <?php echo ($datos['auto']->asientosdisp - $datos['pasajerosCantAprobados'] - 1); ?> </h5>
 
         </div>
         <div class="col">
@@ -255,12 +269,15 @@
         <?php
             $im = file_get_contents(RUTA_APP.'/../public/img/users/'. $datos['conductor']->imagen_url);
             $imdata = base64_encode($im);
-            echo "<p><img class=\"img-perfil\" src='data:image/jpg;base64,".$imdata."' />";
+            echo "<p><img class=\"img-perfil\" src='data:image/jpg;base64,".$imdata."' width=\"182\" height=\"182\"/>";
         ?>
         <h5>Nombre de usuario: <?php echo $datos['conductor']->nombreusuario; ?>
         <br>
         <h5>Calificacion: <?php if ($datos['calificacion_conductor']<0) {echo '0';} else { echo $datos['calificacion_conductor'];}; ?> </h5>
-        <br>
+            <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($datos['conductor']->id); ?>" name="bt-ant<?php echo ($datos['conductor']->id); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesConductor/<?php echo($datos['conductor']->id); ?>');">
+                <img src="<?php echo RUTA_URL;?>/public/img/icons8-document.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
+            <br>
+            <br>
         <?php if($datos['rol'] == 'conductor' or $datos['rol'] == 'aceptado'): ?>
             <h5>Nombre: <?php echo $datos['conductor']->nombre; ?> </h5>
             <h5>Apellido: <?php echo $datos['conductor']->apellido; ?></h5>
@@ -273,21 +290,19 @@
         
         </div>
         <div class="row">
-        <?php if ($datos['rol'] =='publico' AND $datos['estado']=='pre' AND ($datos['auto']->asientosdisp - $datos['pasajerosCantAprobados']))
+        <?php if ($datos['rol'] =='publico' AND $datos['estado']=='pre' AND ($datos['auto']->asientosdisp - $datos['pasajerosCantAprobados'] - 1))
       {
-            $class_succes = ' class="btn btn-success" data-toggle="modal" data-target="#tarjeta"';
-            $class_danger = ' class="btn btn-danger"';
-            echo "<a id='anotar-". ($datos['viaje']->id) . "'><button".$class_succes.">Anotarse</button></a>";
+            $class_succes = '';
+            $class_danger = '';
+            echo "<a id='anotar-". ($datos['viaje']->id) . "'><button  class='btn btn-success' data-toggle='modal' data-target='#tarjeta'>Anotarse</button></a>";
             echo '<br />';
-            echo "<a id='borrar-". ($datos['viaje']->id) . "' onClick='Borrarse(".($datos['viaje']->id).")' style='visibility: hidden'><button".$class_danger.">Darse de Baja</button></a>";
+            echo "<a id='borrar-". ($datos['viaje']->id) . "' onClick='Borrarse(".($datos['viaje']->id).")' style='visibility: hidden'><button class='btn btn-danger'>Darse de Baja</button></a>";
       }
-      elseif ($datos['rol'] =='postulado' AND $datos['estado']=='pre' AND ($datos['auto']->asientosdisp - $datos['pasajerosCantAprobados']))
+      elseif ($datos['rol'] =='postulado' AND $datos['estado']=='pre' AND ($datos['auto']->asientosdisp - $datos['pasajerosCantAprobados'] - 1))
       {
-          $class_succes = ' class="btn btn-success" data-toggle="modal" data-target="#tarjeta"';
-          $class_danger = ' class="btn btn-danger"';
-          echo "<a id='anotar-". ($datos['viaje']->id) . "' style='visibility: hidden'><button".$class_succes.">Anotarse</button></a>";
+          echo "<a id='anotar-". ($datos['viaje']->id) . "' style='visibility: hidden'><button  class='btn btn-success' data-toggle='modal' data-target='#tarjeta'>Anotarse</button></a>";
           echo '<br />';
-          echo "<a id='borrar-". ($datos['viaje']->id) . "' onClick='Borrarse(".($datos['viaje']->id).")'><button".$class_danger.">Darse de Baja</button></a>";}
+          echo "<a id='borrar-". ($datos['viaje']->id) . "' onClick='Borrarse(".($datos['viaje']->id).")'><button class='btn btn-danger'>Darse de Baja</button></a>";}
       
           elseif ($datos['rol'] =='conductor'){
     ?>
@@ -309,11 +324,11 @@
       <tr>
         <th>Nombre</th>
         <th>Apellido</th>
-        <th>Telefono</th>
-        <th>E-Mail</th>
-        <th>Calificacion</th>
-         <th></th>
-         <th></th>
+        <th>Calificacion total</th>
+        <th>Rechazar</th>
+        <th>Aceptar</th>
+        <th>Info</th>
+        <th>Comentarios</th>
         
         
       </tr>
@@ -323,8 +338,6 @@
     <tr>
         <td><?php echo ($postulante->nombre); ?></td>
         <td><?php echo ($postulante->apellido); ?></td>
-        <td><?php echo ($postulante->telefono); ?></td>
-        <td><?php echo ($postulante->email); ?></td>
         <td><?php echo ($postulante->calificacion_pasajero); ?></td>
           <td>
             <a href="<?php echo RUTA_URL; ?>/viaje/cancelarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-delete.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
@@ -335,7 +348,11 @@
         <td>
             <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($postulante->usuario_id); ?>" name="bt-info<?php echo ($postulante->usuario_id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($postulante->usuario_id); ?>');">
                 <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
-            </td>
+        </td>
+        <td>
+            <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($postulante->usuario_id); ?>" name="bt-ant<?php echo ($postulante->usuario_id); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesPasajero/<?php echo($postulante->usuario_id); ?>');">
+                <img src="<?php echo RUTA_URL;?>/public/img/icons8-document.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
+        </td>
     </tr>
               
         <?php } ?> </tbody>
@@ -354,6 +371,9 @@
         <th>Telefono</th>
         <th>E-Mail</th>
         <th>Calificacion</th>
+        <th>Info</th>
+        <th>Comentarios</th>
+
       </tr>
     </thead>
     <tbody>
@@ -370,8 +390,12 @@
         </td>
         <?php } else {echo '<td>'.$aceptados->calificacion_pasajero.' '.$aceptados->comentario_pasajero.'</td>';}; ?>
         <td>
-            <p class="response animate"><button type="button" class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($aceptados->id); ?>" name="bt-info<?php echo ($aceptados->id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>');" >
+            <button type="button" class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($aceptados->id); ?>" name="bt-info<?php echo ($aceptados->id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>');" >
                 <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
+        </td>
+        <td>
+            <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($aceptados->id); ?>" name="bt-ant<?php echo ($aceptados->id); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesPasajero/<?php echo($aceptados->id); ?>');">
+                <img src="<?php echo RUTA_URL;?>/public/img/icons8-document.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
         </td>
     </tr>
               

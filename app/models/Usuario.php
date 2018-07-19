@@ -148,5 +148,15 @@
         return $this->db->execute();
     }
 
+    public function getAntecedentesPasajero($idUsuario) {
+        $this->db->query("SELECT p.*, u.nombreusuario  FROM pasajero p INNER JOIN viaje v on p.viaje_id = v.id  INNER JOIN usuario u on v.conductor_id = u.id WHERE p.borrado_logico='0' and p.usuario_id='$idUsuario' and p.flagcalificacion_pasajero= b'1' and v.borrado_logico='0'");
+        return $this->db->registros();
+    }
+
+    public function getAntecedentesConductor($idUsuario) {
+         $this->db->query("SELECT p.*, u.nombreusuario  FROM pasajero p INNER JOIN viaje v on p.viaje_id = v.id  INNER JOIN usuario u on p.usuario_id = u.id WHERE p.borrado_logico='0' and v.conductor_id='$idUsuario' and p.flagcalificacion_conductor= b'1' and v.borrado_logico='0'");
+         return $this->db->registros();
+    }
+
 
  }

@@ -94,7 +94,7 @@ $('form').on('submit' , function(e) {
   }
   $.ajax({
     data:  {v}, 
-    url:   "<?php echo RUTA_URL; ?>/buscadorajax/ajax", 
+    url:   "<?php echo RUTA_URL; ?>/buscadorAjax/ajax",
     type:  'POST', 
     dataType:'html',
     success:  function (response) {

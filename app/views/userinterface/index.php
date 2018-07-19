@@ -7,6 +7,7 @@
  <br><br>
     <div class="row">
         <div class="col text-center"> <h1><?php echo $datos['mensaje'];?></h1></div>
+        <a href="<?php echo RUTA_URL;?>/buscador/buscador"><img src="<?php echo RUTA_URL;?>/public/img/magnifying-glass.png" title="Buscar viajes" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="36" height="36"></a>
     </div>
 </div>
 <div class="container">

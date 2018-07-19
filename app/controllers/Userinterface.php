@@ -387,5 +387,18 @@ class Userinterface extends Controller {
         $datos['calificacion'] = $calificacion_pasajero->suma;
         $this->view('userinterface/perfilPostulado', $datos);
     }
- 
+
+    public function antecedentesPasajero($idUsuario)
+    {
+        $usuarioModelo = $this->model('Usuario');
+        $datos = $usuarioModelo->getAntecedentesPasajero($idUsuario);
+        $this->view('userinterface/antecedentesPasajero', $datos);
+    }
+
+    public function antecedentesConductor($idUsuario)
+    {
+        $usuarioModelo = $this->model('Usuario');
+        $datos = $usuarioModelo->getAntecedentesConductor($idUsuario);
+        $this->view('userinterface/antecedentesConductor', $datos);
+    }
 }

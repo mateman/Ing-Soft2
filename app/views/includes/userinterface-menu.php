@@ -37,7 +37,7 @@
                 <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/perfil">Ver perfil <span class="sr-only">(current)</span></a>
                 <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/modificarperfil">Editar perfil <span class="sr-only">(current)</span></a>
                 <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/actualizarcontrasena">Cambiar password<span class="sr-only">(current)</span></a>
-                <a class="nav-link" href="" onclck="var respuesta= confirm('¿desea usted realmente darse de baja de UnAventon?");if(respuesta==true) {window.location='<?php echo RUTA_URL; ?>/userinterface/darbaja';};">Dar de baja la cuenta<span class="sr-only">(current)</span></a>
+                <a class="nav-link" style="cursor:pointer;"  onclick="var c=confirm('¿desea usted realmente darse de baja de UnAventon?');if(c==true) {window.location='<?php echo RUTA_URL; ?>/userinterface/darbaja';};">Dar de baja la cuenta<span class="sr-only">(current)</span></a>
             </div>
 
         </li>

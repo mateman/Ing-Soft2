@@ -75,8 +75,7 @@ class Userinterface extends Controller {
         $user_id= $this->session->get('id');
         $modelousuario =$this->model('Usuario');
         $modelousuario->darBaja($user_id);
-        echo RUTA_URL;
-        header('location:'.RUTA_URL);
+        $this->logout();
     }
 
     public function perfil() {

@@ -9,7 +9,7 @@
      public function getUsuarios() {
          $this->db->query("SELECT * FROM usuario WHERE borrado_logico='0'");
          return $this->db->registros();
-     }
+         }
 
      public function login($nombreusuario, $password) {
         $this->db->query("SELECT * FROM usuario WHERE nombreusuario = '$nombreusuario' and contrasena = '$password' AND borrado_logico='0'");
@@ -117,6 +117,16 @@
         WHERE id='$id' AND borrado_logico='0';");
         
         return $this->db->execute();
+
+    }
+
+    public function darBaja($id) {
+         $this->db->query("
+
+        UPDATE `usuario` SET borrado_logico='1'
+        WHERE id='$id'");
+
+         return $this->db->execute();
 
     }
 

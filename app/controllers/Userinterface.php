@@ -70,6 +70,15 @@ class Userinterface extends Controller {
 
     }
 
+
+    public function darbaja() {
+        $user_id= $this->session->get('id');
+        $modelousuario =$this->model('Usuario');
+        $modelousuario->darBaja($user_id);
+        echo RUTA_URL;
+        header('location:'.RUTA_URL);
+    }
+
     public function perfil() {
         $user_id= $this->session->get('id');
         $datos = $this->datoVista($this->datosUsuario());

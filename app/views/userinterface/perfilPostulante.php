@@ -20,7 +20,7 @@
     <?php
     $im = file_get_contents(RUTA_APP.'/../public/img/users/'. $datos['imagenurl']);
     $imdata = base64_encode($im);
-    echo "<p><img class=\"img-perfil\" src='data:image/jpg;base64,".$imdata."' />";
+    echo "<p><img class=\"img-perfil\" src='data:image/jpg;base64,".$imdata."' width='182' height='182'/>";
     ?>
 </div>
 </div>         <!-- /modal-body -->

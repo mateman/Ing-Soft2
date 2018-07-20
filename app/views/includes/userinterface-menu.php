@@ -29,8 +29,17 @@
         <li class="nav-item">
           <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/misviajes">Mis viajes <span class="sr-only">(current)</span></a>
         </li>-->
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/perfil">Ver perfil <span class="sr-only">(current)</span></a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Perfil
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/perfil">Ver perfil <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/modificarperfil">Editar perfil <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/actualizarcontrasena">Cambiar password<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="" onclck="var respuesta= confirm('¿desea usted realmente darse de baja de UnAventon?");if(respuesta==true) {window.location='<?php echo RUTA_URL; ?>/userinterface/darbaja';};">Dar de baja la cuenta<span class="sr-only">(current)</span></a>
+            </div>
+
         </li>
          <li class="nav-item">
           <a class="nav-link" href="<?php echo RUTA_URL; ?>/buscador/buscador">Buscar<span class="sr-only">(current)</span></a>

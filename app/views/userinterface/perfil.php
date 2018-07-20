@@ -48,8 +48,8 @@
 <input name="imagen" type="file" size=20/>
 <input type="submit" value="Subir archivo" />
     </p>
-    
-  
+    </form>
+
 </div>
 
 <?php require RUTA_APP.'/views/includes/footer.php'; ?>

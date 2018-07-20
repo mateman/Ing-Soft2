@@ -78,15 +78,12 @@
 <script>
     function borrar(id,aceptados) {
         if(aceptados == 0){
-            var respuesta= confirm("¿desea usted realmente borrar el viaje?");
+            var mensaje ="¿desea usted realmente borrar el viaje?";
         }
         else{
-            var respuesta= confirm("El viaje seleccionado tiene pasajeros aceptados, si lo elimina se le descontará un punto ¿desea realmente borrarlo?");
+            var mensaje = "El viaje seleccionado tiene pasajeros aceptados, si lo elimina se le descontará un punto ¿desea realmente borrarlo?";
         }
-        if(respuesta==true)
-            window.location="<?php echo RUTA_URL; ?>/viaje/viajeEliminar/"+id;
-        else
-            return 0;
+        Confirm("Eliminar viaje", mensaje, "<?php echo RUTA_URL; ?>/viaje/viajeEliminar/"+id)
     }
 
     function smallImg(x) {

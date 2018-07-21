@@ -80,7 +80,7 @@
 
      public function getViajes($id) {
 
-         $this->db->query( "SELECT * FROM (SELECT * FROM viaje v LEFT JOIN (SELECT COUNT(id) as aceptados, viaje_id FROM pasajero WHERE estado = 1 GROUP BY viaje_id) p ON v.id = p.viaje_id) vp LEFT JOIN (SELECT COUNT(id) as postulados, viaje_id FROM pasajero WHERE estado = 0 GROUP BY viaje_id) pv ON vp.id = pv.viaje_id WHERE conductor_id= '$id' AND borrado_logico = 0 ORDER BY horasalida, horallegada DESC ;");
+         $this->db->query( "SELECT * FROM (SELECT * FROM viaje v LEFT JOIN (SELECT COUNT(id) as aceptados, viaje_id FROM pasajero WHERE estado ='1' AND borrado_logico='0' GROUP BY viaje_id) p ON v.id = p.viaje_id) vp LEFT JOIN (SELECT COUNT(id) as postulados, viaje_id FROM pasajero WHERE estado = '0' AND borrado_logico = '0' GROUP BY viaje_id) pv ON vp.id = pv.viaje_id WHERE conductor_id= '$id' AND borrado_logico = 0 ORDER BY horasalida, horallegada DESC ;");
          // $this->db->query("SELECT * FROM viaje WHERE conductor_id='$id' AND borrado_logico='0' ORDER BY horasalida, horallegada DESC");
          return $this->db->registros();
      }
@@ -93,7 +93,7 @@
 
      public function esPasajero($id){
 
-         $this->db->query("SELECT * FROM pasajero WHERE usuario_id='$id'");
+         $this->db->query("SELECT * FROM pasajero WHERE usuario_id='$id' AND borrado_logico='0'");
          return ($this->db->registrorowCount() != 0);
      }
 
@@ -181,11 +181,11 @@
 
          $pasajero = $this->db->query("SELECT estado FROM pasajero WHERE viaje_id='$id_viaje' AND usuario_id='$id_user' AND borrado_logico='0'");
 
-         if ( $this->estaEnPasajero($id_viaje,$id_user) AND ( $pasajero->estado == 0))
+         if ( $this->estaEnPasajero($id_viaje,$id_user) AND ( $pasajero->estado == '0'))
              {
              $this->db->query(" DELETE FROM `pasajero` WHERE viaje_id='$id_viaje' AND usuario_id='$id_user'");
              }
-             else {$this->db->query(" UPDATE `viaje` SET borrado_logico='1' WHERE viaje_id='$id_viaje' AND usuario_id='$id_user'");};
+             else {$this->db->query(" UPDATE `pasajero` SET borrado_logico='1' WHERE viaje_id='$id_viaje' AND usuario_id='$id_user'");};
          return $this->db->execute();
      }
 
@@ -225,7 +225,7 @@
      public function getViajePasajero($idViaje,$idpasajero){
 
          if ($this->estaEnPasajero($idViaje,$idpasajero)){
-             $this->db->query("SELECT v.*,p.flagcalificacion_pasajero,p.flagcalificacion_conductor,p.estado,p.calificacion_pasajero,p.calificacion_conductor,p.comentario_pasajero,p.comentario_conductor FROM viaje v LEFT JOIN pasajero p ON v.id=p.viaje_id where v.id=$idViaje AND p.usuario_id=$idpasajero");
+             $this->db->query("SELECT v.*,p.flagcalificacion_pasajero,p.flagcalificacion_conductor,p.estado,p.calificacion_pasajero,p.calificacion_conductor,p.comentario_pasajero,p.comentario_conductor FROM viaje v LEFT JOIN pasajero p ON v.id=p.viaje_id where v.id=$idViaje AND p.usuario_id=$idpasajero AND v.borrado_logico='0' AND p.borrado_logico='0'");
          }
          else{
              $this->db->query("SELECT * FROM viaje WHERE id='$idViaje' AND borrado_logico='0'");
@@ -266,7 +266,7 @@
 
          $sql = "     select * from viaje
          INNER JOIN pasajero WHERE pasajero.viaje_id= viaje.id
-         AND pasajero.usuario_id = '$id' ORDER BY viaje.horasalida, viaje.horallegada DESC";
+         AND pasajero.usuario_id = '$id' AND pasajero.borrado_logico='0' AND viaje.borrado_logico='0' ORDER BY viaje.horasalida, viaje.horallegada DESC";
          $this->db->query($sql);
          return $this->db->registros();
        //return $sql;
@@ -274,7 +274,7 @@
 
     public function traerPasajero($id_viaje, $id_usuario) {
 
-        $sql = " select * from pasajero where viaje_id = '$id_viaje' and usuario_id ='$id_usuario'" ;
+        $sql = " select * from pasajero where viaje_id = '$id_viaje' and usuario_id ='$id_usuario' AND borrado_logico='0'" ;
         $this->db->query($sql);
         return $this->db->registro();
 
@@ -282,7 +282,7 @@
 
     public function tienePasajeros($id_viaje) {
 
-        $sql = " select * from pasajero where viaje_id = '$id_viaje' and estado = 1" ;
+        $sql = " select * from pasajero where viaje_id = '$id_viaje' and estado = 1 AND borrado_logico='0'" ;
         $this->db->query($sql);
         if ($this->db->registrorowCount() > 0){
             return 1;}

@@ -378,10 +378,16 @@ class Viaje extends Controller
                 };
             };
         }
-        else {
+        elseif (($datos['auto']->asientosdisp - $datos['pasajerosCantAprobados'] - 1)>0) {
             $datos['rol'] = 'publico';
             if ($estado=='pre') {
                 $datos['mensaje'] = 'Puedes postularte a este viaje!!!';
+            };
+        }
+        else {
+            $datos['rol'] = 'publico';
+            if ($estado == 'pre') {
+                $datos['mensaje'] = 'El viaje esta completo';
             };
         };
 
@@ -392,7 +398,7 @@ class Viaje extends Controller
     public function cancelarPostulante($idPostulante, $idViaje)
     { $viajeModelo = $this->model('Modeloviajes');
         $cancelar = $viajeModelo->rechazarPasajero($idViaje, $idPostulante);
-        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/'.$idViaje.'"</script>;';
+        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/misviajes"</script>;';
         /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje);); LA IDEA DE ESTO ES QUE ME REDIRIJA AL MURO PERO HAY ALGO QUE ME DA ERROR*/
         exit;
     }
@@ -402,7 +408,7 @@ class Viaje extends Controller
     public function aceptarPostulante($idPostulante, $idViaje)
     { $viajeModelo = $this->model('Modeloviajes');
         $aceptar = $viajeModelo->aceptarPasajero($idViaje, $idPostulante);
-        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/'.$idViaje.'"</script>;';
+        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/misviajes"</script>;';
         /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
         exit;
     }

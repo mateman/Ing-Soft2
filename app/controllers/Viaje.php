@@ -438,7 +438,8 @@ class Viaje extends Controller
     }
 
     public function preguntar()
-    { $viajeModelo = $this->model('Modeloviajes');
+    {
+        $viajeModelo = $this->model('Modeloviajes');
         $idUsuario =  $_POST['idUsuario'];
         $idViaje =  $_POST['idViaje'];
         $pregunta =  $_POST['pregunta'];
@@ -449,8 +450,10 @@ class Viaje extends Controller
             /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
         };
     }
-        public function responderPregunta()
-    { $viajeModelo = $this->model('Modeloviajes');
+
+    public function responderPregunta()
+    {
+        $viajeModelo = $this->model('Modeloviajes');
         $idPregunta = $_POST['idPregunta'];
         $respuesta = $_POST['respuesta'];
         if ($respuesta=='' OR $respuesta=='<p></p>' OR $respuesta=='<p>Escriba la respuesta...</p>'){echo 'Rechazado';}
@@ -460,8 +463,10 @@ class Viaje extends Controller
             /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
         };
     }
-          public function eliminarPregunta()
-    { $viajeModelo = $this->model('Modeloviajes');
+
+    public function eliminarPregunta()
+    {
+        $viajeModelo = $this->model('Modeloviajes');
         $idPregunta = $_POST['idPregunta'];
         $aceptar = $viajeModelo->eliminarPregunta($idPregunta);
         echo'Aceptado';
@@ -469,12 +474,13 @@ class Viaje extends Controller
         exit;
     }
 
-              public function validacionTarjeta()
-    { $viajemodelo = $this->model('Modeloviajes');
+    public function validacionTarjetaCobro()
+    {
+        $viajemodelo = $this->model('Modeloviajes');
         $idviaje = $_POST['viaje'];
         $path = $_POST['path'];
-          $user_id = $this->session->get('id');
-           $automodelo = $this->model('Modeloauto');
+        $user_id = $this->session->get('id');
+        $automodelo = $this->model('Modeloauto');
 
         if (!($viajemodelo->estaEnPasajero($idviaje,$user_id)) 
         and 

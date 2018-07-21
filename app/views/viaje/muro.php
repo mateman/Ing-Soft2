@@ -294,7 +294,7 @@
       {
             $class_succes = '';
             $class_danger = '';
-            echo "<a id='anotar-". ($datos['viaje']->id) . "'><button  class='btn btn-success' data-toggle='modal' data-target='#tarjeta'>Anotarse</button></a>";
+            echo "<a id='anotar-". ($datos['viaje']->id) . "'><button  class='btn btn-success' data-toggle='modal' data-target='#tarjetaCobro'>Anotarse</button></a>";
             echo '<br />';
             echo "<a id='borrar-". ($datos['viaje']->id) . "' onClick='Borrarse(".($datos['viaje']->id).")' style='visibility: hidden'><button class='btn btn-danger'>Darse de Baja</button></a>";
       }
@@ -343,7 +343,8 @@
             <a href="<?php echo RUTA_URL; ?>/viaje/cancelarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-delete.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
         <td>
-            <a href="<?php echo RUTA_URL; ?>/viaje/aceptarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-checkmark.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
+            <button  class='btn btn-success' data-toggle='modal' data-target='#tarjetaPago'>
+                <img src="<?php echo RUTA_URL;?>/public/img/icons8-checkmark.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
         </td>
         <td>
             <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($postulante->usuario_id); ?>" name="bt-info<?php echo ($postulante->usuario_id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($postulante->usuario_id); ?>');">
@@ -485,7 +486,7 @@
     </div>
 </div>
 
-<div class="modal fade" data-refresh="true" id="tarjeta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" data-refresh="true" id="tarjetaCobro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width:51%;">
        
 <div class="modal-content">
@@ -495,8 +496,8 @@
         <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
       </div>
       <div class="modal-body">
-        <p>Ingrese los datos de su tarjeta, si es aceptado en el viaje se le debitara el monto del mismo, en caso contrario no habrá ningun costo </p>
-<form class="form-horizontal" action="<?php echo RUTA_URL; ?>/viaje/validacionTarjeta" method="post">
+        <p>Ingrese los datos de su tarjeta, si es aceptado en el viaje se le debitara <b> $<?php echo(($datos['viaje']->costo)/($datos['auto']->asientosdisp)); ?></b> de su cuenta, en caso contrario no habrá ningun costo </p>
+<form class="form-horizontal" action="<?php echo RUTA_URL; ?>/viaje/validacionTarjetaCobro" method="post">
   <div class="form-group">
    <label class="control-label col-sm-2" for="cardNumber">Numero </label>
     <div class="col-sm-10">
@@ -529,6 +530,54 @@
     <!-- /.modal-dialog -->
 </div>
 
+
+<?php if (($datos['rol'] =='conductor' AND $datos['estado']=='pre')){ ?>
+
+<div class="modal fade" data-refresh="true" id="tarjetaPago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:51%;">
+
+        <div class="modal-content">
+            <div class="modal-header" style="float: left; ">
+
+                <h4 class="modal-title" style="float: left;">Pago con Tarjeta</h4>
+                <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+            </div>
+            <div class="modal-body">
+                <p>Ingrese los datos de su tarjeta, y le serán transferido <b> $<?php echo(($datos['viaje']->costo)/($datos['auto']->asientosdisp) * 0.95); ?></b> a su cuenta. </p>
+                <form class="form-horizontal" action="<?php echo RUTA_URL; ?>/viaje/aceptarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>" method="post">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="cardNumber">Numero </label>
+                        <div class="col-sm-10">
+                            <input type="hidden" id="path" name="path" value="<?php echo($datos['path']);?>">
+                            <input type="hidden" id="viaje" name="viaje" value="<?php echo($datos['viaje']->id);?>">
+                            <input type="tel" maxlength="16" class="form-control" pattern="[0-9]{16}" name="cardNumber" placeholder="Numero de tarjeta valido" autocomplete="cc-number" required autofocus >
+                        </div>
+                        <div class="col-sm-10">
+                            <label class="control-label col-sm-2" for="vencimiento">Vencimiento </label>
+                            <input type="month" class="form-control" name="vencimiento" placeholder="MM/YY" autocomplete="cc-number" required autofocus >
+                        </div>
+                        <div class="col-sm-10">
+                            <label class="control-label col-sm-2" for="CCV">CCV </label>
+                            <input style="width: 60px" type="tel" maxlength="3" class="form-control" pattern="[0-9]{3}" name="CCV" placeholder="CCV" autocomplete="cc-number" required autofocus >
+                        </div>
+
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type='submit' class='btn btn-success' '>Aceptar</button>
+                <button type="button"  class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </div>
+
+
+            </form>
+        </div>
+
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<?php } ?>
 
 
 <?php require RUTA_APP.'/views/includes/footer.php'; ?>

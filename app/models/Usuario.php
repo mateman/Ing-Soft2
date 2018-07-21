@@ -17,7 +17,7 @@
      }
 
      public function getById($id) {
-        $this->db->query("SELECT * FROM usuario WHERE id = '$id' AND borrado_logico='0'");
+        $this->db->query("SELECT * FROM usuario WHERE id = '$id'"); // AND borrado_logico='0' -- lo saque para que muestre igual cuando el usuario se dio de baja
         return $this->db->registro();
     }
     public function mailExist($email) {

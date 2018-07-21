@@ -486,6 +486,8 @@
     </div>
 </div>
 
+<?php if ($datos['rol'] =='publico' AND $datos['estado']=='pre' AND ($datos['auto']->asientosdisp - $datos['pasajerosCantAprobados'] - 1)) { ?>
+
 <div class="modal fade" data-refresh="true" id="tarjetaCobro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width:51%;">
        
@@ -530,6 +532,7 @@
     <!-- /.modal-dialog -->
 </div>
 
+<?php }; ?>
 
 <?php if (($datos['rol'] =='conductor' AND $datos['estado']=='pre')){ ?>
 

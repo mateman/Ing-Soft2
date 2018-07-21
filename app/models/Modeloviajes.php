@@ -57,7 +57,9 @@
 
      public function eliminarViaje($id) {
 
-         if (0 == $this->viajeLibre($id)){
+         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id'");
+         $verPasajero = $this->db->registrorowCount();
+         if (0 == $verPasajero){
                $this->db->query(" DELETE FROM `viaje` WHERE id='$id'");}
          else {$this->db->query(" UPDATE `viaje` SET borrado_logico='1' WHERE id='$id'");}
          return $this->db->execute();
@@ -85,7 +87,7 @@
 
      public function getCantidadPasajeroAceptados($id) {
 
-         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id' AND estado=1 AND borrado_logico='0'");
+         $this->db->query("SELECT p.* FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE p.viaje_id='$id' AND p.estado=1 AND p.borrado_logico='0'  AND u.borrado_logico='0'");
          return $this->db->registrorowCount();
      }
 
@@ -103,25 +105,31 @@
 
      public function getPasajero($id) { // idviaje
 
-         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0'");
+         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND u.borrado_logico='0'");
+         return $this->db->registros();
+     }
+
+     public function getPasajeroEnPasajero($id) { // idviaje
+
+         $this->db->query("SELECT * FROM pasajero WHERE usuario_id='$id' AND borrado_logico='0'");
          return $this->db->registros();
      }
 
      public function getPasajeroAprobado($id) {
 
-         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 1");
+         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 1 AND u.borrado_logico='0'");
          return $this->db->registros();
      }
 
      public function getPostulante($id) {
 
-         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 0" );
+         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 0 AND u.borrado_logico='0'" );
          return $this->db->registros();
      }
 
      public function getPasajeroRechazado($id) {
 
-         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 2");
+         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 2 AND u.borrado_logico='0'");
          return $this->db->registros();
      }
 
@@ -171,9 +179,9 @@
 
      public function eliminarPasajero($id_viaje,$id_user){
 
-         $pasajero = $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id_viaje' AND usuario_id='$id_user' AND borrado_logico='0'");
+         $pasajero = $this->db->query("SELECT estado FROM pasajero WHERE viaje_id='$id_viaje' AND usuario_id='$id_user' AND borrado_logico='0'");
 
-         if ( $this->estaEnPasajero($id_viaje,$id_user) AND (0 == $pasajero->estado))
+         if ( $this->estaEnPasajero($id_viaje,$id_user) AND ( $pasajero->estado == 0))
              {
              $this->db->query(" DELETE FROM `pasajero` WHERE viaje_id='$id_viaje' AND usuario_id='$id_user'");
              }

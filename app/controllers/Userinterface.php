@@ -64,7 +64,7 @@ class Userinterface extends Controller {
             'email' => $usuario->email,
             'imagenurl' => $usuario->imagen_url,
             'id' => $usuario->id,
-            'fechanac' =>$usuario->fechanac,
+            'fechanac' =>$usuario->fechanac
         ];
        
 
@@ -73,7 +73,31 @@ class Userinterface extends Controller {
 
     public function darbaja() {
         $user_id= $this->session->get('id');
-        $modelousuario =$this->model('Usuario');
+        $modelousuario = $this->model('Usuario');
+        $modeloviaje = $this->model('Modeloviajes');
+        $mispasajero = $modeloviaje->getPasajeroEnPasajero($user_id);
+        $misviajes = $modeloviaje->getViajes($user_id);
+        $fecha_actual = date("Y-m-d H:i:s", time());
+        foreach ($mispasajero as $unPasajero)
+        {
+            $viaje = $modeloviaje->getViaje($unPasajero->viaje_id);
+            $fechayhorasalida = date("Y-m-d H:i:s", strtotime($viaje->horasalida));
+            if ($fechayhorasalida > $fecha_actual){
+            $modeloviaje->eliminarPasajero($unPasajero->viaje_id,$user_id);
+            };
+        }
+        foreach ($misviajes as $unViaje)
+        {
+            $fechayhorasalida = date("Y-m-d H:i:s", strtotime($unViaje->horasalida));
+            if ($fechayhorasalida > $fecha_actual) {
+                $pasajeros = $modeloviaje->getPasajero($unViaje->id);
+                foreach ($pasajeros as $unPasajero)
+                {
+                    $modeloviaje->eliminarPasajero($unViaje->id,$unPasajero->usuario_id);
+                }
+                $modeloviaje->eliminarViaje($unViaje->id);
+            };
+        };
         $modelousuario->darBaja($user_id);
         $this->logout();
     }

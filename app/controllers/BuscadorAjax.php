@@ -18,6 +18,32 @@ class BuscadorAjax extends Controller {
 
                 
             }
+
+               if(!(empty($_POST['v']['costo']))) {
+                $costo = $_POST['v']['costo'];
+                switch ($costo) {
+                    case '1':
+                        $sentencia = "costo < 101 ";# code...
+                        break;
+
+                    case '2':
+                        $sentencia = "costo BETWEEN 101 AND 500 ";# code...
+                        break;
+
+                    case '3':
+                        $sentencia = "costo BETWEEN 501 AND 1000 ";# code...
+                        break;
+
+                     case '4':
+                        $sentencia = "costo > 1000 ";# code...
+                        break;
+                    
+                }
+           
+                $concat['costo'] = $sentencia;
+
+                
+            }
             if(!(empty($_POST['v']['destino']))) {
                 $destino = $_POST['v']['destino'];
                 $sentencia = "destino = '$destino'";
@@ -48,6 +74,7 @@ class BuscadorAjax extends Controller {
                 $sql .= "and borrado_logico='0' and  horasalida > NOW() ORDER BY horasalida, horallegada DESC";
                 $i++;
             }
+        
             $datos = $buscadorModelo->ConsultaSqlArmada($sql);
             
 

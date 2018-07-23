@@ -5,6 +5,10 @@
  * Date: 11/07/18
  * Time: 18:04
  */
+require('PHPMailer/src/PHPMailer.php');
+require('PHPMailer/src/SMTP.php');
+require('PHPMailer/src/Exception.php');
+
 
 class Recuperar extends Controller
 {
@@ -17,6 +21,79 @@ class Recuperar extends Controller
         $this->view('recuperar/index', $datos);
 
     }
+       public function procesarPHPMailer()
+    {
+
+        if (isset($_POST) and !(empty($_POST))) {
+            $email = $_POST['email'];
+            $nombreusuario = $_POST['nombreusuario'];
+        }
+
+        $usuarioModelo = $this->model('Usuario');
+        $usuario = $usuarioModelo->userNameExist($nombreusuario);
+
+        if (!$usuario) {
+            $datos = [
+                'err' => 'usuario no registrado',
+                'nombreusuario' => $nombreusuario,
+                'email' => $email,
+            ];
+            $this->view('recuperar/index', $datos);
+            die();
+        }
+        if ($usuario->email != $email) {
+            $datos = [
+                'err' => 'e-mail no registrado'.$usuario->email,
+                'nombreusuario' => $nombreusuario,
+                'email' => $email,
+            ];
+            $this->view('recuperar/index', $datos);
+            die();
+        }
+
+
+        $token = $usuario->contrasena;
+        $destinatario = $usuario->email;
+        $asunto = "Recuperar contraseña para Un Aventon";
+        $cuerpo = ' 
+Hola amigo!
+
+
+Para recuperar la contraseña debera dirigirse a:
+'.RUTA_URL.'/recuperar/cambiarPassword/'.$destinatario.'/'.$usuario->nombreusuario.'/'.$token;
+
+
+$mail = new PHPMailer\PHPMailer\PHPMailer();
+$mail->IsSMTP();
+$mail->SMTPAuth= true;
+$mail->SMTPSecure = 'ssl';
+$mail->Host = 'smtp.gmail.com';
+$mail->Port = '465';
+$mail->IsHTML();
+$mail->Username = 'unaventonpass@gmail.com';
+$mail->Password = 'TwoPines1234';
+$mail->SetFrom('no-reply@unaventon.com');
+$mail->Subject = 'Recuperar contraseña';
+$mail->Body = $cuerpo;
+$mail->AddAddress($email);
+
+if(!$mail->Send()) {
+        $mensaje = 'Ha ocurrido un error, su mail no ha podido ser enviado: '. $mail->ErrorInfo;
+     } else {
+        $mensaje = 'Se le ha enviado un correo a '.$destinatario.' indicandole donde ingresar para cambiar la Contraseña';
+     }
+
+
+  
+        $datos = [ 'mensaje'=> $mensaje
+        ];
+            $this->view('recuperar/respuesta', $datos);
+
+
+
+
+    }
+
     public function procesar()
     {
 

@@ -274,7 +274,7 @@
         <h5>Nombre de usuario: <?php echo $datos['conductor']->nombreusuario; ?>
         <br>
         <h5>Calificacion: <?php if ($datos['calificacion_conductor']<0) {echo '0';} else { echo $datos['calificacion_conductor'];}; ?> </h5>
-            <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($datos['conductor']->id); ?>" name="bt-ant<?php echo ($datos['conductor']->id); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesConductor/<?php echo($datos['conductor']->id); ?>');">
+            <button type="button" title="Comentarios de pasajeros" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($datos['conductor']->id); ?>" name="bt-ant<?php echo ($datos['conductor']->id); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesConductor/<?php echo($datos['conductor']->id); ?>');">
                 <img src="<?php echo RUTA_URL;?>/public/img/icons8-document.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
             <br>
             <br>
@@ -340,19 +340,19 @@
         <td><?php echo ($postulante->apellido); ?></td>
         <td><?php echo ($postulante->calificacion_pasajero); ?></td>
           <td>
-            <a href="<?php echo RUTA_URL; ?>/viaje/cancelarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-delete.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
+            <a href="<?php echo RUTA_URL; ?>/viaje/cancelarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-delete.png" title="Rechazar" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
         <td>
-            <button  class='btn btn-success' data-toggle='modal' data-target='#tarjetaPago'>
-                <img src="<?php echo RUTA_URL;?>/public/img/icons8-checkmark.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
+            <a href="#" data-toggle='modal' data-target='#tarjetaPago'>
+                <img src="<?php echo RUTA_URL;?>/public/img/icons8-checkmark.png" title="Aceptar" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
         <td>
-            <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($postulante->usuario_id); ?>" name="bt-info<?php echo ($postulante->usuario_id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($postulante->usuario_id); ?>');">
-                <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
+            <a href="#" data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($postulante->usuario_id); ?>" name="bt-info<?php echo ($postulante->usuario_id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($postulante->usuario_id); ?>');">
+                <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" title="Informacion" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
         <td>
-            <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($postulante->usuario_id); ?>" name="bt-ant<?php echo ($postulante->usuario_id); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesPasajero/<?php echo($postulante->usuario_id); ?>');">
-                <img src="<?php echo RUTA_URL;?>/public/img/icons8-document.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
+            <a href="#" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($postulante->usuario_id); ?>" name="bt-ant<?php echo ($postulante->usuario_id); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesPasajero/<?php echo($postulante->usuario_id); ?>');">
+                <img src="<?php echo RUTA_URL;?>/public/img/icons8-document.png" title="Comentarios" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
     </tr>
               
@@ -387,16 +387,16 @@
         <?php if ($datos['estado']=='pre' OR $datos['estado']=='en') { ?>
         <td><?php echo ($aceptados->calificacion_pasajero); ?></td>
         <?php } elseif ($datos['estado']=='pos' AND $aceptados->flagcalificacion_pasajero=='0') { ?>
-        <td><button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#miModal" id="bt-calificar" name="bt-calificar" onclick="pasajeroid=<?php echo ($aceptados->id); ?>">Calificar</button>
+        <td><a href="#" data-toggle="modal" data-target="#miModal" id="bt-calificar" name="bt-calificar" onclick="pasajeroid=<?php echo ($aceptados->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-edit-property.png" title="Calificar" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
         <?php } else {echo '<td>'.$aceptados->calificacion_pasajero.' '.$aceptados->comentario_pasajero.'</td>';}; ?>
         <td>
-            <button type="button" class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($aceptados->id); ?>" name="bt-info<?php echo ($aceptados->id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>');" >
-                <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
+            <a href="#" data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($aceptados->id); ?>" name="bt-info<?php echo ($aceptados->id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulado/<?php echo($aceptados->usuario_id); ?>');" >
+                <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" title="Informacion" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
         <td>
-            <button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($aceptados->id); ?>" name="bt-ant<?php echo ($aceptados->id); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesPasajero/<?php echo($aceptados->id); ?>');">
-                <img src="<?php echo RUTA_URL;?>/public/img/icons8-document.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button>
+            <a href="#" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($aceptados->id); ?>" name="bt-ant<?php echo ($aceptados->id); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesPasajero/<?php echo($aceptados->id); ?>');">
+                <img src="<?php echo RUTA_URL;?>/public/img/icons8-document.png" title="Comentarios" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
     </tr>
               

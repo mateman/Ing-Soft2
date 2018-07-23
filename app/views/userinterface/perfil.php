@@ -65,14 +65,14 @@ function getComentarios (ruta) {
     <?php if (isset($datos['puntospasajero'])): ?>
     <hr>
     <p><b>Puntos como pasajero:</b> <?php echo $datos['puntospasajero']; ?></p>
-    <p><button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($datos['id']); ?>" name="bt-ant<?php echo ($datos['id']); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesPasajero/<?php echo($datos['id']); ?>');">
-            <img src="<?php echo RUTA_URL;?>/public/img/icons8-document.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button></p>
+    <p><button type="button"  title="Comentarios de Conductores" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($datos['id']); ?>" name="bt-ant<?php echo ($datos['id']); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesPasajero/<?php echo($datos['id']); ?>');">
+            <img src="<?php echo RUTA_URL;?>/public/img/icons8-document.png" title="Comentarios de Conductores" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button></p>
     <?php endif;  ?>
     <?php if (isset($datos['puntosconductor'])): ?>
     <hr>
     <p><b>Puntos como conductor:</b> <?php echo $datos['puntosconductor']; ?></p>
-    <p><button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($datos['id']); ?>" name="bt-ant<?php echo ($datos['id']); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesConductor/<?php echo($datos['id']); ?>');">
-            <img src="<?php echo RUTA_URL;?>/public/img/icons8-document.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button></p>
+    <p><button type="button"  title="Comentarios de pasajeros" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#infoModal" id="bt-ant<?php echo ($datos['id']); ?>" name="bt-ant<?php echo ($datos['id']); ?>" onclick="getComentarios('<?php echo RUTA_URL; ?>/userinterface/antecedentesConductor/<?php echo($datos['id']); ?>');">
+            <img src="<?php echo RUTA_URL;?>/public/img/icons8-document.png" title="Comentarios de pasajeros" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></button></p>
     <?php endif;  ?>
     <hr>
     <a href="<?php echo RUTA_URL; ?>/userinterface/modificarperfil" type="button" class="btn btn-success">Modificar perfil</a>

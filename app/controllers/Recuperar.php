@@ -9,6 +9,7 @@ require('PHPMailer/src/PHPMailer.php');
 require('PHPMailer/src/SMTP.php');
 require('PHPMailer/src/Exception.php');
 
+header("Content-Type: text/html;charset=utf-8");
 
 class Recuperar extends Controller
 {
@@ -69,13 +70,14 @@ $mail->SMTPAuth= true;
 $mail->SMTPSecure = 'ssl';
 $mail->Host = 'smtp.gmail.com';
 $mail->Port = '465';
-$mail->IsHTML();
+$mail->IsHTML(true);
 $mail->Username = 'unaventonpass@gmail.com';
 $mail->Password = 'TwoPines1234';
 $mail->SetFrom('no-reply@unaventon.com');
 $mail->Subject = 'Recuperar contraseña';
 $mail->Body = $cuerpo;
 $mail->AddAddress($email);
+$mail->CharSet = 'UTF-8';
 
 if(!$mail->Send()) {
         $mensaje = 'Ha ocurrido un error, su mail no ha podido ser enviado: '. $mail->ErrorInfo;

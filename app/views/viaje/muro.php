@@ -434,8 +434,9 @@
 <div class="titulo">Preguntas pendientes </div>
 <?php foreach($datos['consultasPendientes'] as $consultasPendientes){ ?>
 <input class="animate" type="radio" name="question" id=%22<?php echo $consultasPendientes->id; ?>%22>
-<label class="animate" for=%22<?php echo $consultasPendientes->id; ?>%22><?php echo $consultasPendientes->pregunta; ?></label>
-<p class="response animate"><button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#respuestaModal" id="bt-respuesta<?php echo $consultasPendientes->id; ?>" name="bt-calificar<?php echo $consultasPendientes->id; ?>" onclick="respondido=<?php echo $consultasPendientes->id; ?>">Responder</button><a onClick='BorrarPregunta(<?php echo $consultasPendientes->id?>)'><button class="btn btn-primary btn-lg">Eliminar</button></a></p><!-- BOTONES RESPONDER Y ELIMINAR - CLAUDIO -->
+<label class="animate" for=%22<?php echo $consultasPendientes->id; ?>%22><?php echo $consultasPendientes->pregunta; ?> </label>
+<p class="response animate"><button type="button"  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#respuestaModal" id="bt-respuesta<?php echo $consultasPendientes->id; ?>" name="bt-calificar<?php echo $consultasPendientes->id; ?>" onclick="respondido=<?php echo $consultasPendientes->id; ?>">Responder</button><a onClick='BorrarPregunta(<?php echo $consultasPendientes->id?>)'><button class="btn btn-primary btn-lg">Eliminar</button></a><a href="#" data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($consultasPendientes->id_usuario); ?>" name="bt-info<?php echo ($consultasPendientes->id_usuario); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($consultasPendientes->id_usuario); ?>');">
+                <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" title="Informacion usuario" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a></p><!-- BOTONES RESPONDER Y ELIMINAR - CLAUDIO -->
 <?php }} ?>
 </div>
 </section>

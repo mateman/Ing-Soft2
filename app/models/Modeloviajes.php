@@ -293,7 +293,7 @@
 
     public function getConsultas($id_viaje, $estado) {
 
-        $sql = " select * from consultas where id_viaje = '$id_viaje' and estado = '$estado'" ;
+        $sql = " select c.id, c.id_viaje, c.pregunta, c.id_usuario, c.respuesta, c.estado, u.nombreusuario from consultas c INNER JOIN usuario u ON (c.id_usuario=u.id) where id_viaje = '$id_viaje' and estado = '$estado'" ;
         $this->db->query($sql);
         return $this->db->registros();
     }

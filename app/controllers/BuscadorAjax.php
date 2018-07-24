@@ -13,7 +13,7 @@ class BuscadorAjax extends Controller {
 
             if(!(empty($_POST['v']['origen']))) {
                 $origen = $_POST['v']['origen'];
-                $sentencia = "origen = '$origen'";
+                $sentencia = "origen LIKE '%$origen%' ";
                 $concat['origen'] = $sentencia;
 
                 
@@ -46,21 +46,21 @@ class BuscadorAjax extends Controller {
             }
             if(!(empty($_POST['v']['destino']))) {
                 $destino = $_POST['v']['destino'];
-                $sentencia = "destino = '$destino'";
+                $sentencia = "destino LIKE '%$destino%' ";
                 $concat['destino'] = $sentencia;
             }
             if(!(empty($_POST['v']['salidaresultadodesde'])) and !(empty($_POST['v']['salidaresultadohasta']))) {
                 $salidaresultadodesde = $_POST['v']['salidaresultadodesde'];
                 $salidaresultadohasta = $_POST['v']['salidaresultadohasta'];
 
-                $sentencia = "horasalida BETWEEN '$salidaresultadodesde' and '$salidaresultadohasta'";
+                $sentencia = "horasalida BETWEEN '$salidaresultadodesde' and '$salidaresultadohasta' ";
                 $concat['salida'] = $sentencia;
             }
             if(!(empty($_POST['v']['llegadaresultadodesde'])) and !(empty($_POST['v']['llegadaresultadohasta']))) {
                 $llegadaresultadodesde = $_POST['v']['llegadaresultadodesde'];
                 $llegadaresultadohasta = $_POST['v']['llegadaresultadohasta'];
 
-                $sentencia = "horallegada BETWEEN '$llegadaresultadodesde' and '$llegadaresultadohasta'";
+                $sentencia = "horallegada BETWEEN '$llegadaresultadodesde' and '$llegadaresultadohasta' ";
                 $concat['llegada'] = $sentencia;
             }
             $i=1;
@@ -71,10 +71,11 @@ class BuscadorAjax extends Controller {
                     $sql .= " AND ";
                 }
                 $sql .= $valor;
-                $sql .= "and borrado_logico='0' and  horasalida > NOW() ORDER BY horasalida, horallegada DESC";
                 $i++;
             }
-        
+            $sql .= " and borrado_logico='0' and  horasalida > NOW() ORDER BY horasalida, horallegada DESC ";
+          
+
             $datos = $buscadorModelo->ConsultaSqlArmada($sql);
             
 
@@ -94,7 +95,10 @@ class BuscadorAjax extends Controller {
          </tr>
          </thead>
          <tbody>';
-        
+        if (!isset($datos)) {
+            $salida .= "Debe ingresar un criterio de búsqueda!";
+        }
+        else{
         if($datos) {
             
             foreach ($datos as $d) {
@@ -113,16 +117,17 @@ class BuscadorAjax extends Controller {
             }
             $salida .= "</tbody>";
             $salida .= "</table>";
-        } else {
+        }
+         else {
 
             $salida .= "No hay datos :(";
         
         }
+    }
 
        
         echo $salida;
 
-        
      }
        
 }

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-
+<script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
     <a class="navbar-brand" href="<?php echo RUTA_URL; ?>/userinterface/unAventon">
 
         <img src="<?php echo RUTA_URL;?>/public/img/Logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
@@ -37,7 +37,7 @@
                 <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/perfil">Ver perfil <span class="sr-only">(current)</span></a>
                 <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/modificarperfil">Editar perfil <span class="sr-only">(current)</span></a>
                 <a class="nav-link" href="<?php echo RUTA_URL; ?>/userinterface/actualizarcontrasena">Cambiar password<span class="sr-only">(current)</span></a>
-                <a class="nav-link" style="cursor:pointer;"  onclick="var c=confirm('¿desea usted realmente darse de baja de UnAventon?');if(c==true) {window.location='<?php echo RUTA_URL; ?>/userinterface/darbaja';};">Dar de baja la cuenta<span class="sr-only">(current)</span></a>
+                <a class="nav-link" style="cursor:pointer;"  onclick="Confirm('Darse de baja','¿Desea realmente darse de baja de UnAventon? Si lo hace, no podrá volver a ingresar con su nombre de usuario y contraseña','<?php echo RUTA_URL; ?>/userinterface/darbaja')">Dar de baja la cuenta<span class="sr-only">(current)</span></a>
             </div>
 
         </li>

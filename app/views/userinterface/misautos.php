@@ -1,6 +1,7 @@
 <?php require RUTA_APP.'/views/includes/header.php'; ?>
 
 <?php require RUTA_APP.'/views/includes/userinterface-menu.php'; ?>
+<script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
 <div class="mensaje" align="center">
     <p><h3><strong><I><?php if(isset($datos['mensaje'])) {
                     echo $datos['mensaje'];
@@ -55,11 +56,8 @@
 <script>
 
     function borrar(id) {
-        var respuesta=confirm("¿desea uted realmente borrar?");
-        if(respuesta==true)
-            window.location="<?php echo RUTA_URL; ?>/userinterface/eliminarAuto/"+id;
-        else
-            return 0;
+        Confirm("Eliminar Auto","¿Desea realmente borrar el auto?", "<?php echo RUTA_URL; ?>/userinterface/eliminarAuto/"+id);
+       
     }
 
 

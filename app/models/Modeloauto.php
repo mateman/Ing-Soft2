@@ -17,7 +17,9 @@ class Modeloauto
 
     public function getAutos($id)
     {
-        $this->db->query("SELECT * FROM vehiculo WHERE usuario_id='$id' AND borrado_logico=0");
+        // use ingenieriadev; SELECT * FROM vehiculo vh LEFT JOIN (SELECT COUNT(id) as enuso, auto_id FROM viaje WHERE conductor_id= '2' AND borrado_logico='0' GROUP BY auto_id) p ON vh.id = p.auto_id  where vh.usuario_id = '2'
+        $this->db->query( "SELECT * FROM vehiculo vh LEFT JOIN (SELECT COUNT(id) as enuso, auto_id FROM viaje WHERE conductor_id= $id AND borrado_logico='0' GROUP BY auto_id) p ON vh.id = p.auto_id  where vh.usuario_id = $id");
+        //$this->db->query("SELECT * FROM vehiculo WHERE usuario_id='$id' AND borrado_logico=0");
         return $this->db->registros();
     }
 

@@ -34,10 +34,10 @@
         <td><?php echo($datos['autos'][$i]->modelo); ?></td>
         <td><?php echo($datos['autos'][$i]->asientosdisp); ?></td>
         <td> 
-            <a href="<?php echo RUTA_URL; ?>/userinterface/modificarAuto/<?php echo($datos['autos'][$i]->id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-maintenance.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
+            <a  style="cursor:pointer;"  <?php if ($datos['autos'][$i]->enuso ==0){echo 'href="'.RUTA_URL.'/userinterface/modificarAuto/'.$datos['autos'][$i]->id.'"';}; ?>><img src="<?php echo RUTA_URL;?>/public/img/<?php  if ($datos['autos'][$i]->enuso >0){echo 'icons8-maintenance-gris.png" title="No se puede modificar el auto por encontrarse asociado a uno o mas viajes"  alt="" onclick="alert(\'No se puede modificar el auto por encontrarse asociado a uno o mas viajes\');';}else{echo 'icons8-maintenance.png';}; ?>" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
         <td>
-        <a><img src="<?php echo RUTA_URL;?>/public/img/icons8-trash.png" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32" onclick="borrar(<?php echo($datos['autos'][$i]->id); ?>);"></a>
+        <a style="cursor:pointer;" ><img src="<?php echo RUTA_URL;?>/public/img/<?php  if ($datos['autos'][$i]->enuso >0){echo 'icons8-trash-gris.png" title="No se puede borrar el auto por encontrarse asociado a uno o mas viajes" alt="" onclick="alert(\'No se puede borrar el auto por encontrarse asociado a uno o mas viajes\');';}else{echo 'icons8-trash.png';}; ?>" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32" <?php  if ($datos['autos'][$i]->enuso ==0){echo 'onclick="borrar('.$datos['autos'][$i]->id.');"';}; ?>></a>
     
         </td>
 

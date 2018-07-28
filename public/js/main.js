@@ -1,6 +1,6 @@
 
 function Confirm(title, msg, link) { /*change*/
-        var $content =  "<div class='dialog-ovelay'>" +
+        var $content =  "<div class=' fijo dialog-ovelay'>" +
                         "<div class='dialog'><header>" +
                          " <h3> " + title + " </h3> " +
                          "<i class='fa fa-close'></i>" +

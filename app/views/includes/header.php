@@ -9,5 +9,6 @@
     <link rel="stylesheet" href="<?php echo RUTA_URL; ?>/public/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="<?php echo RUTA_URL; ?>/css/style.css">
     <title>Un Aventon</title>
+      <script src="<?php echo RUTA_URL;?>/public/js/main.js"></script>
   </head>
   <body>

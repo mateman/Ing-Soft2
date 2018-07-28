@@ -105,7 +105,7 @@ var lista = nuevoAjax();
             lista.send("anotarse= " + idviaje);
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
-                    if (lista.responseText == "Rechazado"){alert("Se rechazo la postulacion");};
+                    if (lista.responseText == "Rechazado"){Alerta("Postulacion:","Se rechazo la postulacion");};
                     document.getElementById('anotar-' + idviaje).style.visibility= 'hidden';
                 }
             }

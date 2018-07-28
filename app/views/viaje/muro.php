@@ -73,7 +73,7 @@
             lista.send("anotarse=" + idviaje);
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
-                    if (lista.responseText == "Rechazado"){alert("Se rechazo la postulacion");}
+                    if (lista.responseText == "Rechazado"){Alerta("Postulacion:","Se rechazo la postulacion");}
                     else {document.getElementById('anotar-' + idviaje).style.visibility= 'hidden';
                         document.getElementById('borrar-' + idviaje).style.visibility= 'visible';};
                 };
@@ -86,7 +86,7 @@
             lista.send("eliminarse=" + idviaje);
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
-                    if (lista.responseText == "Rechazado"){alert("Se rechazo la eliminacion");}
+                    if (lista.responseText == "Rechazado"){Alerta("","Se rechazo la eliminacion");}
                     else{document.getElementById('borrar-' + idviaje).style.visibility= 'hidden';
                         document.getElementById('anotar-' + idviaje).style.visibility= 'visible';};
                 };
@@ -100,7 +100,7 @@
             lista.send();
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
-                    if (lista.responseText == "Rechazado"){alert("Por favor introduzca una pregrunta");}
+                    if (lista.responseText == "Rechazado"){Alerta("","No puede ver los comentarios ");}
                     else{document.getElementById('divINFO').innerHTML = lista.responseText;};
                 };
             };
@@ -114,7 +114,7 @@
             lista.send("idPregunta=" + idPregunta);
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
-                    if (lista.responseText == "Rechazado"){alert("Se rechazo la eliminacion");}
+                    if (lista.responseText == "Rechazado"){Alerta("","Se rechazo la eliminacion");}
                     else{location.reload();};
                 };
             };
@@ -129,8 +129,8 @@
             lista.send("idUsuario=" + idUsuario + "&idViaje=" + idViaje + "&pregunta=" + encodeURIComponent(pregunta));
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
-                    if (lista.responseText == "Rechazado"){alert("Por favor introduzca una pregrunta");}
-                    else{location.reload();};
+                    if (lista.responseText == "Rechazado"){Alerta("Preguntar:","Por favor introduzca una pregrunta");}
+                    else { CKEDITOR.instances.preguntas.setData("Haga su pregunta"); Alerta("Su pregunta fue enviada","Cuando el conductor responda a su pregunta, esta aparecera en la lista de Preguntas y Respuestas");};
                 };
             };
         };
@@ -144,7 +144,7 @@
             lista.send("idPregunta=" + idPregunta + "&respuesta=" + encodeURIComponent(respuesta));
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
-                    if (lista.responseText == "Rechazado"){alert("Por favor escriba una respuesta a la pregunta");}
+                    if (lista.responseText == "Rechazado"){Alerta("Preguntar:","Por favor escriba una respuesta a la pregunta");}
                     else{location.reload();};
                 };
             };
@@ -160,8 +160,8 @@
             lista.send("viaje=" +<?php echo $datos['viaje']->id ?>+"&usuario="+<?php echo $datos['conductor']->id ?>+"&punto="+punto+"&editor="+encodeURIComponent(editor));
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
-                    if (lista.responseText == "Rechazado"){alert("Se rechazo la calificacion");}
-                    else{location.reload();};
+                    if (lista.responseText == "Rechazado"){Alerta("Calificar:","Se rechazo la calificacion");}
+                    else{Alerta("Calificacion Realizada:","Se proceso su calificacion y se agrego su cometnario"); location.reload();};
                 };
             };
         };
@@ -178,7 +178,7 @@
             lista.send("viaje="+<?php echo $datos['viaje']->id ?>+"&usuario="+pasajeroid+"&punto="+punto+"&editor="+encodeURIComponent(editor));
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
-                    if (lista.responseText == "Rechazado"){alert("Se rechazo la calificacion");}
+                    if (lista.responseText == "Rechazado"){Alerta("Calificar:","Se rechazo la calificacion");}
                     else{location.reload();};
                 };
             };
@@ -193,7 +193,7 @@
             lista.send();
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
-                    if (lista.responseText == "Rechazado"){alert("Por favor introduzca una pregrunta");}
+                    if (lista.responseText == "Rechazado"){Alerta("Preguntar:","Por favor introduzca una pregrunta");}
                     else{document.getElementById('divINFO').innerHTML = lista.responseText;};
                 };
             };
@@ -316,7 +316,6 @@
 
       <div class="container">
 
-   <?php if ($datos['estado']=='pre') { ?>
   
   <h2>Listado de Postulantes</h2>
         <table class="table table-dark table-striped">
@@ -324,7 +323,6 @@
       <tr>
         <th>Nombre</th>
         <th>Apellido</th>
-        <th>Calificacion total</th>
         <th>Rechazar</th>
         <th>Aceptar</th>
         <th>Info</th>
@@ -338,7 +336,7 @@
     <tr>
         <td><?php echo ($postulante->nombre); ?></td>
         <td><?php echo ($postulante->apellido); ?></td>
-        <td><?php echo ($postulante->calificacion_pasajero); ?></td>
+        <?php if ($datos['estado']=='pre') { ?>
           <td>
             <a href="<?php echo RUTA_URL; ?>/viaje/cancelarPostulante/<?php echo($postulante->usuario_id); ?>/<?php echo($postulante->viaje_id); ?>"><img src="<?php echo RUTA_URL;?>/public/img/icons8-delete.png" title="Rechazar" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
@@ -346,6 +344,10 @@
             <a href="#" data-toggle='modal' data-target='#tarjetaPago'>
                 <img src="<?php echo RUTA_URL;?>/public/img/icons8-checkmark.png" title="Aceptar" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
         </td>
+        <?php } else { ?>
+            <td></td>
+            <td></td>
+        <?php }; ?>
         <td>
             <a href="#" data-toggle="modal" data-target="#infoModal" id="bt-info<?php echo ($postulante->usuario_id); ?>" name="bt-info<?php echo ($postulante->usuario_id); ?>" onclick="getInfo('<?php echo RUTA_URL; ?>/userinterface/infoPostulante/<?php echo($postulante->usuario_id); ?>');">
                 <img src="<?php echo RUTA_URL;?>/public/img/icons8-customer.png" title="Informacion" alt="" onmouseover="normalImg(this)" onmouseout="smallImg(this)" width="32" height="32"></a>
@@ -361,7 +363,7 @@
           
              </table>
              </div>
-  <?php } ?>
+
   <div class="container">
   <h2>Listado de Pasajeros Aceptados</h2>
         <table class="table table-dark table-striped">

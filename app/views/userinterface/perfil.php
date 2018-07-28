@@ -27,7 +27,7 @@ function getComentarios (ruta) {
     lista.send();
     lista.onreadystatechange = function () {
         if (lista.readyState == 4) {
-            if (lista.responseText == "Rechazado"){alert("Por favor introduzca una pregrunta");}
+            if (lista.responseText == "Rechazado"){Alerta("","Por favor introduzca una pregrunta");}
             else{document.getElementById('divINFO').innerHTML = lista.responseText;};
         };
     };

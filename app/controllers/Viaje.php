@@ -148,8 +148,8 @@ class Viaje extends Controller
         $autos = $autoModelo->getAutos($user_id);
         $cantAutos = $autoModelo->getCantidadAutos($user_id);
         $viajeModelo = $this->model('Modeloviajes');
-        if ($viajeModelo->viajeLibre($id) == 0) {
-            $viaje = $viajeModelo->getViaje($id);
+        $viaje = $viajeModelo->getViaje($id);
+        if ($viajeModelo->viajeLibre($id) == 0 and $viaje->conductor_id == $user_id) {
             $datos = [
                 'mensaje' => '',
                 'origen' => $viaje->origen,
@@ -188,7 +188,7 @@ class Viaje extends Controller
         $autos = $autoModelo->getAutos($user_id);
         $cantAutos = $autoModelo->getCantidadAutos($user_id);
         $viajeModelo = $this->model('Modeloviajes');
-        if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['fechayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['autodelviaje']))) {
+        if (!(empty($_POST['origen'])) and !(empty($_POST['destino'])) and !(empty($_POST['fechayhorallegada'])) and !(empty($_POST['fechayhorasalida'])) and !(empty($_POST['costo'])) and !(empty($_POST['autodelviaje'])) and $viajeModelo->getViaje($id)->conductor_id == $user_id ) {
             $fecha_actual = date("Y-m-d H:i:s", time());
             $fechayhorallegada = date("Y-m-d H:i:s", strtotime($_POST['fechayhorallegada']));
             $fechayhorasalida = date("Y-m-d H:i:s", strtotime($_POST['fechayhorasalida']));
@@ -266,11 +266,14 @@ class Viaje extends Controller
         $user_id = $this->session->get('id');
         $viajeModelo = $this->model('Modeloviajes');
         $mensaje = 'Viaje eliminado correctamente!';
-        if ($viajeModelo->getCantidadPasajeroAceptados($id) != 0){
-              //$usuarioModelo->restarPuntos($user_id,'1'); ESTE ME MUESTRA ERROR
-              $mensaje = 'Viaje eliminado correctamente! El viaje tenia pasajeros anotados, se le descontara un punto';
-          }
-        $viajeModelo->eliminarViaje($id);
+        if ($viajeModelo->getViaje($id)->conductor_id == $user_id) {
+            if ($viajeModelo->getCantidadPasajeroAceptados($id) != 0) {
+                //$usuarioModelo->restarPuntos($user_id,'1'); ESTE ME MUESTRA ERROR
+                $mensaje = 'Viaje eliminado correctamente! El viaje tenia pasajeros anotados, se le descontara un punto';
+            }
+            $viajeModelo->eliminarViaje($id);
+        }
+        else{ $mensaje = 'No se pudo borrar el viaje por no ser usted el dueño';};
         $cantViajes = $viajeModelo->getCantidadViajes($user_id);
         $viajes = $viajeModelo->getViajes($user_id);
         $datos = ['mensaje' => $mensaje,

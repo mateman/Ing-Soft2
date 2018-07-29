@@ -42,7 +42,7 @@
 
     <div class="form-group">
       <label for="costo">Costo</label>
-      <input class="form-control" type="number" name="costo" placeholder="   en $" id="costo" value="<?php if(isset($datos['costo'])) echo ($datos['costo']); ?>">
+      <input class="form-control" type="number" name="costo" min="0" placeholder="   en $" id="costo" value="<?php if(isset($datos['costo'])) echo ($datos['costo']); ?>">
     </div>
 
     <div class="form-group">
@@ -67,7 +67,7 @@
         
            <?php } ?>
        </select>
-       <input type="number" name="repetir" placeholder="repetir" id="repetir" style="visibility:hidden"><br>
+       <input type="number" name="repetir" placeholder="repetir" id="repetir" min="0" style="visibility:hidden"><br>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form></div>

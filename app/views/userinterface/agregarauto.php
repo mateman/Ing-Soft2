@@ -23,7 +23,7 @@
   </div>
   <div class="form-group">
     <label for="asientosdisponibles">Asientos disponibles</label>
-    <input name="asientosdisp" type="number" class="form-control" id="asientosdisponibles"  required />
+    <input name="asientosdisp" type="number" min="0" class="form-control" id="asientosdisponibles"  required />
   </div>
   <button type="submit" class="btn btn-default">Submit</button>
 </form></div>

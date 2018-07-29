@@ -42,7 +42,7 @@
 
     <div class="form-group">
       <label for="costo">Costo</label>
-      <input class="form-control" type="number" name="costo" placeholder="   en $" id="costo" value="<?php if(isset($datos['costo'])) echo ($datos['costo']); ?>">
+      <input class="form-control" type="number" name="costo" placeholder="   en $" id="costo" min="0" value="<?php if(isset($datos['costo'])) echo ($datos['costo']); ?>">
     </div>
 
     <div class="form-group">

@@ -399,20 +399,28 @@ class Viaje extends Controller
 
 
     public function cancelarPostulante($idPostulante, $idViaje)
-    { $viajeModelo = $this->model('Modeloviajes');
-        $cancelar = $viajeModelo->rechazarPasajero($idViaje, $idPostulante);
-        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/misviajes"</script>;';
-        /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje);); LA IDEA DE ESTO ES QUE ME REDIRIJA AL MURO PERO HAY ALGO QUE ME DA ERROR*/
+    {
+        $viajeModelo = $this->model('Modeloviajes');
+        if ($viajeModelo->getViaje($idViaje)->conductor_id == $this->session->get('id')){
+            $cancelar = $viajeModelo->rechazarPasajero($idViaje, $idPostulante);
+            echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/misviajes"</script>;';
+            /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje);); LA IDEA DE ESTO ES QUE ME REDIRIJA AL MURO PERO HAY ALGO QUE ME DA ERROR*/
+        }
+        else {echo "ERROR: este viaje no es suyo!!";};
         exit;
     }
 
 
 
     public function aceptarPostulante($idPostulante, $idViaje)
-    { $viajeModelo = $this->model('Modeloviajes');
-        $aceptar = $viajeModelo->aceptarPasajero($idViaje, $idPostulante);
-        echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/misviajes"</script>;';
-        /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
+    {
+        $viajeModelo = $this->model('Modeloviajes');
+        if ($viajeModelo->getViaje($idViaje)->conductor_id == $this->session->get('id')){
+            $aceptar = $viajeModelo->aceptarPasajero($idViaje, $idPostulante);
+            echo'<script language="javascript">window.location="'.RUTA_URL.'/viaje/muro/'.$idViaje.'/misviajes"</script>;';
+            /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
+        }
+        else {echo "ERROR: este viaje no es suyo!!";};
         exit;
     }
 
@@ -425,19 +433,20 @@ class Viaje extends Controller
         $usuario = $_POST['usuario'];
         $punto = $_POST['punto'];
         $editor = $_POST['editor'];
-        if ($editor=='' OR $editor=='<p>Coloque el comentario del viaje</p>' OR $punto=='null'){echo 'Rechazado';}
+        if ($editor=='' OR $editor=='<p>Coloque el comentario del viaje</p>' OR $punto=='null' ){echo 'Rechazado';}
         else{
             $miviaje = $viajeModelo->getViaje($viaje);
             if ($miviaje->conductor_id == $user_id)
             {
                 $usuarioModelo->calificarPasajero($viaje,$punto,$usuario,$editor);
-
+                echo 'Aceptado';
             }
-            else {
-                $usuarioModelo->calificarConductor($viaje,$punto,$user_id,$editor);
+            elseif ($user_id == $usuario){
+                    $usuarioModelo->calificarConductor($viaje,$punto,$user_id,$editor);
+                    echo 'Aceptado';
+            }
+            else {echo 'Rechazado';};
             };
-            echo 'Aceptado';
-        };
     }
 
     public function preguntar()
@@ -459,7 +468,10 @@ class Viaje extends Controller
         $viajeModelo = $this->model('Modeloviajes');
         $idPregunta = $_POST['idPregunta'];
         $respuesta = $_POST['respuesta'];
-        if ($respuesta=='' OR $respuesta=='<p></p>' OR $respuesta=='<p>Escriba la respuesta...</p>'){echo 'Rechazado';}
+        $user_id = $this->session->get('id');
+        $idViaje =$viajeModelo->getConsulta($idPregunta)->id_viaje;
+        $conductor_id = $viajeModelo->getViaje($idViaje)->conductor_id;
+        if ($respuesta=='' OR $respuesta=='<p></p>' OR $respuesta=='<p>Escriba la respuesta...</p>' OR $user_id != $conductor_id ){echo 'Rechazado';}
         else {
             $aceptar = $viajeModelo->responderPregunta($idPregunta, $respuesta);
             echo 'Aceptado';
@@ -471,8 +483,15 @@ class Viaje extends Controller
     {
         $viajeModelo = $this->model('Modeloviajes');
         $idPregunta = $_POST['idPregunta'];
-        $aceptar = $viajeModelo->eliminarPregunta($idPregunta);
-        echo'Aceptado';
+        $user_id = $this->session->get('id');
+        $idViaje =$viajeModelo->getConsulta($idPregunta)->id_viaje;
+        $conductor_id = $viajeModelo->getViaje($idViaje)->conductor_id;
+        if ( $user_id != $conductor_id ){
+            $aceptar = $viajeModelo->eliminarPregunta($idPregunta);
+            echo'Aceptado';
+        }
+        else {echo'Rechazado';};
+
         /*header('Location:'.echo RUTA_URL;.'/viaje/muro/'.echo ($idViaje););*/
         exit;
     }

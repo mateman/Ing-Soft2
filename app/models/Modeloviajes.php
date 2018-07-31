@@ -117,13 +117,13 @@
 
      public function getPasajeroAprobado($id) {
 
-         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 1 AND u.borrado_logico='0'");
+         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 1 ");//AND u.borrado_logico='0'");
          return $this->db->registros();
      }
 
      public function getPostulante($id) {
 
-         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 0 AND u.borrado_logico='0'" );
+         $this->db->query("SELECT * FROM pasajero p INNER JOIN usuario u on p.usuario_id = u.id WHERE viaje_id='$id' AND p.borrado_logico='0' AND estado = 0 ");//AND u.borrado_logico='0'" );
          return $this->db->registros();
      }
 
@@ -297,8 +297,15 @@
         $this->db->query($sql);
         return $this->db->registros();
     }
+     public function getConsulta($id_consulta) {
 
-    public function hacerPregunta($idUsuario, $idViaje, $pregunta) {
+         $sql = " select * from consultas where id = '$id_consulta'" ;
+         $this->db->query($sql);
+         return $this->db->registro();
+     }
+
+
+     public function hacerPregunta($idUsuario, $idViaje, $pregunta) {
 
         $sql = " INSERT INTO consultas (id_viaje, id_usuario, pregunta, estado) VALUES ('$idViaje', '$idUsuario', '$pregunta', 0) " ;
         $this->db->query($sql);

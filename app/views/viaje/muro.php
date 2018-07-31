@@ -498,7 +498,7 @@
       <div class="modal-header" style="float: left; ">
  
         <h4 class="modal-title" style="float: left;">Pago con Tarjeta</h4>
-        <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+        <img class="img-responsive pull-right" src="<?php echo RUTA_URL;?>/public/img/accepted_c22e0.png">
       </div>
       <div class="modal-body">
         <p>Ingrese los datos de su tarjeta, si es aceptado en el viaje se le debitara <b> $<?php echo(($datos['viaje']->costo)/($datos['auto']->asientosdisp)); ?></b> de su cuenta, en caso contrario no habrá ningun costo </p>
@@ -546,7 +546,7 @@
             <div class="modal-header" style="float: left; ">
 
                 <h4 class="modal-title" style="float: left;">Pago con Tarjeta</h4>
-                <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+                <img class="img-responsive pull-right" src="<?php echo RUTA_URL; ?>/public/img/accepted_c22e0.png">
             </div>
             <div class="modal-body">
                 <p>Ingrese los datos de su tarjeta, y le serán transferido <b> $<?php echo(($datos['viaje']->costo)/($datos['auto']->asientosdisp) * 0.95); ?></b> a su cuenta. </p>

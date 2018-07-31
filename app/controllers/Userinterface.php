@@ -18,10 +18,6 @@ class Userinterface extends Controller {
         return $usuarioModelo->getById($user_id);
     }
 
-    private function datosUsuarioById($user_id) {
-        $usuarioModelo = $this->model('Usuario');
-        return $usuarioModelo->getById($user_id);
-    }
 
     public function index() {
         $usuario = $this->datosUsuario();
@@ -404,7 +400,7 @@ class Userinterface extends Controller {
     public function infoPostulante($idPostulante)
     {
         $usuarioModelo = $this->model('Usuario');
-        $usuario = $this->datosUsuarioById($idPostulante);
+        $usuario = $usuarioModelo->getById($idPostulante);
         $datos = $this->datoVista($usuario);
         $calificacion_pasajero = $usuarioModelo->verPuntosPasajero($idPostulante);
         $datos['calificacion'] = $calificacion_pasajero->suma;
@@ -414,7 +410,7 @@ class Userinterface extends Controller {
     public function infoPostulado($idPostulado)
     {
         $usuarioModelo = $this->model('Usuario');
-        $usuario = $this->datosUsuarioById($idPostulado);
+        $usuario = $usuarioModelo->getById($idPostulado);
         $datos = $this->datoVista($usuario);
         $calificacion_pasajero = $usuarioModelo->verPuntosPasajero($idPostulado);
         $datos['calificacion'] = $calificacion_pasajero->suma;

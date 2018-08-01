@@ -11,21 +11,24 @@ class Modeloauto
 
     public function getCantidadAutos($id)
     {
-        $this->db->query("SELECT * FROM vehiculo WHERE usuario_id='$id' AND borrado_logico=0");
+        $fecha_actual = date("Y-m-d H:i:s", time());
+//Codigo viejo        $this->db->query("SELECT * FROM vehiculo WHERE usuario_id='$id' AND borrado_logico=0");
+        $this->db->query( "SELECT * FROM vehiculo vh LEFT JOIN (SELECT COUNT(id) as enuso, auto_id FROM viaje WHERE conductor_id= $id AND horasalida > '$fecha_actual' AND borrado_logico='0' GROUP BY auto_id) p ON vh.id = p.auto_id  where vh.usuario_id = $id AND vh.borrado_logico='0'");
         return $this->db->registrorowCount();
     }
 
     public function getAutos($id)
     {
+        $fecha_actual = date("Y-m-d H:i:s", time());
         // use ingenieriadev; SELECT * FROM vehiculo vh LEFT JOIN (SELECT COUNT(id) as enuso, auto_id FROM viaje WHERE conductor_id= '2' AND borrado_logico='0' GROUP BY auto_id) p ON vh.id = p.auto_id  where vh.usuario_id = '2'
-        $this->db->query( "SELECT * FROM vehiculo vh LEFT JOIN (SELECT COUNT(id) as enuso, auto_id FROM viaje WHERE conductor_id= $id AND borrado_logico='0' GROUP BY auto_id) p ON vh.id = p.auto_id  where vh.usuario_id = $id");
+        $this->db->query( "SELECT * FROM vehiculo vh LEFT JOIN (SELECT COUNT(id) as enuso, auto_id FROM viaje WHERE conductor_id= $id AND horasalida > '$fecha_actual' AND borrado_logico='0' GROUP BY auto_id) p ON vh.id = p.auto_id  where vh.usuario_id = $id AND vh.borrado_logico='0'");
         //$this->db->query("SELECT * FROM vehiculo WHERE usuario_id='$id' AND borrado_logico=0");
         return $this->db->registros();
     }
 
     public function getAuto($id)
     {
-        $this->db->query("SELECT * FROM vehiculo WHERE id='$id' AND borrado_logico=0");
+        $this->db->query("SELECT * FROM vehiculo WHERE id='$id'");
         return $this->db->registro();
     }
 
@@ -66,7 +69,8 @@ class Modeloauto
 
 
     public function autoLibre($id){
-        $this->db->query("SELECT * FROM viaje WHERE auto_id='$id' AND borrado_logico=0");
+        $fecha_actual = date("Y-m-d H:i:s", time());
+        $this->db->query("SELECT * FROM viaje WHERE auto_id='$id' AND horasalida='$fecha_actual' AND borrado_logico=0");
         return $this->db->registrorowCount();
     }
 

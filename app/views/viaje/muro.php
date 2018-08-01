@@ -161,7 +161,7 @@
             lista.onreadystatechange = function () {
                 if (lista.readyState == 4) {
                     if (lista.responseText == "Rechazado"){Alerta("Calificar:","Se rechazo la calificacion");}
-                    else{Alerta("Calificacion Realizada:","Se proceso su calificacion y se agrego su cometnario"); location.reload();};
+                    else{location.reload();};
                 };
             };
         };

@@ -135,16 +135,19 @@
                               FROM pasajero 
                               WHERE usuario_id = '$id_User'
                         ");
-        return $this->db->registro();
+        return $this->db->registro()->suma;
     }
 
   // ver select tabla1.nombre, sum(tabla2.valor) from tabla1, tabla2 where id_tabla1 = id_tabla2 group by tabla1.nombre, tabla2.valor
      public function verPuntosConductor ($id_User){
-         $res1 = $this->db->query("SELECT  SUM(b.calificacion_conductor) AS suma 
+         $this->db->query("SELECT  * FROM viaje WHERE conductor_id = '$id_User' AND borrado_logico='-1'");
+         $res1 = $this->db->registrorowCount();
+         $this->db->query("SELECT  SUM(b.calificacion_conductor) AS suma 
                               FROM viaje a LEFT JOIN pasajero b ON a.id = b.viaje_id
                               WHERE a.conductor_id = '$id_User'
                         ");
-         return ($this->db->registro());
+         $suma = $this->db->registro()->suma - $res1;
+         return $suma;
      }
 
     

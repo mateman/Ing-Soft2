@@ -57,11 +57,13 @@
 
      public function eliminarViaje($id) {
 
-         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id'");
+         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id' AND borrado_logico='0'");
          $verPasajero = $this->db->registrorowCount();
-         if (0 == $verPasajero){
-               $this->db->query(" DELETE FROM `viaje` WHERE id='$id'");}
-         else {$this->db->query(" UPDATE `viaje` SET borrado_logico='1' WHERE id='$id'");}
+         $this->db->query("SELECT * FROM pasajero WHERE viaje_id='$id' AND borrado_logico='0' AND estado='1'");
+         $verAprobados = $this->db->registrorowCount();
+         if (0 == $verPasajero){$this->db->query(" DELETE FROM `viaje` WHERE id='$id'");}
+         elseif (0 == $verAprobados) {$this->db->query(" UPDATE `viaje` SET borrado_logico='1' WHERE id='$id'");}
+         else {$this->db->query(" UPDATE `viaje` SET borrado_logico='-1' WHERE id='$id'");};
          return $this->db->execute();
      }
 

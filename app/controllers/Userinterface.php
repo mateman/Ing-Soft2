@@ -103,8 +103,8 @@ class Userinterface extends Controller {
         $datos = $this->datoVista($this->datosUsuario());
         $modelousuario =$this->model('Usuario');
         $modeloviaje =$this->model('Modeloviajes');
-        if ($modeloviaje->esPasajero($user_id)){$datos['puntospasajero']= $modelousuario->verPuntosPasajero($user_id)->suma;};
-        if ($modeloviaje->esConductor($user_id)){$datos['puntosconductor']= $modelousuario->verPuntosConductor($user_id)->suma;};
+        if ($modeloviaje->esPasajero($user_id)){$datos['puntospasajero']= $modelousuario->verPuntosPasajero($user_id);};
+        if ($modeloviaje->esConductor($user_id)){$datos['puntosconductor']= $modelousuario->verPuntosConductor($user_id);};
         $this->view('userinterface/perfil', $datos);
     }
 
@@ -403,7 +403,7 @@ class Userinterface extends Controller {
         $usuario = $usuarioModelo->getById($idPostulante);
         $datos = $this->datoVista($usuario);
         $calificacion_pasajero = $usuarioModelo->verPuntosPasajero($idPostulante);
-        $datos['calificacion'] = $calificacion_pasajero->suma;
+        $datos['calificacion'] = $calificacion_pasajero;
         $this->view('userinterface/perfilPostulante', $datos);
     }
 
@@ -413,7 +413,7 @@ class Userinterface extends Controller {
         $usuario = $usuarioModelo->getById($idPostulado);
         $datos = $this->datoVista($usuario);
         $calificacion_pasajero = $usuarioModelo->verPuntosPasajero($idPostulado);
-        $datos['calificacion'] = $calificacion_pasajero->suma;
+        $datos['calificacion'] = $calificacion_pasajero;
         $this->view('userinterface/perfilPostulado', $datos);
     }
 

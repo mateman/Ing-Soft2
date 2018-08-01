@@ -268,7 +268,6 @@ class Viaje extends Controller
         $mensaje = 'Viaje eliminado correctamente!';
         if ($viajeModelo->getViaje($id)->conductor_id == $user_id) {
             if ($viajeModelo->getCantidadPasajeroAceptados($id) != 0) {
-                //$usuarioModelo->restarPuntos($user_id,'1'); ESTE ME MUESTRA ERROR
                 $mensaje = 'Viaje eliminado correctamente! El viaje tenia pasajeros anotados, se le descontara un punto';
             }
             $viajeModelo->eliminarViaje($id);
@@ -338,7 +337,7 @@ class Viaje extends Controller
                     'conductor'          => $conductor,
                     'auto'               => $auto, // Datos relacionados al auto 
                     'viaje'              => $viaje, // Datos del viaje
-                    'calificacion_conductor' => $calificacion_conductor->suma,
+                    'calificacion_conductor' => $calificacion_conductor,
                     'postulantes'        => $postulantes, // Ver esto
                     'pasajerosCantAprobados' => $pasajerosCantAprobados,
                     'pasajerosAprobados' => $pasajerosAprobados,
@@ -441,7 +440,7 @@ class Viaje extends Controller
                 $usuarioModelo->calificarPasajero($viaje,$punto,$usuario,$editor);
                 echo 'Aceptado';
             }
-            elseif ($user_id == $usuario){
+            elseif ($miviaje->conductor_id == $usuario){
                     $usuarioModelo->calificarConductor($viaje,$punto,$user_id,$editor);
                     echo 'Aceptado';
             }
